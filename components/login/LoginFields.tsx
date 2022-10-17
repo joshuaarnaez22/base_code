@@ -24,7 +24,7 @@ const LoginFields = () => {
     const { errors } = useFormState();
     return (
         <>
-            <Flex gap="7" direction="column" align="center">
+            <Flex gap="5" direction="column" align="center">
                 <Text
                     fontSize="Header.lg"
                     fontWeight="normal"
