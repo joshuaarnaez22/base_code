@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginFields from './LoginFields';
+import RegisterFields from './RegisterFields';
 const BgProps = {
   height: '100%',
   width: '100%',
@@ -13,43 +13,49 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Flex, Image, useToast } from '@chakra-ui/react';
 import { createUser } from '@/services/user.service';
+import { useRouter } from 'next/router';
 const schema = yup.object().shape({
   email: yup
     .string()
     .email('Not a proper email')
     .required('Email is required.'),
   password: yup.string().required('Password is required.'),
+  confirm: yup
+    .string()
+    .required('Confirm Password is required.')
+    .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
 });
 
-const Login = () => {
+const Register = () => {
+  const router = useRouter();
   const formMethods = useForm({
     resolver: yupResolver(schema),
   });
 
   const toast = useToast();
 
-  const onSubmit = async () => {
-    return new Promise((resolve, reject) => {
-      try {
-        // const response = createUser();
-        // console.log(response);
-      } catch (error) {
-        reject(error);
+  const onSubmit = async (payload: any) => {
+    try {
+      const { data }: any = await createUser(payload);
+      if (data.message === 'Account Registered successfully') {
+        toastUI(1, data.message, 'Account created.');
+        router.push('/');
+      } else {
+        toastUI(2, data.message, 'Account Invalid.');
       }
-      // setTimeout(() => {
-      //     toastUI(1, "We've created your account for you.");
-      //     resolve(true);
-      // }, 3000);
-    });
+    } catch (error) {
+      console.log(error);
+      toastUI(2, 'Something went wrong', 'Error');
+    }
   };
 
-  const toastUI = (type: number, description: string) => {
+  const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
       variant: 'left-accent',
       position: 'top-right',
       isClosable: true,
-      title: 'Account created.',
+      title: title,
       description: `${description}`,
       duration: 5000,
     });
@@ -66,7 +72,7 @@ const Login = () => {
       >
         <FormProvider {...formMethods}>
           <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-            <LoginFields />
+            <RegisterFields />
           </form>
         </FormProvider>
       </Flex>
@@ -74,4 +80,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

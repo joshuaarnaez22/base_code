@@ -19,7 +19,8 @@
             "@/components/*": ["components/*"],
             "@/theme": ["theme/index.ts"],
             "@/layouts": ["layouts/index.tsx"],
-            "@/lib": ["lib/client.ts"]
+            "@/lib": ["lib/client.ts"],
+            "@/services/*": ["services/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

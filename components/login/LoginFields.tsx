@@ -9,14 +9,13 @@ import {
     Flex,
     Stack,
     Collapse,
-    useDisclosure,
 } from '@chakra-ui/react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useFormContext, useFormState } from 'react-hook-form';
+import Link from 'next/link';
 
 const LoginFields = () => {
     const [password, showPassword] = useState<boolean>(false);
-    const [confirmPass, showConfirmPass] = useState<boolean>(false);
     const {
         register,
         formState: { isSubmitting },
@@ -41,24 +40,22 @@ const LoginFields = () => {
                 </Text>
                 <Stack>
                     <Input
-                        color="white"
+                        variant="basic"
+                        placeholder="Email"
                         w="300px"
-                        bg="black300"
-                        placeholder="Username"
+                        autoComplete="off"
                         _placeholder={{
                             color: 'white',
-                            fontWeight: 'bold',
                             opacity: '.5',
+                            fontFamily: 'lexendDeca',
+                            fontSize: 'SubHeader.lg',
                         }}
-                        {...register('username')}
+                        {...register('email')}
                     />
-                    <Collapse
-                        in={errors.username ? true : false}
-                        animateOpacity
-                    >
-                        {errors.username && (
+                    <Collapse in={errors.email ? true : false} animateOpacity>
+                        {errors.email && (
                             <Text fontSize="SubHeader.md" color="red">
-                                {errors.username.message as string}
+                                {errors.email.message as string}
                             </Text>
                         )}
                     </Collapse>
@@ -66,15 +63,16 @@ const LoginFields = () => {
                 <Stack>
                     <InputGroup w="300px">
                         <Input
-                            color="white"
                             bg="black300"
                             placeholder="Password"
                             type={password ? 'text' : 'password'}
                             _placeholder={{
                                 color: 'white',
-                                fontWeight: 'bold',
                                 opacity: '.5',
+                                fontFamily: 'lexendDeca',
+                                fontSize: 'SubHeader.lg',
                             }}
+                            variant="basic"
                             {...register('password')}
                         />
 
@@ -100,44 +98,6 @@ const LoginFields = () => {
                         )}
                     </Collapse>
                 </Stack>
-
-                <Stack>
-                    <InputGroup w="300px">
-                        <Input
-                            color="white"
-                            bg="black300"
-                            placeholder="Confirm Password"
-                            type={confirmPass ? 'text' : 'password'}
-                            _placeholder={{
-                                color: 'white',
-                                fontWeight: 'bold',
-                                opacity: '.5',
-                            }}
-                            {...register('confirmPassword')}
-                        />
-
-                        <InputRightElement>
-                            <Icon
-                                onClick={() => showConfirmPass(!confirmPass)}
-                                as={confirmPass ? FiEye : FiEyeOff}
-                                color="white"
-                                _hover={{
-                                    cursor: 'pointer',
-                                    transform: 'scale(1.1)',
-                                    transition: 'all 1s all ease',
-                                }}
-                            />
-                        </InputRightElement>
-                    </InputGroup>
-                    <Collapse in={errors.confirmPassword ? true : false}>
-                        {errors.confirmPassword && (
-                            <Text fontSize="SubHeader.md" color="red">
-                                {errors.confirmPassword.message as string}
-                            </Text>
-                        )}
-                    </Collapse>
-                </Stack>
-
                 <Button
                     w="300px"
                     color="black300"
@@ -147,8 +107,20 @@ const LoginFields = () => {
                     type="submit"
                     isLoading={isSubmitting}
                 >
-                    SignUp
+                    Login
                 </Button>
+                <Text>
+                    Don’t have an account?{' '}
+                    <Link href="/register" target="_blank">
+                        <Text
+                            as="span"
+                            fontWeight="bold"
+                            _hover={{ cursor: 'pointer' }}
+                        >
+                            SignUp
+                        </Text>
+                    </Link>
+                </Text>
             </Flex>
         </>
     );

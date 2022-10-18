@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 const errorResponseHandler = (error: any) => {
-    console.log(error);
+  console.log(error);
 };
 
-export const axiosClient = axios.create({
-    headers: {
-        'Content-Type': 'application/json',
-    },
+export const instance = axios.create({
+  // baseURL: process.env.DEVELOPMENT_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
-axiosClient.interceptors.request.use(function (response) {
-    return response;
+instance.interceptors.request.use(function (response) {
+  return response;
 }, errorResponseHandler);

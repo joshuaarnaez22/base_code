@@ -1,14 +1,5 @@
-const devUrl = process.env.DEVELOPMENT_URL;
-//User endpoints
-const addUser = `${devUrl}/users/addUser`;
-const getAllUser = `${devUrl}/users/getAllUser`;
-const updateUser = `${devUrl}/users/updateUser`;
-const deleteUser = `${devUrl}/users/deleteUser`;
-
-const endpoints = {
-    addUser,
-    getAllUser,
-    updateUser,
-    deleteUser,
-};
-export default endpoints;
+const LOCALDEV = 'http://localhost:3000';
+export const addUser = `${LOCALDEV}/users/addUser`;
+export const getAllUser = `${LOCALDEV}/users/getAllUser`;
+export const updateUser = `${LOCALDEV}/users/updateUser`;
+export const deleteUser = `${LOCALDEV}/users/deleteUser`;

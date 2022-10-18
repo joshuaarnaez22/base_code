@@ -1,14 +1,6 @@
 import Login from '@/components/login';
-import React, { useEffect } from 'react';
-import { axiosClient } from '../services/client';
+import React from 'react';
 const Home = () => {
-    useEffect(() => {
-        getApi('https://jsonplaceholder.typicode.com/todos/1');
-    }, []);
-    const getApi = async (url: string) => {
-        const response = await axiosClient.get(url);
-        console.log(await response.data);
-    };
     return (
         <>
             <Login />
