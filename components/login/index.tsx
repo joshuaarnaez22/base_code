@@ -5,7 +5,6 @@ const BgProps = {
   width: '100%',
   pos: 'absolute',
   zIndex: '0',
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
 
 import { FormProvider, useForm } from 'react-hook-form';
