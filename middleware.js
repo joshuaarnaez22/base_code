@@ -14,8 +14,9 @@ export function middleware(request) {
     url.startsWith(`${origin}/admin`) && role !== 'admin',
     url.startsWith(`${origin}/foster`) && role !== 'foster',
   ];
-  if (routes[0] || routes[1])
+  if (routes[0] || routes[1]) {
     return NextResponse.redirect(`${origin}/${role}/dashboard`);
+  }
 }
 
 export const config = {
