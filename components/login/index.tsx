@@ -29,7 +29,7 @@ const Login = () => {
 
   const onSubmit = async (payload: any) => {
     try {
-      const { data } = (await loginAuth(payload)) as any;
+      const { data } = await loginAuth(payload);
       const { token, role, success, message } = data;
       if (success) {
         cookie.set('token', token);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AddUser from './AddUser';
 import {
   Flex,
@@ -8,7 +8,6 @@ import {
   Icon,
   Input,
   Button,
-  Text,
   Box,
   Select,
 } from '@chakra-ui/react';
@@ -18,16 +17,18 @@ import TableAccounts from './TableAccounts';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
 import { UserHeaders } from '@/services/helpers';
-import Pdf from '@/components/global/Pdf';
+// import Pdf from '@/components/global/Pdf';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const Accounts = ({ users }: any) => {
-  const [isClient, setIsClient] = useState(false);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const doc = new jsPDF();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setValue] = useState<string>('');
-  const [pdfDownload, setPdfDownload] = useState<any>();
+
+  // const [pdfDownload, setPdfDownload] = useState<any>(users);
+
   const handleSearch = (e: any) => {
     const { value } = e.target;
     if (value) setIsLoading(true);
@@ -42,10 +43,22 @@ const Accounts = ({ users }: any) => {
   const selectionChanged = (e: any) => {
     console.log(e.target.value);
   };
-  useEffect(() => {
-    setIsClient(true);
-    setPdfDownload(users);
-  }, []);
+
+  const download = () => {
+    const outputData = [...users];
+    outputData.forEach((out: any) => {
+      delete out.id;
+      delete out._id;
+    });
+    const pdfData = outputData.map(Object.values);
+
+    autoTable(doc, {
+      head: [['Email', 'Username', 'Role', 'status']],
+      body: pdfData,
+    });
+    doc.save('table.pdf');
+  };
+
   return (
     <>
       <Box>
@@ -81,14 +94,9 @@ const Accounts = ({ users }: any) => {
             Download Csv
           </Button>
         </CsvDownloader>
-        {!isClient ? (
-          <Button bg="transparent" leftIcon={<FaFileCsv />}>
-            Loading Document...
-          </Button>
-        ) : (
-          <Pdf users={pdfDownload} />
-        )}
       </Flex>
+      <Button onClick={download}>Download</Button>
+
       {!isLoading ? (
         <TableAccounts users={users} />
       ) : (
