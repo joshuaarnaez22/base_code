@@ -16,6 +16,7 @@ export function middleware(request) {
     return NextResponse.redirect(`${origin}/${role}/dashboard`);
   }
 }
+
 export const config = {
   matcher: ['/admin/dashboard', '/foster/dashboard'],
 };

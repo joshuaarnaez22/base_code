@@ -1,8 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  PDFDownloadLink,
+} from '@react-pdf/renderer';
 import { Button } from '@chakra-ui/react';
 import { FaFileCsv } from 'react-icons/fa';
 
