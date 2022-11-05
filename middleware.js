@@ -10,11 +10,12 @@ export function middleware(request) {
 
   const { role } = jwt_decode(token);
 
-  if (url.startsWith(`${origin}/admin`) && role !== 'admin') {
+  const routes = [
+    url.startsWith(`${origin}/admin`) && role !== 'admin',
+    url.startsWith(`${origin}/foster`) && role !== 'foster',
+  ];
+  if (routes[0] || routes[1])
     return NextResponse.redirect(`${origin}/${role}/dashboard`);
-  } else if (url.startsWith(`${origin}/foster`) && role !== 'foster') {
-    return NextResponse.redirect(`${origin}/${role}/dashboard`);
-  }
 }
 
 export const config = {
