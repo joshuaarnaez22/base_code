@@ -18,11 +18,17 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/theme": ["theme/index.ts"],
-      "@/layouts": ["layouts/index.tsx"],
+      "@/layouts": ["layouts/AdminLayout.tsx"],
       "@/lib": ["lib/client.ts"],
       "@/services/*": ["services/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "middleware.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "middleware.ts"
+  ],
   "exclude": ["node_modules"]
 }

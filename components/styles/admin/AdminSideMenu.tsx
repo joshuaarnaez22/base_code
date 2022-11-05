@@ -3,7 +3,7 @@ import { Text, Flex, Image, Icon } from '@chakra-ui/react';
 import { MdOutlineDashboard, MdManageAccounts } from 'react-icons/md';
 import { IMenu } from '@/services/types';
 
-export default function SideMenu() {
+export default function AdminSideMenu() {
   const menus: IMenu[] = [
     { title: 'Dashboard', icon: MdOutlineDashboard },
     { title: 'Accounts', icon: MdManageAccounts },

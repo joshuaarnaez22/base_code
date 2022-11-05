@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, Container, Flex } from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
 import Navbar from '@/components/styles/Navbar';
-import SideMenu from '@/components/styles/SideMenu';
-export default function Layout({ children }: any) {
+import AdminSideMenu from '@/components/styles/admin/AdminSideMenu';
+import FosterSideMenu from '@/components/styles/foster/FosterSideMenu';
+
+export default function Layout({ type, children }: any) {
   return (
     <>
       <Container
@@ -15,7 +17,8 @@ export default function Layout({ children }: any) {
       >
         <Navbar />
         <Flex p={0} h="100vh" maxW="100%">
-          <SideMenu />
+          {type === 'admin' && <AdminSideMenu />}
+          {type === 'foster' && <FosterSideMenu />}
           <Flex h="90vh" w="100%">
             {children}
           </Flex>

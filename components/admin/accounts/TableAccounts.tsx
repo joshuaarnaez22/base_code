@@ -1,3 +1,4 @@
+import ConfirmationModal from '@/components/global/ConfirmationModal';
 import {
   TableContainer,
   Table,
@@ -16,16 +17,32 @@ import {
   MenuList,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import UserProfile from './UserProfile';
 
 const TableAccounts = ({ users }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
 
+  const [userDeleteId, setUserDeleteId] = useState<string>('');
+  const confirmDelete = (confirm: boolean) => {
+    if (confirm) console.log(userDeleteId);
+    else setUserDeleteId('');
+  };
+
+  const openDelete = (objectId: string) => {
+    setUserDeleteId(objectId);
+    onOpenDelete();
+  };
   return (
     <>
-      <UserProfile {...{ isOpen, onOpen, onClose }} />
+      <UserProfile {...{ isOpen, onClose }} />
+      <ConfirmationModal {...{ isOpenDelete, onCloseDelete, confirmDelete }} />
       <TableContainer
         maxWidth="100%"
         p="30px"
@@ -96,7 +113,9 @@ const TableAccounts = ({ users }: any) => {
                       ></MenuButton>
                       <MenuList minWidth="180px">
                         <MenuItem>Update</MenuItem>
-                        <MenuItem>Delete</MenuItem>
+                        <MenuItem onClick={() => openDelete(_id)}>
+                          Delete
+                        </MenuItem>
                         <MenuItem onClick={onOpen}>View Profile</MenuItem>
                       </MenuList>
                     </Menu>

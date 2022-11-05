@@ -1,4 +1,4 @@
-import Layout from '@/layouts';
+import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
 import React, { ReactElement } from 'react';
 import { thinScollbar } from '@/components/Scrollbar';
@@ -29,7 +29,7 @@ const dashboard: NextPageWithLayout = ({ users }: any) => {
 };
 
 dashboard.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
+  return <Layout type="admin">{page}</Layout>;
 };
 
 export default dashboard;

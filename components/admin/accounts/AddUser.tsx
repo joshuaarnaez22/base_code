@@ -14,23 +14,35 @@ import {
   FormLabel,
   Stack,
   FormHelperText,
+  InputGroup,
+  InputRightElement,
+  Icon,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { thinnerScollbar } from '@/components/Scrollbar';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { createUser } from '@/services/user.service';
+import { useToast } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 const AddUser = ({ isOpen, onClose }: any) => {
+  const router = useRouter();
+  const [password, showPassword] = useState<boolean>(false);
+  const [confirmPass, showConfirmPass] = useState<boolean>(false);
+  const toast = useToast();
+
   const schema = yup.object().shape({
     email: yup.string().email('Invalid Email').required('Email is required.'),
     username: yup.string().required('Username is required.'),
     role: yup.string().required('role is required.'),
+    password: yup.string().required('Password is required.'),
     confirm: yup
       .string()
       .required('Confirm Password is required.')
       .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
-    password: yup.string().required('Password is required.'),
   });
 
   const {
@@ -41,7 +53,32 @@ const AddUser = ({ isOpen, onClose }: any) => {
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data: any) => {
-    console.log(data);
+    try {
+      const { success, message } = await createUser(data);
+      console.log(success, message);
+      if (!success && message === 'User name or Email already exists ') {
+        toastUI(2, message, 'Already exists');
+      }
+      if (success && message === 'Account Registered successfully') {
+        toastUI(1, message, 'Account created.');
+        onClose();
+        router.replace(router.asPath);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toastUI = (type: number, description: string, title: string) => {
+    toast({
+      status: type == 1 ? 'success' : 'error',
+      variant: 'left-accent',
+      position: 'top-right',
+      isClosable: true,
+      title,
+      description: `${description}`,
+      duration: 5000,
+    });
   };
   return (
     <Modal
@@ -118,18 +155,34 @@ const AddUser = ({ isOpen, onClose }: any) => {
                 </Collapse>
               </FormControl>
               <FormControl>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  placeholder="Password"
-                  autoComplete="off"
-                  _placeholder={{
-                    color: 'white',
-                    opacity: '.5',
-                    fontFamily: 'lexendDeca',
-                    fontSize: 'SubHeader.lg',
-                  }}
-                  {...register('password')}
-                />
+                <FormLabel>Confirm Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    placeholder="Password"
+                    autoComplete="off"
+                    type={password ? 'text' : 'password'}
+                    _placeholder={{
+                      color: 'white',
+                      opacity: '.5',
+                      fontFamily: 'lexendDeca',
+                      fontSize: 'SubHeader.lg',
+                    }}
+                    {...register('password')}
+                  />
+
+                  <InputRightElement>
+                    <Icon
+                      onClick={() => showPassword(!password)}
+                      as={password ? FiEye : FiEyeOff}
+                      color="black"
+                      _hover={{
+                        cursor: 'pointer',
+                        transform: 'scale(1.1)',
+                        transition: 'all 1s all ease',
+                      }}
+                    />
+                  </InputRightElement>
+                </InputGroup>
                 <Collapse in={errors.password ? true : false}>
                   {errors.password && (
                     <FormHelperText fontSize="SubHeader.md" color="red">
@@ -140,21 +193,37 @@ const AddUser = ({ isOpen, onClose }: any) => {
               </FormControl>
               <FormControl>
                 <FormLabel>Confirm Password</FormLabel>
-                <Input
-                  placeholder="Confirm Password"
-                  autoComplete="off"
-                  _placeholder={{
-                    color: 'white',
-                    opacity: '.5',
-                    fontFamily: 'lexendDeca',
-                    fontSize: 'SubHeader.lg',
-                  }}
-                  {...register('confirm')}
-                />
-                <Collapse in={errors.password ? true : false}>
-                  {errors.password && (
+                <InputGroup>
+                  <Input
+                    placeholder="Confirm Password"
+                    autoComplete="off"
+                    type={confirmPass ? 'text' : 'password'}
+                    _placeholder={{
+                      color: 'white',
+                      opacity: '.5',
+                      fontFamily: 'lexendDeca',
+                      fontSize: 'SubHeader.lg',
+                    }}
+                    {...register('confirm')}
+                  />
+
+                  <InputRightElement>
+                    <Icon
+                      onClick={() => showConfirmPass(!confirmPass)}
+                      as={confirmPass ? FiEye : FiEyeOff}
+                      color="black"
+                      _hover={{
+                        cursor: 'pointer',
+                        transform: 'scale(1.1)',
+                        transition: 'all 1s all ease',
+                      }}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+                <Collapse in={errors.confirm ? true : false}>
+                  {errors.confirm && (
                     <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.password.message as string}
+                      {errors.confirm.message as string}
                     </FormHelperText>
                   )}
                 </Collapse>

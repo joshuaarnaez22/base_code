@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Flex,
@@ -10,9 +11,12 @@ import {
   MenuItem,
 } from '@chakra-ui/react';
 import { AiFillBell } from 'react-icons/ai';
-import React from 'react';
+import cookie from 'js-cookie';
+import { useRouter } from 'next/router';
 
-const Navbar = () => {
+const FosterNavbar = () => {
+  const router = useRouter();
+
   return (
     <Flex
       h="10vh"
@@ -32,7 +36,7 @@ const Navbar = () => {
             fontSize="SubHeader.lg"
             fontWeight="semibold"
           >
-            James Bond
+            Foster Bond
           </Text>
           <Menu>
             <MenuButton
@@ -44,6 +48,7 @@ const Navbar = () => {
             >
               <Flex justify="center" align="center" mr="20px">
                 <Avatar
+                  fontFamily="lexendDeca"
                   name="James Bond"
                   src="https://bit.ly/dan-abramov"
                   h="50px"
@@ -53,7 +58,14 @@ const Navbar = () => {
             </MenuButton>
             <MenuList minW="100px">
               <MenuItem>Profile</MenuItem>
-              <MenuItem>Log out</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  cookie.remove('token');
+                  router.push('/');
+                }}
+              >
+                Log out
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -62,4 +74,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default FosterNavbar;
