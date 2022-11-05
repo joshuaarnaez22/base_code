@@ -11,23 +11,19 @@ import {
   Box,
   Select,
 } from '@chakra-ui/react';
-import { MdSearch } from 'react-icons/md';
+import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import Loader from '@/components/global/Loader';
 import TableAccounts from './TableAccounts';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
 import { UserHeaders } from '@/services/helpers';
-// import Pdf from '@/components/global/Pdf';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { pdfDownloader } from '@/services/pdfDownload';
 
 const Accounts = ({ users }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const doc = new jsPDF();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setValue] = useState<string>('');
-
-  // const [pdfDownload, setPdfDownload] = useState<any>(users);
 
   const handleSearch = (e: any) => {
     const { value } = e.target;
@@ -50,13 +46,9 @@ const Accounts = ({ users }: any) => {
       delete out.id;
       delete out._id;
     });
-    const pdfData = outputData.map(Object.values);
-
-    autoTable(doc, {
-      head: [['Email', 'Username', 'Role', 'status']],
-      body: pdfData,
-    });
-    doc.save('table.pdf');
+    const header = [['Email', 'Username', 'Role', 'status']];
+    const body = outputData.map(Object.values);
+    pdfDownloader(header, body);
   };
 
   return (
@@ -94,8 +86,15 @@ const Accounts = ({ users }: any) => {
             Download Csv
           </Button>
         </CsvDownloader>
+        <Button
+          bg="transparent"
+          onClick={download}
+          disabled={!users.length}
+          leftIcon={<MdPictureAsPdf />}
+        >
+          Download Pdf
+        </Button>
       </Flex>
-      <Button onClick={download}>Download</Button>
 
       {!isLoading ? (
         <TableAccounts users={users} />
