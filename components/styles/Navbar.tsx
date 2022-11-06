@@ -31,11 +31,7 @@ const FosterNavbar = () => {
         <Flex align="center" gap="30px">
           <Icon as={AiFillBell} w="20px" h="20px" />
           <Box w="1px" bg="gray" h="30px" opacity=".5" />
-          <Text
-            fontFamily="opensans"
-            fontSize="SubHeader.lg"
-            fontWeight="semibold"
-          >
+          <Text fontFamily="robo" fontSize="SubHeader.lg" fontWeight="semibold">
             Foster Bond
           </Text>
           <Menu>

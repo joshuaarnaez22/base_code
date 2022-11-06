@@ -13,6 +13,7 @@ export interface IWebsiteResource {
 export interface IMenu {
   title: string;
   icon: any;
+  active: boolean;
 }
 
 export interface ILoader {
