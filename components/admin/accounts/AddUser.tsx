@@ -178,7 +178,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
                       _hover={{
                         cursor: 'pointer',
                         transform: 'scale(1.1)',
-                        transition: 'all 1s all ease',
+                        transition: 'all 1s ease',
                       }}
                     />
                   </InputRightElement>
@@ -215,7 +215,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
                       _hover={{
                         cursor: 'pointer',
                         transform: 'scale(1.1)',
-                        transition: 'all 1s all ease',
+                        transition: 'all 1s ease',
                       }}
                     />
                   </InputRightElement>

@@ -77,7 +77,7 @@ const RegisterFields = () => {
                 _hover={{
                   cursor: 'pointer',
                   transform: 'scale(1.1)',
-                  transition: 'all 1s all ease',
+                  transition: 'all 1s ease',
                 }}
               />
             </InputRightElement>
@@ -115,7 +115,7 @@ const RegisterFields = () => {
                 _hover={{
                   cursor: 'pointer',
                   transform: 'scale(1.1)',
-                  transition: 'all 1s all ease',
+                  transition: 'all 1s ease',
                 }}
               />
             </InputRightElement>

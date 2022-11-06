@@ -16,6 +16,11 @@ import {
   IconButton,
   MenuList,
   useDisclosure,
+  Flex,
+  Avatar,
+  Box,
+  Text,
+  Badge,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
@@ -39,6 +44,7 @@ const TableAccounts = ({ users }: any) => {
     setUserDeleteId(objectId);
     onOpenDelete();
   };
+
   return (
     <>
       <UserProfile {...{ isOpen, onClose }} />
@@ -61,14 +67,14 @@ const TableAccounts = ({ users }: any) => {
             letterSpacing="0.2"
           >
             <Tr>
-              <Th>Username</Th>
-              <Th>Role</Th>
-              <Th>Status</Th>
+              <Th w="45%">Profile</Th>
+              <Th>Date Added</Th>
+              <Th>Last Login</Th>
               <Th w="5%"></Th>
             </Tr>
           </Thead>
           <Tbody>
-            {users.map(({ _id, username, role, status }: any) => {
+            {users.map(({ _id, email, role, status }: any) => {
               return (
                 <Tr
                   key={_id}
@@ -77,24 +83,25 @@ const TableAccounts = ({ users }: any) => {
                   fontStyle="normal"
                   letterSpacing="0.2"
                 >
-                  <Td>{username}</Td>
-                  <Td>{role}</Td>
                   <Td>
-                    <Tag
-                      size="md"
-                      borderRadius="full"
-                      variant="solid"
-                      colorScheme={status == 'active' ? 'green' : 'red'}
-                      _hover={{
-                        cursor: 'pointer',
-                        transform: 'scale(1.2)',
-                        transition: 'all .5s ease',
-                      }}
-                      transition="all .5s ease"
-                    >
-                      <TagLabel>{status}</TagLabel>
-                    </Tag>
+                    <Flex>
+                      <Avatar src="" name={email} />
+                      <Box ml="3">
+                        <Text fontWeight="bold">
+                          {email}
+                          <Badge
+                            ml="1"
+                            colorScheme={status === 'active' ? 'green' : 'red'}
+                          >
+                            {status === 'active' ? 'active' : 'inactive'}
+                          </Badge>
+                        </Text>
+                        <Text fontSize="sm">{role}</Text>
+                      </Box>
+                    </Flex>
                   </Td>
+                  <Td>Nov 22, 2022</Td>
+                  <Td>Nov 22, 2022</Td>
                   <Td>
                     <Menu>
                       <MenuButton
