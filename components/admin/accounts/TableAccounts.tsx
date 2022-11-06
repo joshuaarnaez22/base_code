@@ -1,5 +1,6 @@
 import ConfirmationModal from '@/components/global/ConfirmationModal';
-import Pagination from '@/components/global/Pagination';
+// import Pagination from '@/components/global/Pagination';
+import ReactPaginate from 'react-paginate';
 import {
   TableContainer,
   Table,
@@ -24,7 +25,9 @@ import {
 import React, { useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import UserProfile from './UserProfile';
+import Pagination from '@/components/global/Pagination';
 const TableAccounts = ({ users }: any) => {
+  const [dispayUser, setDispayUser] = useState(users);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenDelete,
@@ -43,6 +46,15 @@ const TableAccounts = ({ users }: any) => {
     onOpenDelete();
   };
 
+  //Pagination
+  const [itemOffset, setItemOffset] = useState(0);
+  const endOffset = itemOffset + 10;
+  const currentItems = users.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(users.length / 10);
+  const handlePageClick = (event: any) => {
+    const newOffset = (event.selected * 10) % users.length;
+    setItemOffset(newOffset);
+  };
   return (
     <>
       <UserProfile {...{ isOpen, onClose }} />
@@ -72,7 +84,7 @@ const TableAccounts = ({ users }: any) => {
             </Tr>
           </Thead>
           <Tbody>
-            {users.map(({ _id, email, role, status }: any) => {
+            {currentItems.map(({ _id, email, role, status }: any) => {
               return (
                 <Tr
                   key={_id}
@@ -131,7 +143,7 @@ const TableAccounts = ({ users }: any) => {
           </Tbody>
         </Table>
         <Box mt="4" />
-        <Pagination users={users} />
+        <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
       </TableContainer>
     </>
   );
