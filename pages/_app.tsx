@@ -8,6 +8,7 @@ import React from 'react';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Router from 'next/router';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

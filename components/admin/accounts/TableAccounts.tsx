@@ -1,4 +1,5 @@
 import ConfirmationModal from '@/components/global/ConfirmationModal';
+import Pagination from '@/components/global/Pagination';
 import {
   TableContainer,
   Table,
@@ -23,7 +24,6 @@ import {
 import React, { useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import UserProfile from './UserProfile';
-
 const TableAccounts = ({ users }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -55,7 +55,7 @@ const TableAccounts = ({ users }: any) => {
         mb="20px"
       >
         <Table variant="simple">
-          <TableCaption>List of users</TableCaption>
+          {/* <TableCaption>List of users</TableCaption> */}
           <Thead
             fontWeight="bold"
             fontFamily="montserrat"
@@ -130,6 +130,8 @@ const TableAccounts = ({ users }: any) => {
             })}
           </Tbody>
         </Table>
+        <Box mt="4" />
+        <Pagination users={users} />
       </TableContainer>
     </>
   );
