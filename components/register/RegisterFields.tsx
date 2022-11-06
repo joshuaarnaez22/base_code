@@ -25,10 +25,10 @@ const RegisterFields = () => {
   return (
     <>
       <Flex gap="5" direction="column" align="center">
-        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="lexendDeca">
+        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="robo">
           Register
         </Text>
-        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="lexendDeca">
+        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="robo">
           Register and start managing your candidates!
         </Text>
         <Stack>
@@ -40,7 +40,7 @@ const RegisterFields = () => {
             _placeholder={{
               color: 'white',
               opacity: '.5',
-              fontFamily: 'lexendDeca',
+              fontFamily: 'robo',
               fontSize: 'SubHeader.lg',
             }}
             {...register('email')}
@@ -62,7 +62,7 @@ const RegisterFields = () => {
               _placeholder={{
                 color: 'white',
                 opacity: '.5',
-                fontFamily: 'lexendDeca',
+                fontFamily: 'robo',
                 fontSize: 'SubHeader.lg',
               }}
               variant="basic"
@@ -101,7 +101,7 @@ const RegisterFields = () => {
               _placeholder={{
                 color: 'white',
                 opacity: '.5',
-                fontFamily: 'lexendDeca',
+                fontFamily: 'robo',
                 fontSize: 'SubHeader.lg',
               }}
               {...register('confirm')}
@@ -132,7 +132,7 @@ const RegisterFields = () => {
         <Button
           w="300px"
           color="black300"
-          fontFamily="lexendDeca"
+          fontFamily="robo"
           fontSize="SubHeader.lg"
           bg="green500"
           type="submit"

@@ -8,8 +8,6 @@ import {
   Th,
   Tbody,
   Td,
-  Tag,
-  TagLabel,
   Menu,
   MenuItem,
   MenuButton,

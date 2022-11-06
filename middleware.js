@@ -20,5 +20,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/admin/dashboard', '/foster/dashboard'],
+  matcher: ['/admin/dashboard', '/foster/dashboard', '/admin/accounts' , '/foster/schedule'],
 };

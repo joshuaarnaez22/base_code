@@ -102,7 +102,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
                   _placeholder={{
                     color: 'white',
                     opacity: '.5',
-                    fontFamily: 'lexendDeca',
+                    fontFamily: 'robo',
                     fontSize: 'SubHeader.lg',
                   }}
                   {...register('email')}
@@ -123,7 +123,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
                   _placeholder={{
                     color: 'white',
                     opacity: '.5',
-                    fontFamily: 'lexendDeca',
+                    fontFamily: 'robo',
                     fontSize: 'SubHeader.lg',
                   }}
                   {...register('username')}
@@ -164,7 +164,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
                     _placeholder={{
                       color: 'white',
                       opacity: '.5',
-                      fontFamily: 'lexendDeca',
+                      fontFamily: 'robo',
                       fontSize: 'SubHeader.lg',
                     }}
                     {...register('password')}
@@ -201,7 +201,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
                     _placeholder={{
                       color: 'white',
                       opacity: '.5',
-                      fontFamily: 'lexendDeca',
+                      fontFamily: 'robo',
                       fontSize: 'SubHeader.lg',
                     }}
                     {...register('confirm')}

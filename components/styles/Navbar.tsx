@@ -44,7 +44,7 @@ const FosterNavbar = () => {
             >
               <Flex justify="center" align="center" mr="20px">
                 <Avatar
-                  fontFamily="lexendDeca"
+                  fontFamily="robo"
                   name="James Bond"
                   src="https://bit.ly/dan-abramov"
                   h="50px"

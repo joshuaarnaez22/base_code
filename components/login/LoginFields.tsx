@@ -25,10 +25,10 @@ const LoginFields = () => {
   return (
     <>
       <Flex gap="5" direction="column" align="center">
-        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="montserrat">
+        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="robo">
           Sign In
         </Text>
-        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="montserrat">
+        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="robo">
           Sign in to Holy Infant.
         </Text>
         <Stack>
@@ -40,7 +40,7 @@ const LoginFields = () => {
             _placeholder={{
               color: 'white',
               opacity: '.5',
-              fontFamily: 'lexendDeca',
+              fontFamily: 'robo',
               fontSize: 'SubHeader.lg',
             }}
             {...register('username')}
@@ -62,7 +62,7 @@ const LoginFields = () => {
               _placeholder={{
                 color: 'white',
                 opacity: '.5',
-                fontFamily: 'lexendDeca',
+                fontFamily: 'robo',
                 fontSize: 'SubHeader.lg',
               }}
               variant="basic"
@@ -94,7 +94,7 @@ const LoginFields = () => {
         <Button
           w="300px"
           color="black300"
-          fontFamily="lexendDeca"
+          fontFamily="robo"
           fontSize="SubHeader.lg"
           bg="green500"
           type="submit"

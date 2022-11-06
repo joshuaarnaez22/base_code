@@ -1,6 +1,6 @@
 import React from 'react';
 import { ILoader } from '@/services/types';
-import { Box, Spinner } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 const Loader = ({ size, color, thickness }: ILoader) => {
   return (
     <Spinner

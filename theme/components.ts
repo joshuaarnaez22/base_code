@@ -73,7 +73,7 @@ const Input: ComponentStyleConfig = {
       field: {
         color: 'white',
         bg: 'black300',
-        fontFamily: 'lexendDeca',
+        fontFamily: 'robo',
         borderRadius: '10px',
         h: '45px',
       },
