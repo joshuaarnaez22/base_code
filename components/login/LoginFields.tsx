@@ -25,10 +25,10 @@ const LoginFields = () => {
   return (
     <>
       <Flex gap="5" direction="column" align="center">
-        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="lexendDeca">
+        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="montserrat">
           Sign In
         </Text>
-        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="lexendDeca">
+        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="montserrat">
           Sign in to Holy Infant.
         </Text>
         <Stack>
