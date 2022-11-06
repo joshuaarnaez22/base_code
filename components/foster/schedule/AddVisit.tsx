@@ -25,7 +25,7 @@ import 'react-calendar/dist/Calendar.css';
 import { CgCalendarDates } from 'react-icons/cg';
 import moment from 'moment';
 const AddVisit = ({ isOpen, onClose }: any) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date('2022-11-23T16:00:00.000Z'));
   const { isOpen: CollapseOpen, onToggle } = useDisclosure();
 
   const dateFocus = () => {
@@ -34,6 +34,9 @@ const AddVisit = ({ isOpen, onClose }: any) => {
 
   const calendarChange = (date: any) => {
     setDate(date);
+    const ISOFormat = moment(date).toDate().toISOString();
+    console.log(ISOFormat);
+
     onToggle();
   };
 

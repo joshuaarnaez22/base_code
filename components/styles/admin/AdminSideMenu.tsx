@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Flex, Image, Icon } from '@chakra-ui/react';
-import { MdOutlineDashboard, MdManageAccounts } from 'react-icons/md';
+import {
+  MdOutlineDashboard,
+  MdManageAccounts,
+  MdSchedule,
+} from 'react-icons/md';
+import { IoIosPeople } from 'react-icons/io';
+
 import { useRouter } from 'next/router';
 export default function AdminSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = ['/admin/dashboard', '/admin/accounts'];
+  const routerChoice = [
+    '/admin/dashboard',
+    '/admin/accounts',
+    '/admin/childrens',
+    '/admin/visitations',
+  ];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
     if (router.pathname === routerChoice[1]) setSelectedMenu(2);
+    if (router.pathname === routerChoice[2]) setSelectedMenu(3);
+    if (router.pathname === routerChoice[3]) setSelectedMenu(4);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -76,6 +89,20 @@ export default function AdminSideMenu() {
           index={2}
           isSelected={selectedMenu == 2 ? true : false}
           route={routerChoice[1]}
+        />
+        <MenuOptions
+          title="Childrens"
+          icon={IoIosPeople}
+          index={3}
+          isSelected={selectedMenu == 3 ? true : false}
+          route={routerChoice[2]}
+        />
+        <MenuOptions
+          title="Visitations"
+          icon={MdSchedule}
+          index={4}
+          isSelected={selectedMenu == 4 ? true : false}
+          route={routerChoice[3]}
         />
       </Flex>
     </Flex>

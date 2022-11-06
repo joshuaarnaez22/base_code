@@ -19,6 +19,13 @@ export function middleware(request) {
   }
 }
 
+const adminProtectedRoutes = [
+  '/admin/dashboard',
+  '/admin/accounts',
+  '/admin/childrens',
+  '/admin/visitations',
+];
+const fosterProtectedRoutes = ['/foster/dashboard', '/foster/schedule'];
 export const config = {
-  matcher: ['/admin/dashboard', '/foster/dashboard', '/admin/accounts' , '/foster/schedule'],
+  matcher: [...adminProtectedRoutes, ...fosterProtectedRoutes],
 };
