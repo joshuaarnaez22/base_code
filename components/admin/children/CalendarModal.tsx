@@ -13,47 +13,28 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Text,
 } from '@chakra-ui/react';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { CgCalendarDates } from 'react-icons/cg';
 
 const CalendarModal = ({ date, name, setDateFunc }: any) => {
-  //   const [date, setDate] = useState(new Date());
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const calendarChange = (date: any) => {
     setDateFunc(date);
     const ISOFormat = moment(date).toDate().toISOString();
     onClose();
   };
 
-  const ModalCalendar = ({ isOpen: open, onClose: close }: any) => {
-    return (
-      <Modal isOpen={open} onClose={close}>
-        <ModalOverlay />
-        <ModalContent pb="5">
-          <ModalHeader>{name}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Box>
-              <Calendar
-                onChange={calendarChange}
-                value={date ? date : new Date()}
-              />
-            </Box>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    );
-  };
   return (
     <>
-      <ModalCalendar {...{ isOpen, onClose }} />
       <FormControl>
-        <FormLabel>{name}</FormLabel>
+        <Text pb="2" fontWeight="semibold">
+          {name}
+        </Text>
         <InputGroup>
           <InputLeftElement pointerEvents="none">
             <Icon as={CgCalendarDates} color="gray.300" />
@@ -68,6 +49,21 @@ const CalendarModal = ({ date, name, setDateFunc }: any) => {
         </InputGroup>
         {/* <FormHelperText></FormHelperText> */}
       </FormControl>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent pb="5">
+          <ModalHeader>{name}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <Calendar
+                onChange={calendarChange}
+                value={date ? date : new Date()}
+              />
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -13,14 +13,26 @@ import {
   Stack,
   Box,
   Accordion,
+  Collapse,
+  FormHelperText,
+  NumberInput,
+  NumberInputField,
+  NumberIncrementStepper,
+  NumberInputStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 
 import CalendarModal from './CalendarModal';
+import { useFormContext } from 'react-hook-form';
 
 const OrphanInfo = () => {
   const [birthDate, setBirthDate] = useState('');
   const [admissionDate, setAddmissionDate] = useState('');
   const [dateSurrendered, setDateSurrendered] = useState('');
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   const AccordionData = ({ name, children }: any) => {
     return (
@@ -40,23 +52,54 @@ const OrphanInfo = () => {
     <>
       <Stack spacing="5">
         <Flex gap="3" pt="5">
-          <FormControl>
+          <FormControl isInvalid={errors.name ? true : false}>
             <FormLabel>Name</FormLabel>
-            <Input type="text" placeholder="Name" />
-            {/* <FormHelperText></FormHelperText> */}
+            <Input type="text" placeholder="Name" {...register('name')} />
+            <Collapse in={errors.name ? true : false}>
+              {errors.name && (
+                <FormHelperText fontSize="SubHeader.md" color="red">
+                  {errors.name.message as string}
+                </FormHelperText>
+              )}
+            </Collapse>
           </FormControl>
-          <FormControl maxW="150px">
+          <FormControl maxW="150px" isInvalid={errors.age ? true : false}>
             <FormLabel>Age</FormLabel>
-            <Input type="text" placeholder="Age" />
-            {/* <FormHelperText></FormHelperText> */}
+            <NumberInput>
+              <NumberInputField {...register('age')} />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Collapse in={errors.age ? true : false}>
+              {errors.age && (
+                <FormHelperText fontSize="SubHeader.md" color="red">
+                  {errors.age.message as string}
+                </FormHelperText>
+              )}
+            </Collapse>
           </FormControl>
-          <FormControl maxW="200px">
+          <FormControl maxW="200px" isInvalid={errors.gender ? true : false}>
             <FormLabel>Gender</FormLabel>
-            <Select placeholder="Gender" variant="normal">
+            <Select
+              placeholder="Gender"
+              variant="normal"
+              {...register('gender')}
+              _invalid={{
+                border: '2px solid red',
+              }}
+            >
               <option value="Female">Male</option>
               <option value="Male">Female</option>
             </Select>
-            {/* <FormHelperText></FormHelperText> */}
+            <Collapse in={errors.gender ? true : false}>
+              {errors.gender && (
+                <FormHelperText fontSize="SubHeader.md" color="red">
+                  {errors.gender.message as string}
+                </FormHelperText>
+              )}
+            </Collapse>
           </FormControl>
           <CalendarModal
             date={birthDate}
@@ -94,7 +137,7 @@ const OrphanInfo = () => {
           </FormControl>
         </Flex>
         <Flex w="100%">
-          <Accordion w="inherit" defaultIndex={[0]} allowMultiple mt="5">
+          <Accordion w="inherit" allowMultiple mt="5">
             <AccordionData name="FAMILY COMPOSITION">
               <FormControl>
                 <Input type="text" placeholder="Category" />
