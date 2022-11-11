@@ -38,7 +38,7 @@ function AddOrphan({ isOpen, onClose }: any) {
   const methods = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data: React.MouseEventHandler<HTMLButtonElement>) => {
+  const onSubmit = async (data: any) => {
     console.log(data);
   };
 
