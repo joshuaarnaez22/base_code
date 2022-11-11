@@ -53,9 +53,7 @@ const Accounts = ({ users }: any) => {
 
   return (
     <>
-      <Box>
-        <AddUser {...{ isOpen, onClose }} />
-      </Box>
+      <AddUser {...{ isOpen, onClose }} />
       <Flex justify="space-between">
         {/* <Text>Accounts</Text> */}
         <Flex>
@@ -78,7 +76,9 @@ const Accounts = ({ users }: any) => {
           </InputGroup>
         </Flex>
 
-        <Button onClick={onOpen}>Add User</Button>
+        <Button onClick={onOpen} aria-label="Add">
+          Add User
+        </Button>
         {/* <Button onClick={update}>update User</Button> */}
 
         <CsvDownloader datas={users} filename="csv" columns={UserHeaders}>

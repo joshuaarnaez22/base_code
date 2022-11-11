@@ -6,6 +6,7 @@ import {
   MdSchedule,
 } from 'react-icons/md';
 import { IoIosPeople } from 'react-icons/io';
+import { RiFileHistoryLine } from 'react-icons/ri';
 
 import { useRouter } from 'next/router';
 export default function AdminSideMenu() {
@@ -16,6 +17,7 @@ export default function AdminSideMenu() {
     '/admin/accounts',
     '/admin/childrens',
     '/admin/visitations',
+    '/admin/history',
   ];
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export default function AdminSideMenu() {
     if (router.pathname === routerChoice[1]) setSelectedMenu(2);
     if (router.pathname === routerChoice[2]) setSelectedMenu(3);
     if (router.pathname === routerChoice[3]) setSelectedMenu(4);
+    if (router.pathname === routerChoice[5]) setSelectedMenu(5);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -103,6 +106,13 @@ export default function AdminSideMenu() {
           index={4}
           isSelected={selectedMenu == 4 ? true : false}
           route={routerChoice[3]}
+        />
+        <MenuOptions
+          title="History"
+          icon={RiFileHistoryLine}
+          index={5}
+          isSelected={selectedMenu == 5 ? true : false}
+          route={routerChoice[4]}
         />
       </Flex>
     </Flex>

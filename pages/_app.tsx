@@ -9,7 +9,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Router from 'next/router';
 import 'bootstrap/dist/css/bootstrap.css';
-
+import '../global-css/calendar.css';
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };

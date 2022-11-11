@@ -17,6 +17,7 @@ import {
   InputGroup,
   InputRightElement,
   Icon,
+  useToast,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -25,7 +26,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { thinnerScollbar } from '@/components/Scrollbar';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { createUser } from '@/services/user.service';
-import { useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 const AddUser = ({ isOpen, onClose }: any) => {

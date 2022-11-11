@@ -19,9 +19,5 @@ export const fontWeights = {
 };
 
 export const fonts = {
-  opensans: 'Open Sans',
   robo: `"Roboto", sans-serif`,
-  montserrat: 'Montserrat',
-  clanPro: 'Clan Pro',
-  milkyNice: 'Milky Nice',
 };

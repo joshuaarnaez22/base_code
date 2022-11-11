@@ -9,7 +9,6 @@ export function middleware(request) {
   if (!token) return NextResponse.redirect(`${origin}`);
 
   const { role } = jwt_decode(token);
-
   const routes = [
     url.startsWith(`${origin}/admin`) && role !== 'admin',
     url.startsWith(`${origin}/foster`) && role !== 'foster',
@@ -27,5 +26,6 @@ export const config = {
     '/admin/visitations',
     '/foster/dashboard',
     '/foster/schedule',
+    '/admin/history',
   ],
 };

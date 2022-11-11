@@ -102,6 +102,7 @@ const TableAccounts = ({ users }: any) => {
                           <Badge
                             ml="1"
                             colorScheme={status === 'active' ? 'green' : 'red'}
+                            fontSize="10px"
                           >
                             {status === 'active' ? 'active' : 'inactive'}
                           </Badge>
