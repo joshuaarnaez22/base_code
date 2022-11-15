@@ -15,7 +15,14 @@ export async function getServerSideProps() {
 }
 const children: NextPageWithLayout = ({ orphan }: any) => {
   return (
-    <Box w="80%" h="90vh" overflowY="auto" mx="20px" sx={thinScollbar} p="20px">
+    <Box
+      w="100%"
+      h="90vh"
+      overflowY="auto"
+      mx="20px"
+      sx={thinScollbar}
+      p="20px"
+    >
       <Childrens orphans={orphan} />
     </Box>
   );
