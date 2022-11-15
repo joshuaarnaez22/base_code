@@ -14,45 +14,70 @@ import {
   ModalOverlay,
   useDisclosure,
   Text,
+  Collapse,
+  FormHelperText,
 } from '@chakra-ui/react';
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { CgCalendarDates } from 'react-icons/cg';
 
-const CalendarModal = ({ date, name, setDateFunc }: any) => {
+const CalendarModal = ({
+  errors,
+  register,
+  name,
+  setValue,
+  placeholder,
+}: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [date, setDate] = useState();
+
   const calendarChange = (date: any) => {
-    setDateFunc(date);
-    const ISOFormat = moment(date).toDate().toISOString();
+    const dateTime = moment(date).format('MMMM DD YYYY');
+    setValue(name, dateTime, { shouldValidate: true });
+    setDate(date);
     onClose();
   };
 
   return (
     <>
-      <FormControl>
+      <FormControl isInvalid={!!errors}>
         <Text pb="2" fontWeight="semibold">
-          {name}
+          {placeholder}
         </Text>
         <InputGroup>
           <InputLeftElement pointerEvents="none">
             <Icon as={CgCalendarDates} color="gray.300" />
           </InputLeftElement>
           <Input
-            value={date ? moment(date).format('MMM Do YYYY') : ''}
             type="text"
-            placeholder={name}
+            placeholder={placeholder}
+            value={date ? moment(date).format('MMMM DD YYYY') : ''}
             onClick={onOpen}
             readOnly
+            _invalid={{
+              border: '2px solid #E53E3E',
+            }}
+            _focus={{
+              border: '2px solid blue',
+            }}
+            {...register(name)}
           />
         </InputGroup>
-        {/* <FormHelperText></FormHelperText> */}
+        <Collapse in={!!errors}>
+          {!!errors && (
+            <FormHelperText fontSize="SubHeader.md" color="red">
+              {errors.message as string}
+            </FormHelperText>
+          )}
+        </Collapse>
       </FormControl>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent pb="5">
-          <ModalHeader>{name}</ModalHeader>
+          <ModalHeader>{placeholder}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Box>

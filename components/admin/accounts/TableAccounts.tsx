@@ -1,11 +1,9 @@
 import ConfirmationModal from '@/components/global/ConfirmationModal';
 // import Pagination from '@/components/global/Pagination';
-import ReactPaginate from 'react-paginate';
 import {
   TableContainer,
   Table,
   Thead,
-  TableCaption,
   Tr,
   Th,
   Tbody,
@@ -77,9 +75,11 @@ const TableAccounts = ({ users }: any) => {
             letterSpacing="0.2"
           >
             <Tr>
-              <Th w="45%">Profile</Th>
-              <Th>Date Added</Th>
-              <Th>Last Login</Th>
+              <Th w="45%" fontWeight="bolder">
+                Profile
+              </Th>
+              <Th fontWeight="bolder">Date Added</Th>
+              <Th fontWeight="bolder">Last Login</Th>
               <Th w="5%"></Th>
             </Tr>
           </Thead>

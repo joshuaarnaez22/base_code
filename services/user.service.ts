@@ -1,5 +1,14 @@
 import { instance } from './client';
-import { addUser, getAllUser } from './endpoint';
+import {
+  addUser,
+  getAllUser,
+  getTotalSocialWorker,
+  getTotalFoster,
+  getTotalOrphan,
+  getTotalVolunteer,
+  getTotalVisitation,
+  getTotalPendingVisitation,
+} from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
   const { data } = await instance.post(addUser, payload);
@@ -8,5 +17,28 @@ export const createUser = async (payload: ILogin) => {
 
 export const allUser = async () => {
   const { data } = await instance.get(getAllUser);
+  return data;
+};
+
+export const allCounts = async () => {
+  const data = [];
+  const TOTAL_SOCIAL_WORKER = await instance.get(getTotalSocialWorker);
+  const TOTAL_FOSTER = await instance.get(getTotalFoster);
+  const TOTAL_ORPHAN = await instance.get(getTotalOrphan);
+  const TOTAL_VOLUNTEER = await instance.get(getTotalVolunteer);
+  const TOTAL_VISITATION = await instance.get(getTotalVisitation);
+  const TOTAL_PENDING_VISITATION = await instance.get(
+    getTotalPendingVisitation,
+  );
+  data.push(
+    TOTAL_SOCIAL_WORKER.data,
+    TOTAL_FOSTER.data,
+    TOTAL_ORPHAN.data,
+    TOTAL_VOLUNTEER.data,
+    TOTAL_VISITATION.data,
+    TOTAL_PENDING_VISITATION.data,
+  );
+  console.log(data);
+
   return data;
 };

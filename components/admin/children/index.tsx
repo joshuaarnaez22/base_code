@@ -15,8 +15,9 @@ import { FaFileCsv } from 'react-icons/fa';
 import { UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
 import AddOrphan from './AddOrphan';
+import ChildrenTable from './ChildrenTable';
 
-const Childrens = () => {
+const Childrens = ({ orphans }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const children: any = [{ name: 'josh', age: 39 }];
@@ -68,6 +69,7 @@ const Childrens = () => {
           Download Pdf
         </Button>
       </Flex>
+      <ChildrenTable orphans={orphans} />
     </>
   );
 };

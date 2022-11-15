@@ -8,8 +8,8 @@ export const pdfDownloader = (header: any, body: any) => {
     body: body,
   });
 
-  for (let index = 0; index < 5; index++) {
-    doc.addPage();
-  }
+  // for (let index = 0; index < 5; index++) {
+  //   doc.addPage();
+  // }
   doc.save('users.pdf');
 };
