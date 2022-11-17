@@ -21,10 +21,11 @@ const dashboard: NextPageWithLayout = ({ response }: any) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const response = await allCounts();
   return {
     props: { response }, // will be passed to the page component as props
+    revalidate: 30, // will revalidate every 10 seconds in build
   };
 }
 
