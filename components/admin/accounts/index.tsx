@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddUser from './AddUser';
 import {
   Flex,
@@ -25,6 +25,10 @@ const Accounts = ({ users }: any) => {
   // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('username');
+
+  useEffect(() => {
+    setAllUsers(users);
+  }, [users]);
 
   const handleSearch = (e: any) => {
     const { value } = e.target;

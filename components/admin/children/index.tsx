@@ -8,7 +8,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { ChangeEventHandler, useState } from 'react';
+import React, { ChangeEventHandler, useEffect, useState } from 'react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
@@ -22,6 +22,10 @@ const Childrens = ({ orphans }: any) => {
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('firstname');
   const [allOrphans, setAllOrphans] = useState(orphans);
+
+  useEffect(() => {
+    setAllOrphans(orphans);
+  }, [orphans]);
 
   const children: any = [{ name: 'josh', age: 39 }];
   const headers = [

@@ -79,9 +79,9 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       }
       if (success && message === 'Account Registered successfully') {
         toastUI(1, message, 'Account created.');
-        reset();
+        // reset();
+        router.replace('/admin/accounts');
         onClose();
-        router.replace(router.asPath);
       }
     } catch (error) {
       console.log(error);
