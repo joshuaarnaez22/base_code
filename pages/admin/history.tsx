@@ -17,6 +17,15 @@ const history = () => {
     </Box>
   );
 };
+
+// export async function getStaticProps() {
+//   const response = await allCounts();
+//   return {
+//     props: { response }, // will be passed to the page component as props
+//     revalidate: 60, // will revalidate every 60 seconds in build
+//   };
+// }
+
 history.getLayout = function getLayout(page: ReactElement) {
   return <Layout type="admin">{page}</Layout>;
 };

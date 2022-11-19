@@ -1,5 +1,3 @@
-import ConfirmationModal from '@/components/global/ConfirmationModal';
-// import Pagination from '@/components/global/Pagination';
 import {
   TableContainer,
   Table,
@@ -19,14 +17,16 @@ import {
   Box,
   Text,
   Badge,
+  TableCaption,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
-import UserProfile from './UserProfile';
 import Pagination from '@/components/global/Pagination';
+import AddUser from './AddUser';
+import Delete from '@/components/global/Delete';
 const TableAccounts = ({ users }: any) => {
-  const [dispayUser, setDispayUser] = useState(users);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
   const {
     isOpen: isOpenDelete,
     onOpen: onOpenDelete,
@@ -34,12 +34,16 @@ const TableAccounts = ({ users }: any) => {
   } = useDisclosure();
 
   const [userDeleteId, setUserDeleteId] = useState<string>('');
+  const [selectedUpdate, setSelectedUpdate] = useState();
+  const [type, setType] = useState('');
+  //delete dialog
   const confirmDelete = (confirm: boolean) => {
     if (confirm) console.log(userDeleteId);
     else setUserDeleteId('');
   };
 
-  const openDelete = (objectId: string) => {
+  //delete
+  const deleteAccount = (objectId: string) => {
     setUserDeleteId(objectId);
     onOpenDelete();
   };
@@ -53,10 +57,33 @@ const TableAccounts = ({ users }: any) => {
     const newOffset = (event.selected * 10) % users.length;
     setItemOffset(newOffset);
   };
+
+  //update
+  const handleUpdate = (data: any) => {
+    setType('update');
+    setSelectedUpdate(data);
+    onOpen();
+  };
+
+  //view
+  const handleView = (data: any) => {
+    setType('view');
+    setSelectedUpdate(data);
+    onOpen();
+  };
+
   return (
     <>
-      <UserProfile {...{ isOpen, onClose }} />
-      <ConfirmationModal {...{ isOpenDelete, onCloseDelete, confirmDelete }} />
+      <AddUser {...{ isOpen, onClose, selectedUpdate, type }} />
+      <Delete
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        name="Delete User"
+        {...{
+          cancelRef,
+          confirmDelete,
+        }}
+      />
       <TableContainer
         maxWidth="100%"
         p="30px"
@@ -65,7 +92,7 @@ const TableAccounts = ({ users }: any) => {
         mb="20px"
       >
         <Table variant="simple">
-          {/* <TableCaption>List of users</TableCaption> */}
+          {!users.length && <TableCaption>No Accounts</TableCaption>}
           <Thead
             fontWeight="bold"
             fontFamily="montserrat"
@@ -75,19 +102,20 @@ const TableAccounts = ({ users }: any) => {
             letterSpacing="0.2"
           >
             <Tr>
-              <Th w="45%" fontWeight="bolder">
+              <Th w="35%" fontWeight="bolder">
                 Profile
               </Th>
+              <Th fontWeight="bolder">Email </Th>
               <Th fontWeight="bolder">Date Added</Th>
               <Th fontWeight="bolder">Last Login</Th>
               <Th w="5%"></Th>
             </Tr>
           </Thead>
           <Tbody>
-            {currentItems.map(({ _id, email, role, status }: any) => {
+            {currentItems.map((currentItem: any) => {
               return (
                 <Tr
-                  key={_id}
+                  key={currentItem._id}
                   fontSize="12px"
                   color="gray"
                   fontStyle="normal"
@@ -95,24 +123,31 @@ const TableAccounts = ({ users }: any) => {
                 >
                   <Td>
                     <Flex>
-                      <Avatar src="" name={email} />
+                      <Avatar src="" name={currentItem.email} />
                       <Box ml="3">
                         <Text fontWeight="bold">
-                          {email}
+                          {currentItem.username}
                           <Badge
                             ml="1"
-                            colorScheme={status === 'active' ? 'green' : 'red'}
+                            colorScheme={
+                              currentItem.status === 'active' ? 'green' : 'red'
+                            }
                             fontSize="10px"
                           >
-                            {status === 'active' ? 'active' : 'inactive'}
+                            {currentItem.status === 'active'
+                              ? 'active'
+                              : 'inactive'}
                           </Badge>
                         </Text>
-                        <Text fontSize="sm">{role}</Text>
+                        <Text fontSize="sm" fontWeight="bold">
+                          {currentItem.role}
+                        </Text>
                       </Box>
                     </Flex>
                   </Td>
-                  <Td>Nov 22, 2022</Td>
-                  <Td>Nov 22, 2022</Td>
+                  <Td fontWeight="bold">{currentItem.email}</Td>
+                  <Td fontWeight="bold">Nov 22, 2022</Td>
+                  <Td fontWeight="bold">Nov 22, 2022</Td>
                   <Td>
                     <Menu>
                       <MenuButton
@@ -130,11 +165,17 @@ const TableAccounts = ({ users }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        <MenuItem>Update</MenuItem>
-                        <MenuItem onClick={() => openDelete(_id)}>
+                        <MenuItem onClick={() => handleUpdate(currentItem)}>
+                          Update
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => deleteAccount(currentItem._id)}
+                        >
                           Delete
                         </MenuItem>
-                        <MenuItem onClick={onOpen}>View Profile</MenuItem>
+                        <MenuItem onClick={() => handleView(currentItem)}>
+                          View Profile
+                        </MenuItem>
                       </MenuList>
                     </Menu>
                   </Td>
@@ -144,7 +185,9 @@ const TableAccounts = ({ users }: any) => {
           </Tbody>
         </Table>
         <Box mt="4" />
-        <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
+        {!!users.length && (
+          <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
+        )}
       </TableContainer>
     </>
   );

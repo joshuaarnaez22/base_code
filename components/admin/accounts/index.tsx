@@ -12,7 +12,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
-import Loader from '@/components/global/Loader';
+// import Loader from '@/components/global/Loader';
 import TableAccounts from './TableAccounts';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
@@ -21,27 +21,29 @@ import { pdfDownloader } from '@/services/pdfDownload';
 
 const Accounts = ({ users }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allUser, setAllUsers] = useState(users);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setValue] = useState<string>('');
+  const [selectSearch, setSelectSearch] = useState('username');
 
   const handleSearch = (e: any) => {
     const { value } = e.target;
-    if (value) setIsLoading(true);
-    else setIsLoading(false);
+    if (!value) {
+      setValue('');
+      setAllUsers(users);
+    }
+    const filt = users.filter((user: any) => {
+      return user[selectSearch].toLowerCase().startsWith(value);
+    });
     setValue(value);
+    setAllUsers(filt);
   };
-  // const update = async () => {
-  //   const res = users.splice(0, 5);
-  //   setPdfDownload(res);
-  // };
-
   const selectionChanged = (e: any) => {
-    console.log(e.target.value);
+    setSelectSearch(e.target.value);
   };
 
   const download = () => {
-    const outputData = [...users];
+    const outputData = [...allUser];
     outputData.forEach((out: any) => {
       delete out.id;
       delete out._id;
@@ -53,7 +55,7 @@ const Accounts = ({ users }: any) => {
 
   return (
     <>
-      <AddUser {...{ isOpen, onClose }} />
+      <AddUser {...{ isOpen, onClose }} type="add" />
       <Flex justify="space-between">
         {/* <Text>Accounts</Text> */}
         <Flex>
@@ -77,11 +79,11 @@ const Accounts = ({ users }: any) => {
         </Flex>
 
         <Button onClick={onOpen} aria-label="Add">
-          Add User
+          Add Account
         </Button>
         {/* <Button onClick={update}>update User</Button> */}
 
-        <CsvDownloader datas={users} filename="csv" columns={UserHeaders}>
+        <CsvDownloader datas={allUser} filename="csv" columns={UserHeaders}>
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>
@@ -96,13 +98,13 @@ const Accounts = ({ users }: any) => {
         </Button>
       </Flex>
 
-      {!isLoading ? (
-        <TableAccounts users={users} />
-      ) : (
+      {/* {!isLoading ? ( */}
+      <TableAccounts users={allUser} />
+      {/* ) : (
         <Flex h="75vh" align="center" justify="center">
           <Loader size="24" color="gray" thickness="3px" />
         </Flex>
-      )}
+      )} */}
     </>
   );
 };

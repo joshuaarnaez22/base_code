@@ -38,7 +38,5 @@ export const allCounts = async () => {
     TOTAL_VISITATION.data,
     TOTAL_PENDING_VISITATION.data,
   );
-  console.log(data);
-
   return data;
 };

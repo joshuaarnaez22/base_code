@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Flex,
   Textarea,
   FormControl,
@@ -29,22 +25,23 @@ const OrphanInfo = () => {
   const {
     register,
     setValue,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
-  const AccordionData = ({ name, children }: any) => {
-    return (
-      <AccordionItem>
-        <AccordionButton>
-          <Box flex="1" textAlign="left" fontWeight="bold">
-            {name}
-          </Box>
-          <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel pb={4}>{children}</AccordionPanel>
-      </AccordionItem>
-    );
-  };
+  // const AccordionData = ({ name, children }: any) => {
+  //   return (
+  //     <AccordionItem>
+  //       <AccordionButton>
+  //         <Box flex="1" textAlign="left" fontWeight="bold">
+  //           {name}
+  //         </Box>
+  //         <AccordionIcon />
+  //       </AccordionButton>
+  //       <AccordionPanel pb={4}>{children}</AccordionPanel>
+  //     </AccordionItem>
+  //   );
+  // };
 
   return (
     <>
@@ -109,7 +106,7 @@ const OrphanInfo = () => {
             placeholder="Date of Birth"
             name="dob"
             errors={errors.dob}
-            {...{ setValue, register }}
+            {...{ setValue, register, getValues }}
           />
         </Flex>
         <Flex gap="3">
@@ -187,7 +184,7 @@ const OrphanInfo = () => {
             placeholder="Date of Admission"
             name="date_admission"
             errors={errors.date_admission}
-            {...{ setValue, register }}
+            {...{ setValue, register, getValues }}
           />
           <FormControl isInvalid={errors.birth_status ? true : false}>
             <FormLabel>Birth Status</FormLabel>
@@ -223,7 +220,7 @@ const OrphanInfo = () => {
             placeholder="Date Surrendered"
             name="date_surrendered"
             errors={errors.date_surrendered}
-            {...{ setValue, register }}
+            {...{ setValue, register, getValues }}
           />
         </Flex>
         <Flex w="60%" gap="3">

@@ -8,22 +8,18 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   useToast,
 } from '@chakra-ui/react';
-import React from 'react';
-import Child from './Child';
-import Family from './Family';
+import React, { useEffect } from 'react';
+// import Child from './Child';
+// import Family from './Family';
 import OrphanInfo from './OrphanInfo';
 import * as yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import moment from 'moment';
 import { createOrphan } from '@/services/orphans.service';
+import moment from 'moment';
+import { useRouter } from 'next/router';
 
 const schema = yup.object().shape({
   firstname: yup.string().required('Firstname is required.'),
@@ -54,9 +50,16 @@ const schema = yup.object().shape({
   moral: yup.string().required('Moral is required.'),
 });
 
-function AddOrphan({ isOpen, onClose }: any) {
-  const toast = useToast();
+interface Props {
+  isOpen: any;
+  onClose: any;
+  selectedUpdate?: any;
+  type?: string;
+}
 
+function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
+  const toast = useToast();
+  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(schema),
   });
@@ -65,6 +68,32 @@ function AddOrphan({ isOpen, onClose }: any) {
     reset,
     formState: { isSubmitting },
   } = methods;
+
+  useEffect(() => {
+    if (selectedUpdate) {
+      reset({
+        firstname: selectedUpdate.firstname,
+        lastname: selectedUpdate.lastname,
+        age: selectedUpdate.age,
+        gender: selectedUpdate.gender,
+        dob: moment(new Date(selectedUpdate.dob)).utc().format('YYYY-MM-DD'),
+        height: selectedUpdate.height,
+        weight: selectedUpdate.weight,
+        waist: selectedUpdate.waist,
+        date_admission: moment(new Date(selectedUpdate.date_admission))
+          .utc()
+          .format('YYYY-MM-DD'),
+        birth_status: selectedUpdate.birth_status,
+        category: selectedUpdate.category,
+        date_surrendered: moment(new Date(selectedUpdate.date_surrendered))
+          .utc()
+          .format('YYYY-MM-DD'),
+        present_whereabouts: selectedUpdate.present_whereabouts,
+        moral: selectedUpdate.moral,
+      });
+    }
+  }, [selectedUpdate]);
+
   const onSubmit = async (data: any) => {
     try {
       const res = await createOrphan(data);
@@ -72,6 +101,7 @@ function AddOrphan({ isOpen, onClose }: any) {
         toastUI(1, res.message, 'Orphan created');
         reset();
         onClose();
+        router.replace(router.asPath);
       } else {
         toastUI(2, res.message, 'Error');
       }
@@ -101,43 +131,33 @@ function AddOrphan({ isOpen, onClose }: any) {
         isCentered
       >
         <ModalOverlay />
-        <ModalContent h="90vh" overflowY="auto" maxW="80%" sx={thinnerScollbar}>
+        <ModalContent
+          maxH="90vh"
+          overflowY="auto"
+          maxW="80%"
+          sx={thinnerScollbar}
+        >
           <ModalHeader>Add Orphan</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormProvider {...methods}>
               <form>
-                <Tabs size="md" variant="enclosed">
-                  <TabList>
-                    <Tab>Orphan Info</Tab>
-                    <Tab>The Child</Tab>
-                    <Tab>The Family</Tab>
-                  </TabList>
-                  <TabPanels>
-                    <TabPanel>
-                      <OrphanInfo />
-                    </TabPanel>
-                    <TabPanel>
-                      <Child />
-                    </TabPanel>
-                    <TabPanel>
-                      <Family />
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
+                <OrphanInfo />
               </form>
             </FormProvider>
           </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              type="submit"
-              onClick={methods.handleSubmit(onSubmit)}
-              isLoading={isSubmitting}
-            >
-              Create User
-            </Button>
-          </ModalFooter>
+          {type !== 'view' && (
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                type="submit"
+                onClick={methods.handleSubmit(onSubmit)}
+                isLoading={isSubmitting}
+              >
+                Create User
+              </Button>
+            </ModalFooter>
+          )}
         </ModalContent>
       </Modal>
     </>

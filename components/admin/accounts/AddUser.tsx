@@ -19,7 +19,7 @@ import {
   Icon,
   useToast,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,7 +28,13 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { createUser } from '@/services/user.service';
 import { useRouter } from 'next/router';
 
-const AddUser = ({ isOpen, onClose }: any) => {
+interface Props {
+  isOpen: any;
+  onClose: any;
+  selectedUpdate?: any;
+  type?: string;
+}
+const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const router = useRouter();
   const [password, showPassword] = useState<boolean>(false);
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
@@ -37,7 +43,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
   const schema = yup.object().shape({
     email: yup.string().email('Invalid Email').required('Email is required.'),
     username: yup.string().required('Username is required.'),
-    role: yup.string().required('role is required.'),
+    role: yup.string().required('Role is required.'),
     password: yup.string().required('Password is required.'),
     confirm: yup
       .string()
@@ -48,19 +54,32 @@ const AddUser = ({ isOpen, onClose }: any) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (selectedUpdate) {
+      reset({
+        email: selectedUpdate.email,
+        username: selectedUpdate.username,
+        role: selectedUpdate.role,
+        password: '',
+        confirm: '',
+      });
+    }
+  }, [selectedUpdate]);
   const onSubmit = async (data: any) => {
     try {
       const { success, message } = await createUser(data);
-      console.log(success, message);
       if (!success && message === 'User name or Email already exists ') {
         toastUI(2, message, 'Already exists');
       }
       if (success && message === 'Account Registered successfully') {
         toastUI(1, message, 'Account created.');
+        reset();
         onClose();
         router.replace(router.asPath);
       }
@@ -88,7 +107,7 @@ const AddUser = ({ isOpen, onClose }: any) => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent h="90vh" overflowY="auto" sx={thinnerScollbar}>
+      <ModalContent maxH="90vh" overflowY="auto" sx={thinnerScollbar}>
         <ModalHeader>Add User</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -154,91 +173,99 @@ const AddUser = ({ isOpen, onClose }: any) => {
                   )}
                 </Collapse>
               </FormControl>
-              <FormControl>
-                <FormLabel>Confirm Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    placeholder="Password"
-                    autoComplete="off"
-                    type={password ? 'text' : 'password'}
-                    _placeholder={{
-                      color: 'white',
-                      opacity: '.5',
-                      fontFamily: 'robo',
-                      fontSize: 'SubHeader.lg',
-                    }}
-                    {...register('password')}
-                  />
+              {type !== 'view' && (
+                <>
+                  <FormControl>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <InputGroup>
+                      <Input
+                        placeholder="Password"
+                        autoComplete="off"
+                        type={password ? 'text' : 'password'}
+                        _placeholder={{
+                          color: 'white',
+                          opacity: '.5',
+                          fontFamily: 'robo',
+                          fontSize: 'SubHeader.lg',
+                        }}
+                        {...register('password')}
+                      />
 
-                  <InputRightElement>
-                    <Icon
-                      onClick={() => showPassword(!password)}
-                      as={password ? FiEye : FiEyeOff}
-                      color="black"
-                      _hover={{
-                        cursor: 'pointer',
-                        transform: 'scale(1.1)',
-                        transition: 'all 1s ease',
-                      }}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-                <Collapse in={errors.password ? true : false}>
-                  {errors.password && (
-                    <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.password.message as string}
-                    </FormHelperText>
-                  )}
-                </Collapse>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Confirm Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    placeholder="Confirm Password"
-                    autoComplete="off"
-                    type={confirmPass ? 'text' : 'password'}
-                    _placeholder={{
-                      color: 'white',
-                      opacity: '.5',
-                      fontFamily: 'robo',
-                      fontSize: 'SubHeader.lg',
-                    }}
-                    {...register('confirm')}
-                  />
+                      <InputRightElement>
+                        <Icon
+                          onClick={() => showPassword(!password)}
+                          as={password ? FiEye : FiEyeOff}
+                          color="black"
+                          _hover={{
+                            cursor: 'pointer',
+                            transform: 'scale(1.1)',
+                            transition: 'all 1s ease',
+                          }}
+                        />
+                      </InputRightElement>
+                    </InputGroup>
+                    <Collapse in={errors.password ? true : false}>
+                      {errors.password && (
+                        <FormHelperText fontSize="SubHeader.md" color="red">
+                          {errors.password.message as string}
+                        </FormHelperText>
+                      )}
+                    </Collapse>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <InputGroup>
+                      <Input
+                        placeholder="Confirm Password"
+                        autoComplete="off"
+                        type={confirmPass ? 'text' : 'password'}
+                        _placeholder={{
+                          color: 'white',
+                          opacity: '.5',
+                          fontFamily: 'robo',
+                          fontSize: 'SubHeader.lg',
+                        }}
+                        {...register('confirm')}
+                      />
 
-                  <InputRightElement>
-                    <Icon
-                      onClick={() => showConfirmPass(!confirmPass)}
-                      as={confirmPass ? FiEye : FiEyeOff}
-                      color="black"
-                      _hover={{
-                        cursor: 'pointer',
-                        transform: 'scale(1.1)',
-                        transition: 'all 1s ease',
-                      }}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-                <Collapse in={errors.confirm ? true : false}>
-                  {errors.confirm && (
-                    <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.confirm.message as string}
-                    </FormHelperText>
-                  )}
-                </Collapse>
-              </FormControl>
+                      <InputRightElement>
+                        <Icon
+                          onClick={() => showConfirmPass(!confirmPass)}
+                          as={confirmPass ? FiEye : FiEyeOff}
+                          color="black"
+                          _hover={{
+                            cursor: 'pointer',
+                            transform: 'scale(1.1)',
+                            transition: 'all 1s ease',
+                          }}
+                        />
+                      </InputRightElement>
+                    </InputGroup>
+                    <Collapse in={errors.confirm ? true : false}>
+                      {errors.confirm && (
+                        <FormHelperText fontSize="SubHeader.md" color="red">
+                          {errors.confirm.message as string}
+                        </FormHelperText>
+                      )}
+                    </Collapse>
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </form>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="gray" mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button colorScheme="blue" onClick={handleSubmit(onSubmit)}>
-            Create User
-          </Button>
+          {type !== 'view' && (
+            <>
+              <Button colorScheme="gray" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="blue" onClick={handleSubmit(onSubmit)}>
+                Create User
+              </Button>
+            </>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

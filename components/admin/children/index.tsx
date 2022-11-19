@@ -8,7 +8,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { ChangeEventHandler, useState } from 'react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
@@ -19,6 +19,9 @@ import ChildrenTable from './ChildrenTable';
 
 const Childrens = ({ orphans }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [search, setValue] = useState<string>('');
+  const [selectSearch, setSelectSearch] = useState('firstname');
+  const [allOrphans, setAllOrphans] = useState(orphans);
 
   const children: any = [{ name: 'josh', age: 39 }];
   const headers = [
@@ -31,14 +34,33 @@ const Childrens = ({ orphans }: any) => {
       displayName: 'age',
     },
   ];
+
+  const handleSearch = (e: any) => {
+    const { value } = e.target;
+    if (!value) {
+      setValue('');
+      setAllOrphans(orphans);
+    }
+    const filt = orphans.filter((orphan: any) => {
+      return orphan[selectSearch].toLowerCase().startsWith(value);
+    });
+    setValue(value);
+    setAllOrphans(filt);
+  };
+
+  const selectionChanged = (event: any) => {
+    setSelectSearch(event.target.value);
+  };
+
   return (
     <>
       <AddOrphan {...{ isOpen, onClose }} />
       <Flex justify="space-between">
         <Flex>
-          <Select variant="normal" w="130px">
-            <option value="username">Username</option>
-            <option value="role">Role</option>
+          <Select variant="normal" w="130px" onChange={selectionChanged}>
+            <option value="firstname">Firstname</option>
+            <option value="lastname">Lastname</option>
+            <option value="status">Status</option>
           </Select>
           <InputGroup w="300px">
             <InputLeftElement pointerEvents="none">
@@ -49,6 +71,8 @@ const Childrens = ({ orphans }: any) => {
               placeholder="Search"
               shadow="sm"
               variant="search"
+              value={search}
+              onChange={handleSearch}
             />
           </InputGroup>
         </Flex>
@@ -69,7 +93,7 @@ const Childrens = ({ orphans }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <ChildrenTable orphans={orphans} />
+      <ChildrenTable orphans={allOrphans} />
     </>
   );
 };

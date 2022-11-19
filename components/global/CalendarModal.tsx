@@ -29,14 +29,15 @@ const CalendarModal = ({
   name,
   setValue,
   placeholder,
+  getValues,
 }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [date, setDate] = useState();
+  const [dateValue, setDateValue] = useState(getValues(name) || '');
 
   const calendarChange = (date: any) => {
-    const dateTime = moment(date).format('MMMM DD YYYY');
+    const dateTime = moment(date).format('YYYY-MM-DD');
     setValue(name, dateTime, { shouldValidate: true });
-    setDate(date);
+    setDateValue(date);
     onClose();
   };
 
@@ -53,7 +54,7 @@ const CalendarModal = ({
           <Input
             type="text"
             placeholder={placeholder}
-            value={date ? moment(date).format('MMMM DD YYYY') : ''}
+            value={dateValue ? moment(dateValue).format('YYYY-MM-DD') : ''}
             onClick={onOpen}
             readOnly
             _invalid={{
@@ -83,7 +84,7 @@ const CalendarModal = ({
             <Box>
               <Calendar
                 onChange={calendarChange}
-                value={date ? date : new Date()}
+                value={dateValue ? new Date(dateValue) : new Date()}
               />
             </Box>
           </ModalBody>
