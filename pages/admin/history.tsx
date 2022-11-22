@@ -4,7 +4,8 @@ import React, { ReactElement } from 'react';
 import History from '@/components/admin/history';
 import Layout from 'layouts/Layout';
 import { histories } from '@/services/user.service';
-const history = ({ response }: any) => {
+// response
+const history = () => {
   return (
     <Box
       w="100%"
@@ -14,18 +15,19 @@ const history = ({ response }: any) => {
       sx={thinScollbar}
       p="20px"
     >
-      <History histories={response.history} />
+      Histories
+      {/* <History histories={response.history} /> */}
     </Box>
   );
 };
 
-export async function getStaticProps() {
-  const response = await histories();
-  return {
-    props: { response }, // will be passed to the page component as props
-    revalidate: 60, // will revalidate every 60 seconds in build
-  };
-}
+// export async function getStaticProps() {
+//   const response = await histories();
+//   return {
+//     props: { response }, // will be passed to the page component as props
+//     revalidate: 60, // will revalidate every 60 seconds in build
+//   };
+// }
 
 history.getLayout = function getLayout(page: ReactElement) {
   return <Layout type="admin">{page}</Layout>;
