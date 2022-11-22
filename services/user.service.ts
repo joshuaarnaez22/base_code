@@ -8,6 +8,8 @@ import {
   getTotalVolunteer,
   getTotalVisitation,
   getTotalPendingVisitation,
+  allHistory,
+  deleteUser,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -38,5 +40,17 @@ export const allCounts = async () => {
     TOTAL_VISITATION.data,
     TOTAL_PENDING_VISITATION.data,
   );
+  return data;
+};
+
+//history
+
+export const histories = async () => {
+  const { data } = await instance.get(allHistory);
+  return data;
+};
+
+export const removeUser = async ({ payload }: any) => {
+  const { data } = await instance.put(deleteUser, payload);
   return data;
 };

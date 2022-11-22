@@ -1,5 +1,5 @@
 import { instance } from './client';
-import { addOrphan, getAllOrphan } from './endpoint';
+import { addOrphan, getAllOrphan, deleteOrphan } from './endpoint';
 
 export const createOrphan = async (payload: any) => {
   const { data } = await instance.post(addOrphan, payload);
@@ -8,5 +8,10 @@ export const createOrphan = async (payload: any) => {
 
 export const allOrphans = async () => {
   const { data } = await instance.get(getAllOrphan);
+  return data;
+};
+
+export const removeOrphan = async (payload: any) => {
+  const { data } = await instance.put(deleteOrphan, payload);
   return data;
 };

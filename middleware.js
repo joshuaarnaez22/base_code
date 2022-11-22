@@ -7,11 +7,11 @@ export function middleware(request) {
   const { origin } = request.nextUrl;
   const url = request.url;
   if (!token) return NextResponse.redirect(`${origin}`);
-
   const { role } = jwt_decode(token);
   const routes = [
     url.startsWith(`${origin}/admin`) && role !== 'admin',
     url.startsWith(`${origin}/foster`) && role !== 'foster',
+    url.startsWith(`${origin}/socialworker`) && role !== 'socialworker',
   ];
   if (routes[0] || routes[1]) {
     return NextResponse.redirect(`${origin}/${role}/dashboard`);
@@ -27,5 +27,6 @@ export const config = {
     '/foster/dashboard',
     '/foster/schedule',
     '/admin/history',
+    '/socialworker/dashboard',
   ],
 };

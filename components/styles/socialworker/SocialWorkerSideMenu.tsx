@@ -1,33 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Flex, Image, Icon } from '@chakra-ui/react';
-import {
-  MdOutlineDashboard,
-  MdManageAccounts,
-  MdSchedule,
-} from 'react-icons/md';
-import { IoIosPeople } from 'react-icons/io';
-import { RiFileHistoryLine } from 'react-icons/ri';
-
+import { MdOutlineDashboard, MdSchedule } from 'react-icons/md';
 import { useRouter } from 'next/router';
-export default function AdminSideMenu() {
+
+export default function SocialWorkerSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = [
-    '/admin/dashboard',
-    '/admin/accounts',
-    '/admin/childrens',
-    '/admin/visitations',
-    '/admin/history',
-    '/admin/monitoring',
-  ];
+  const routerChoice = ['/socialworker/dashboard'];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
-    if (router.pathname === routerChoice[1]) setSelectedMenu(2);
-    if (router.pathname === routerChoice[2]) setSelectedMenu(3);
-    if (router.pathname === routerChoice[3]) setSelectedMenu(4);
-    if (router.pathname === routerChoice[4]) setSelectedMenu(5);
-    if (router.pathname === routerChoice[5]) setSelectedMenu(6);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -71,7 +53,7 @@ export default function AdminSideMenu() {
       <Flex justify="center" align="start" gap="10px" py="30px" w="inherit">
         <Image src="/logo.png" alt="logo" h="32px" w="32px" />
         <Text
-          fontFamily="robo"
+          fontFamily="mulish"
           fontSize="19px"
           fontWeight="700"
           color="white"
@@ -87,41 +69,6 @@ export default function AdminSideMenu() {
           index={1}
           isSelected={selectedMenu == 1 ? true : false}
           route={routerChoice[0]}
-        />
-        <MenuOptions
-          title="Accounts"
-          icon={MdManageAccounts}
-          index={2}
-          isSelected={selectedMenu == 2 ? true : false}
-          route={routerChoice[1]}
-        />
-        <MenuOptions
-          title="Childrens"
-          icon={IoIosPeople}
-          index={3}
-          isSelected={selectedMenu == 3 ? true : false}
-          route={routerChoice[2]}
-        />
-        <MenuOptions
-          title="Visitations"
-          icon={MdSchedule}
-          index={4}
-          isSelected={selectedMenu == 4 ? true : false}
-          route={routerChoice[3]}
-        />
-        <MenuOptions
-          title="History"
-          icon={RiFileHistoryLine}
-          index={5}
-          isSelected={selectedMenu == 5 ? true : false}
-          route={routerChoice[4]}
-        />
-        <MenuOptions
-          title="Monitoring"
-          icon={RiFileHistoryLine}
-          index={5}
-          isSelected={selectedMenu == 6 ? true : false}
-          route={routerChoice[5]}
         />
       </Flex>
     </Flex>

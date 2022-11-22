@@ -13,6 +13,7 @@ export const deleteUser = `${LOCALDEV}/users/deleteUser`;
 //Orphans
 export const addOrphan = `${LOCALDEV}/orphans/addOrphan`;
 export const getAllOrphan = `${LOCALDEV}/orphans/getAllOrphan`;
+export const deleteOrphan = `${LOCALDEV}/orphans/deleteOrphan`;
 
 //dashboard admin endpoints
 export const getTotalSocialWorker = `${LOCALDEV}/socialworker/getTotalSocialWorker`;
@@ -21,3 +22,7 @@ export const getTotalOrphan = `${LOCALDEV}/orphans/getTotalOrphan`;
 export const getTotalVolunteer = `${LOCALDEV}/volunteers/getTotalVolunteer`;
 export const getTotalVisitation = `${LOCALDEV}/visitation/getTotalVisitation`;
 export const getTotalPendingVisitation = `${LOCALDEV}/visitation/getTotalPendingVisitation`;
+
+//history
+
+export const allHistory = `${LOCALDEV}/history/getAllHistory`;

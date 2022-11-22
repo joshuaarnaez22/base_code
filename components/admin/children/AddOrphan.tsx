@@ -137,7 +137,13 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
           maxW="80%"
           sx={thinnerScollbar}
         >
-          <ModalHeader>Add Orphan</ModalHeader>
+          <ModalHeader>
+            {type === 'view' && 'View Orphan'}
+            {type === 'update' && 'Update Orphan'}
+            {type === 'add' && 'Add Orphan'}
+
+            {/* {type === 'view' ?? 'View Orphan'} */}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormProvider {...methods}>
@@ -146,7 +152,14 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
               </form>
             </FormProvider>
           </ModalBody>
-          {type !== 'view' && (
+          {type === 'view' && (
+            <ModalFooter>
+              <Button colorScheme="blue" type="submit" onClick={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          )}
+          {type === 'add' && (
             <ModalFooter>
               <Button
                 colorScheme="blue"
@@ -155,6 +168,18 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
                 isLoading={isSubmitting}
               >
                 Create User
+              </Button>
+            </ModalFooter>
+          )}
+          {type === 'update' && (
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                type="submit"
+                onClick={methods.handleSubmit(onSubmit)}
+                isLoading={isSubmitting}
+              >
+                Update
               </Button>
             </ModalFooter>
           )}

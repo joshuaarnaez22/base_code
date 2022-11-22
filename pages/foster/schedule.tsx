@@ -4,8 +4,16 @@ import { NextPageWithLayout } from 'pages/_app';
 import Index from '@/components/foster/schedule';
 import { Box } from '@chakra-ui/react';
 import { thinScollbar } from '@/components/Scrollbar';
+import { allOrphans } from '@/services/orphans.service';
 
-const schedule: NextPageWithLayout = () => {
+export async function getServerSideProps() {
+  const { orphan } = await allOrphans();
+
+  return {
+    props: { orphan }, // will be passed to the page component as props
+  };
+}
+const schedule: NextPageWithLayout = ({ orphan }: any) => {
   return (
     <Box
       w="100%"
@@ -15,7 +23,7 @@ const schedule: NextPageWithLayout = () => {
       sx={thinScollbar}
       p="20px"
     >
-      <Index />
+      <Index orphans={orphan} />
     </Box>
   );
 };

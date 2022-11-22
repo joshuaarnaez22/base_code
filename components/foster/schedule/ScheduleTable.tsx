@@ -1,53 +1,36 @@
-// import Pagination from '@/components/global/Pagination';
+import React, { useEffect, useState } from 'react';
+import { Capitalize } from '@/services/helpers';
 import {
   TableContainer,
   Table,
+  TableCaption,
   Thead,
   Tr,
   Th,
   Tbody,
-  Td,
-  Menu,
-  MenuItem,
-  MenuButton,
-  IconButton,
-  MenuList,
-  useDisclosure,
   Flex,
   Avatar,
   Box,
-  Text,
   Badge,
-  TableCaption,
-  useToast,
-  Collapse,
+  Td,
+  Menu,
+  MenuList,
+  MenuItem,
+  MenuButton,
+  Text,
+  IconButton,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { SlOptionsVertical } from 'react-icons/sl';
-
-import React, { useEffect, useState } from 'react';
-import Pagination from '@/components/global/Pagination';
 import moment from 'moment';
-import { Capitalize } from '@/services/helpers';
-import Delete from '@/components/global/Delete';
-import AddOrphan from './AddOrphan';
-import { removeOrphan } from '@/services/orphans.service';
-import { useRouter } from 'next/router';
+import { SlOptionsVertical } from 'react-icons/sl';
+import Pagination from '@/components/global/Pagination';
+import AddOrphan from '@/components/admin/children/AddOrphan';
 
-const ChildrenTable = ({ orphans, search }: any) => {
-  const router = useRouter();
-  const toast = useToast();
-
-  const cancelRef = React.useRef();
-  const [orphanDeleteId, setOrphanDeleteId] = useState<string>('');
+const ScheduleTable = ({ orphans, search }: any) => {
   const [type, setType] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedUpdate, setSelectedUpdate] = useState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {
-    isOpen: isOpenDelete,
-    onOpen: onOpenDelete,
-    onClose: onCloseDelete,
-  } = useDisclosure();
   //Pagination
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
@@ -62,60 +45,25 @@ const ChildrenTable = ({ orphans, search }: any) => {
     setItemOffset(0);
   }, [orphans]);
 
-  //delete dialog
-  const confirmDelete = async (confirm: boolean) => {
-    if (confirm) {
-      const response = await removeOrphan({ id: orphanDeleteId });
-      if (response.success) toastUI(1, response.message, 'Orphan Deleted');
-      else toastUI(2, response.message, 'Someting went wrong');
-      router.replace(router.asPath);
-    }
+  const scheduleUpdate = (id: string) => {
+    console.log(id);
   };
 
-  //delete
-  const deleteAccount = (objectId: string) => {
-    setOrphanDeleteId(objectId);
-    onOpenDelete();
-  };
-
-  //update
-  const handleUpdate = (data: any) => {
-    setType('update');
-    setSelectedUpdate(data);
-    onOpen();
-  };
-
-  //view
   const handleView = (data: any) => {
     setType('view');
     setSelectedUpdate(data);
     onOpen();
   };
-
-  const toastUI = (type: number, description: string, title: string) => {
-    toast({
-      status: type == 1 ? 'success' : 'error',
-      variant: 'left-accent',
-      position: 'top-right',
-      isClosable: true,
-      title,
-      description: `${description}`,
-      duration: 5000,
-    });
-  };
   return (
     <>
       <AddOrphan {...{ isOpen, onClose, selectedUpdate, type }} />
-      <Delete
-        isOpen={isOpenDelete}
-        onClose={onCloseDelete}
-        name="Delete Orphan"
-        {...{
-          cancelRef,
-          confirmDelete,
-        }}
-      />
-      <TableContainer p="30px" shadow="xl" borderRadius="md" mb="20px" w="100%">
+      <TableContainer
+        maxWidth="100%"
+        p="30px"
+        shadow="xl"
+        borderRadius="md"
+        mb="20px"
+      >
         <Table variant="striped">
           {!orphans.length && <TableCaption>No Accounts</TableCaption>}
           <Thead
@@ -212,11 +160,10 @@ const ChildrenTable = ({ orphans, search }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        <MenuItem onClick={() => handleUpdate(currentItem)}>
-                          Update
-                        </MenuItem>
-                        <MenuItem onClick={() => deleteAccount(currentItem.id)}>
-                          Delete
+                        <MenuItem
+                          onClick={() => scheduleUpdate(currentItem._id)}
+                        >
+                          Schedule Visit
                         </MenuItem>
                         <MenuItem onClick={() => handleView(currentItem)}>
                           View Profile
@@ -242,4 +189,4 @@ const ChildrenTable = ({ orphans, search }: any) => {
   );
 };
 
-export default React.memo(ChildrenTable);
+export default ScheduleTable;

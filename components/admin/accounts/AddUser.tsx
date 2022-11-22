@@ -164,6 +164,7 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                 >
                   <option value="admin">Admin</option>
                   <option value="foster">Foster</option>
+                  <option value="socialworker">Social Worker</option>
                 </Select>
                 <Collapse in={errors.role ? true : false}>
                   {errors.role && (

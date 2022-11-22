@@ -20,6 +20,7 @@ import * as yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CalendarModal from '@/components/global/CalendarModal';
+import { allOrphans } from '@/services/orphans.service';
 
 const schema = yup.object().shape({
   purpose: yup.string().required('Puspose is required.'),
@@ -35,6 +36,7 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
     reset,
     setValue,
     register,
+    getValues,
     formState: { isSubmitting, errors },
   } = methods;
 
@@ -46,6 +48,14 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
     reset();
   }, [isOpen]);
 
+  useEffect(() => {
+    getAllOrphans();
+  }, []);
+
+  const getAllOrphans = async () => {
+    const response = await allOrphans();
+    console.log(response);
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -54,7 +64,7 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent overflowY="auto" maxW="40%" sx={thinnerScollbar}>
+      <ModalContent overflowY="auto" maxW="80%" sx={thinnerScollbar}>
         <ModalHeader>Add Visitation</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -64,8 +74,8 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
                 <CalendarModal
                   placeholder="Visitation Date"
                   name="visit_date"
-                  errors={errors.visit_date}
-                  {...{ setValue, register }}
+                  errors={errors.dob}
+                  {...{ setValue, register, getValues }}
                 />
                 <FormControl isInvalid={errors.purpose ? true : false}>
                   <FormLabel>Purpose</FormLabel>
@@ -81,6 +91,7 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
               </Stack>
             </form>
           </FormProvider>
+          {/* <Childrens orphans={orphans}/> */}
         </ModalBody>
         <ModalFooter>
           <Button

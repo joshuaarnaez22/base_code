@@ -72,7 +72,7 @@ export default function FosterSideMenu() {
           route={routerChoice[0]}
         />
         <MenuOptions
-          title="Accounts"
+          title="Schedule Visit"
           icon={MdSchedule}
           index={2}
           isSelected={selectedMenu == 2 ? true : false}

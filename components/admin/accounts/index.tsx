@@ -103,7 +103,7 @@ const Accounts = ({ users }: any) => {
       </Flex>
 
       {/* {!isLoading ? ( */}
-      <TableAccounts users={allUser} />
+      <TableAccounts users={allUser} search={search} />
       {/* ) : (
         <Flex h="75vh" align="center" justify="center">
           <Loader size="24" color="gray" thickness="3px" />

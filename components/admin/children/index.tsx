@@ -8,7 +8,7 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
@@ -22,6 +22,7 @@ const Childrens = ({ orphans }: any) => {
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('firstname');
   const [allOrphans, setAllOrphans] = useState(orphans);
+  const [type] = useState('add');
 
   useEffect(() => {
     setAllOrphans(orphans);
@@ -58,8 +59,8 @@ const Childrens = ({ orphans }: any) => {
 
   return (
     <>
-      <AddOrphan {...{ isOpen, onClose }} />
-      <Flex justify="space-between">
+      <AddOrphan {...{ isOpen, onClose, type }} />
+      <Flex justify="space-between" w="100%">
         <Flex>
           <Select variant="normal" w="130px" onChange={selectionChanged}>
             <option value="firstname">Firstname</option>
@@ -97,7 +98,7 @@ const Childrens = ({ orphans }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <ChildrenTable orphans={allOrphans} />
+      <ChildrenTable orphans={allOrphans} search={search} />
     </>
   );
 };
