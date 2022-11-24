@@ -47,15 +47,16 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
   useEffect(() => {
     reset();
   }, [isOpen]);
+  console.log(errors);
 
-  useEffect(() => {
-    getAllOrphans();
-  }, []);
+  // useEffect(() => {
+  //   getAllOrphans();
+  // }, []);
 
-  const getAllOrphans = async () => {
-    const response = await allOrphans();
-    console.log(response);
-  };
+  // const getAllOrphans = async () => {
+  //   const response = await allOrphans();
+  //   console.log(response);
+  // };
   return (
     <Modal
       isOpen={isOpen}
@@ -64,21 +65,15 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent overflowY="auto" maxW="80%" sx={thinnerScollbar}>
+      <ModalContent overflowY="auto" sx={thinnerScollbar}>
         <ModalHeader>Add Visitation</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...methods}>
             <form>
               <Stack gap="2">
-                <CalendarModal
-                  placeholder="Visitation Date"
-                  name="visit_date"
-                  errors={errors.dob}
-                  {...{ setValue, register, getValues }}
-                />
                 <FormControl isInvalid={errors.purpose ? true : false}>
-                  <FormLabel>Purpose</FormLabel>
+                  <FormLabel>Purpose of visit</FormLabel>
                   <Textarea placeholder="Purpose" {...register('purpose')} />
                   <Collapse in={errors.purpose ? true : false}>
                     {errors.purpose && (
@@ -88,6 +83,12 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
                     )}
                   </Collapse>
                 </FormControl>
+                <CalendarModal
+                  placeholder="Visitation Date"
+                  name="visit_date"
+                  errors={errors.visit_date}
+                  {...{ setValue, register, getValues }}
+                />
               </Stack>
             </form>
           </FormProvider>

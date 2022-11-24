@@ -4,7 +4,15 @@ import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
 import Visitations from '@/components/admin/visitations';
-const visitations: NextPageWithLayout = () => {
+import { getAllVisit } from '@/services/user.service';
+
+export async function getServerSideProps() {
+  const { data: visits } = await getAllVisit();
+  return {
+    props: { visits }, // will be passed to the page component as props
+  };
+}
+const visitations: NextPageWithLayout = ({ visits }: any) => {
   return (
     <Box
       w="100%"
@@ -14,7 +22,7 @@ const visitations: NextPageWithLayout = () => {
       sx={thinScollbar}
       p="20px"
     >
-      <Visitations />
+      <Visitations visits={visits} />
     </Box>
   );
 };

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 export default function SocialWorkerSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = ['/socialworker/dashboard'];
+  const routerChoice = ['/socialworker/accounts'];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
@@ -64,7 +64,7 @@ export default function SocialWorkerSideMenu() {
       </Flex>
       <Flex direction="column" mt="15px">
         <MenuOptions
-          title="Dashboard"
+          title="Accounts"
           icon={MdOutlineDashboard}
           index={1}
           isSelected={selectedMenu == 1 ? true : false}

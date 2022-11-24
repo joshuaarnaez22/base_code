@@ -40,22 +40,47 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
   const toast = useToast();
 
-  const schema = yup.object().shape({
-    email: yup.string().email('Invalid Email').required('Email is required.'),
-    username: yup.string().required('Username is required.'),
-    role: yup.string().required('Role is required.'),
-    password: yup.string().required('Password is required.'),
-    confirm: yup
-      .string()
-      .required('Confirm Password is required.')
-      .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
-  });
+  //   const schema = yup.object().shape({
+  //     email: yup.string().email('Invalid Email').required('Email is required.'),
+  //     username: yup.string().required('Username is required.'),
+  //     role: yup.string().required('Role is required.'),
+  //     password: yup.string().required('Password is required.'),
+  //     confirm: yup
+  //       .string()
+  //       .required('Confirm Password is required.')
+  //       .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
+  //   });
+  let schema;
+
+  if (type === 'update') {
+    schema = yup.object().shape({
+      email: yup.string().email('Invalid Email').notRequired(),
+      username: yup.string().notRequired(),
+      role: yup.string().notRequired(),
+      password: yup.string().notRequired(),
+      confirm: yup
+        .string()
+        .notRequired()
+        .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
+    });
+  } else {
+    schema = yup.object().shape({
+      email: yup.string().email('Invalid Email').required('Email is required.'),
+      username: yup.string().required('Username is required.'),
+      role: yup.string().required('Role is required.'),
+      password: yup.string().required('Password is required.'),
+      confirm: yup
+        .string()
+        .required('Confirm Password is required.')
+        .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
+    });
+  }
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -109,9 +134,9 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       <ModalOverlay />
       <ModalContent maxH="90vh" overflowY="auto" sx={thinnerScollbar}>
         <ModalHeader>
-          {type === 'add' && 'Add Account'}
-          {type === 'view' && 'View Account'}
-          {type === 'update' && 'Update Account'}
+          {type === 'add' && 'Add User'}
+          {type === 'update' && 'Update User'}
+          {type === 'view' && 'View User'}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -266,7 +291,12 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
               <Button colorScheme="gray" mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="blue" onClick={handleSubmit(onSubmit)}>
+              <Button
+                colorScheme="blue"
+                onClick={handleSubmit(onSubmit)}
+                disabled={!isValid}
+                isLoading={isSubmitting}
+              >
                 Create User
               </Button>
             </>

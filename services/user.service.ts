@@ -10,6 +10,7 @@ import {
   getTotalPendingVisitation,
   allHistory,
   deleteUser,
+  getAllVisitation,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -52,5 +53,16 @@ export const histories = async () => {
 
 export const removeUser = async ({ payload }: any) => {
   const { data } = await instance.put(deleteUser, payload);
+  return data;
+};
+
+//visitation
+export const addVisit = async ({ payload }: any) => {
+  const { data } = await instance.put(deleteUser, payload);
+  return data;
+};
+
+export const getAllVisit = async () => {
+  const { data } = await instance.get(getAllVisitation);
   return data;
 };

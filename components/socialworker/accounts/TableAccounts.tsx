@@ -18,46 +18,18 @@ import {
   Text,
   Badge,
   TableCaption,
-  useToast,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import Pagination from '@/components/global/Pagination';
 import AddUser from './AddUser';
-import Delete from '@/components/global/Delete';
-import { removeUser } from '@/services/user.service';
-import { useRouter } from 'next/router';
 
 const TableAccounts = ({ users, search }: any) => {
-  const toast = useToast();
-  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
-  const {
-    isOpen: isOpenDelete,
-    onOpen: onOpenDelete,
-    onClose: onCloseDelete,
-  } = useDisclosure();
+  console.log(search);
 
-  const [userDeleteId, setUserDeleteId] = useState<string>('');
   const [selectedUpdate, setSelectedUpdate] = useState();
   const [type, setType] = useState('');
-  //delete dialog
-  const confirmDelete = async (confirm: boolean) => {
-    if (confirm) {
-      const response = await removeUser({ id: userDeleteId });
-      console.log(response);
-      if (response.success) toastUI(1, response.message, 'Orphan Deleted');
-      else toastUI(2, response.message, 'Someting went wrong');
-      router.replace(router.asPath);
-    }
-  };
-
-  //delete
-  const deleteAccount = (objectId: string) => {
-    setUserDeleteId(objectId);
-    onOpenDelete();
-  };
 
   //Pagination
   const [itemOffset, setItemOffset] = useState(0);
@@ -87,30 +59,9 @@ const TableAccounts = ({ users, search }: any) => {
     onOpen();
   };
 
-  const toastUI = (type: number, description: string, title: string) => {
-    toast({
-      status: type == 1 ? 'success' : 'error',
-      variant: 'left-accent',
-      position: 'top-right',
-      isClosable: true,
-      title,
-      description: `${description}`,
-      duration: 5000,
-    });
-  };
-
   return (
     <>
       <AddUser {...{ isOpen, onClose, selectedUpdate, type }} />
-      <Delete
-        isOpen={isOpenDelete}
-        onClose={onCloseDelete}
-        name="Delete User"
-        {...{
-          cancelRef,
-          confirmDelete,
-        }}
-      />
       <TableContainer
         maxWidth="100%"
         p="30px"
@@ -194,11 +145,6 @@ const TableAccounts = ({ users, search }: any) => {
                       <MenuList minWidth="180px">
                         <MenuItem onClick={() => handleUpdate(currentItem)}>
                           Update
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => deleteAccount(currentItem._id)}
-                        >
-                          Delete
                         </MenuItem>
                         <MenuItem onClick={() => handleView(currentItem)}>
                           View Profile

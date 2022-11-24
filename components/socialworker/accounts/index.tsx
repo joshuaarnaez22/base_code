@@ -8,10 +8,11 @@ import {
   Icon,
   Input,
   Button,
-  // Text,
+  Box,
   Select,
 } from '@chakra-ui/react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
+// import Loader from '@/components/global/Loader';
 import TableAccounts from './TableAccounts';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
@@ -21,6 +22,7 @@ import { pdfDownloader } from '@/services/pdfDownload';
 const Accounts = ({ users }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [allUser, setAllUsers] = useState(users);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('username');
 

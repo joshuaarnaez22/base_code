@@ -17,7 +17,6 @@ export default function AdminSideMenu() {
     '/admin/accounts',
     '/admin/childrens',
     '/admin/visitations',
-    '/admin/history',
     '/admin/monitoring',
   ];
 
@@ -27,7 +26,6 @@ export default function AdminSideMenu() {
     if (router.pathname === routerChoice[2]) setSelectedMenu(3);
     if (router.pathname === routerChoice[3]) setSelectedMenu(4);
     if (router.pathname === routerChoice[4]) setSelectedMenu(5);
-    if (router.pathname === routerChoice[5]) setSelectedMenu(6);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -110,18 +108,11 @@ export default function AdminSideMenu() {
           route={routerChoice[3]}
         />
         <MenuOptions
-          title="History"
+          title="Monitoring"
           icon={RiFileHistoryLine}
           index={5}
           isSelected={selectedMenu == 5 ? true : false}
           route={routerChoice[4]}
-        />
-        <MenuOptions
-          title="Monitoring"
-          icon={RiFileHistoryLine}
-          index={5}
-          isSelected={selectedMenu == 6 ? true : false}
-          route={routerChoice[5]}
         />
       </Flex>
     </Flex>

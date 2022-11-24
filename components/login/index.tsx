@@ -34,6 +34,7 @@ const Login = () => {
       if (success) {
         cookie.set('token', token);
         toastUI(1, `Welcome ${role}`, 'Login successfully.');
+        if (role === 'socialworker') return router.push(`${role}/accounts`);
         router.push(`${role}/dashboard`);
       } else {
         return toastUI(2, message, 'Not found.');

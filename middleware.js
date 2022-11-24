@@ -13,8 +13,11 @@ export function middleware(request) {
     url.startsWith(`${origin}/foster`) && role !== 'foster',
     url.startsWith(`${origin}/socialworker`) && role !== 'socialworker',
   ];
-  if (routes[0] || routes[1]) {
-    return NextResponse.redirect(`${origin}/${role}/dashboard`);
+
+  if (routes[0] || routes[1] || routes[2]) {
+    return NextResponse.redirect(
+      `${origin}/${role}/${role === 'socialworker' ? 'accounts' : 'dashboard'}`,
+    );
   }
 }
 
@@ -27,6 +30,6 @@ export const config = {
     '/foster/dashboard',
     '/foster/schedule',
     '/admin/history',
-    '/socialworker/dashboard',
+    '/socialworker/accounts',
   ],
 };

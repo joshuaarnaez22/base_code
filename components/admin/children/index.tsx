@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
-import { UserHeaders } from '@/services/helpers';
+import { childheaders, UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
 import AddOrphan from './AddOrphan';
 import ChildrenTable from './ChildrenTable';
@@ -27,18 +27,6 @@ const Childrens = ({ orphans }: any) => {
   useEffect(() => {
     setAllOrphans(orphans);
   }, [orphans]);
-
-  const children: any = [{ name: 'josh', age: 39 }];
-  const headers = [
-    {
-      id: 'name',
-      displayName: 'name',
-    },
-    {
-      id: 'age',
-      displayName: 'age',
-    },
-  ];
 
   const handleSearch = (e: any) => {
     const { value } = e.target;
@@ -57,6 +45,42 @@ const Childrens = ({ orphans }: any) => {
     setSelectSearch(event.target.value);
   };
 
+  const download = () => {
+    const outputData = [...allOrphans];
+    const mappedData: any = [];
+    outputData.forEach(
+      ({
+        firstname,
+        lastname,
+        gender,
+        age,
+        present_whereabouts,
+        moral,
+      }: any) => {
+        const data = {
+          firstname,
+          lastname,
+          gender,
+          age,
+          present_whereabouts,
+          moral,
+        };
+        mappedData.push({ ...data });
+      },
+    );
+    const header = [
+      [
+        'Firstname',
+        'Lastname',
+        'Gender',
+        'Age',
+        'Present Whereabouts',
+        'Moral',
+      ],
+    ];
+    const body = mappedData.map(Object.values);
+    pdfDownloader(header, body);
+  };
   return (
     <>
       <AddOrphan {...{ isOpen, onClose, type }} />
@@ -84,14 +108,14 @@ const Childrens = ({ orphans }: any) => {
         <Button onClick={onOpen}>Add Orphan</Button>
         {/* <Button onClick={update}>update User</Button> */}
 
-        <CsvDownloader datas={children} filename="csv" columns={headers}>
+        <CsvDownloader datas={allOrphans} filename="csv" columns={childheaders}>
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>
         </CsvDownloader>
         <Button
           bg="transparent"
-          //   onClick={download}
+          onClick={download}
           //   disabled={!users.length}
           leftIcon={<MdPictureAsPdf />}
         >
