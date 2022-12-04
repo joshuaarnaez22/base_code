@@ -15,7 +15,7 @@ import { FaFileCsv } from 'react-icons/fa';
 import { childheaders, UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
 import AddVisitation from '../../global/AddVisitation';
-import VisitTable from '@/components/global/VisitTable';
+import VisitTable from '../../global/VisitTable';
 
 const Visitation = ({ visits }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -121,7 +121,7 @@ const Visitation = ({ visits }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <VisitTable visits={allVisits} search={search} />
+      <VisitTable visits={allVisits} search={search} userType="foster" />
     </>
   );
 };

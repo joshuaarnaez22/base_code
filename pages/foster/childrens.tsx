@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { thinScollbar } from '@/components/Scrollbar';
+import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
-import Index from '@/components/foster/schedule';
-import { Box } from '@chakra-ui/react';
-import { thinScollbar } from '@/components/Scrollbar';
 import { allOrphans } from '@/services/orphans.service';
-
+import Childrens from '@/components/foster/children';
+import { useRouter } from 'next/router';
 export async function getServerSideProps() {
   const { orphan } = await allOrphans();
 
@@ -13,7 +13,7 @@ export async function getServerSideProps() {
     props: { orphan }, // will be passed to the page component as props
   };
 }
-const schedule: NextPageWithLayout = ({ orphan }: any) => {
+const children: NextPageWithLayout = ({ orphan }: any) => {
   return (
     <Box
       w="100%"
@@ -23,12 +23,13 @@ const schedule: NextPageWithLayout = ({ orphan }: any) => {
       sx={thinScollbar}
       p="20px"
     >
-      <Index orphans={orphan} />
+      <Childrens orphans={orphan} userType="foster" />
     </Box>
   );
 };
 
-schedule.getLayout = function getLayout(page: ReactElement) {
+children.getLayout = function getLayout(page: ReactElement) {
   return <Layout type="foster">{page}</Layout>;
 };
-export default schedule;
+
+export default children;

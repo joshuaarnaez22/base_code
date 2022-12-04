@@ -40,16 +40,6 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
   const toast = useToast();
 
-  //   const schema = yup.object().shape({
-  //     email: yup.string().email('Invalid Email').required('Email is required.'),
-  //     username: yup.string().required('Username is required.'),
-  //     role: yup.string().required('Role is required.'),
-  //     password: yup.string().required('Password is required.'),
-  //     confirm: yup
-  //       .string()
-  //       .required('Confirm Password is required.')
-  //       .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
-  //   });
   let schema;
 
   if (type === 'update') {

@@ -6,11 +6,16 @@ import { useRouter } from 'next/router';
 export default function FosterSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = ['/foster/dashboard', '/foster/schedule'];
+  const routerChoice = [
+    '/foster/dashboard',
+    '/foster/visitations',
+    '/foster/childrens',
+  ];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
     if (router.pathname === routerChoice[1]) setSelectedMenu(2);
+    if (router.pathname === routerChoice[2]) setSelectedMenu(3);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -77,6 +82,13 @@ export default function FosterSideMenu() {
           index={2}
           isSelected={selectedMenu == 2 ? true : false}
           route={routerChoice[1]}
+        />
+        <MenuOptions
+          title="Childrens"
+          icon={MdSchedule}
+          index={3}
+          isSelected={selectedMenu == 3 ? true : false}
+          route={routerChoice[2]}
         />
       </Flex>
     </Flex>

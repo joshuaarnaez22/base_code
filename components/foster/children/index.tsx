@@ -14,30 +14,34 @@ import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
 import { childheaders, UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
-import AddVisitation from '../../global/AddVisitation';
-import VisitTable from '@/components/global/VisitTable';
+import ChildrenTable from '@/components/global/ChildrenTable';
+import { useRouter } from 'next/router';
 
-const Visitation = ({ visits }: any) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const Childrens = ({ orphans, userType }: any) => {
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('firstname');
-  const [allVisits, setAllVisits] = useState(visits);
+  const [allOrphans, setAllOrphans] = useState(orphans);
+  const [userId, setUserId] = useState('');
 
+  const router = useRouter();
   useEffect(() => {
-    setAllVisits(visits);
-  }, [visits]);
+    if (router.query.id) setUserId(router.query.id as string);
+  }, [router]);
+  useEffect(() => {
+    setAllOrphans(orphans);
+  }, [orphans]);
 
   const handleSearch = (e: any) => {
     const { value } = e.target;
     if (!value) {
       setValue('');
-      setAllVisits(visits);
+      setAllOrphans(orphans);
     }
-    const filt = visits.filter((orphan: any) => {
+    const filt = orphans.filter((orphan: any) => {
       return orphan[selectSearch].toLowerCase().startsWith(value);
     });
     setValue(value);
-    setAllVisits(filt);
+    setAllOrphans(filt);
   };
 
   const selectionChanged = (event: any) => {
@@ -45,44 +49,43 @@ const Visitation = ({ visits }: any) => {
   };
 
   const download = () => {
-    // const outputData = [...allOrphans];
-    // const mappedData: any = [];
-    // outputData.forEach(
-    //   ({
-    //     firstname,
-    //     lastname,
-    //     gender,
-    //     age,
-    //     present_whereabouts,
-    //     moral,
-    //   }: any) => {
-    //     const data = {
-    //       firstname,
-    //       lastname,
-    //       gender,
-    //       age,
-    //       present_whereabouts,
-    //       moral,
-    //     };
-    //     mappedData.push({ ...data });
-    //   },
-    // );
-    // const header = [
-    //   [
-    //     'Firstname',
-    //     'Lastname',
-    //     'Gender',
-    //     'Age',
-    //     'Present Whereabouts',
-    //     'Moral',
-    //   ],
-    // ];
-    // const body = mappedData.map(Object.values);
-    // pdfDownloader(header, body);
+    const outputData = [...allOrphans];
+    const mappedData: any = [];
+    outputData.forEach(
+      ({
+        firstname,
+        lastname,
+        gender,
+        age,
+        present_whereabouts,
+        moral,
+      }: any) => {
+        const data = {
+          firstname,
+          lastname,
+          gender,
+          age,
+          present_whereabouts,
+          moral,
+        };
+        mappedData.push({ ...data });
+      },
+    );
+    const header = [
+      [
+        'Firstname',
+        'Lastname',
+        'Gender',
+        'Age',
+        'Present Whereabouts',
+        'Moral',
+      ],
+    ];
+    const body = mappedData.map(Object.values);
+    pdfDownloader(header, body);
   };
   return (
     <>
-      <AddVisitation {...{ isOpen, onClose }} type="add" />
       <Flex justify="space-between" w="100%">
         <Flex>
           <Select variant="normal" w="130px" onChange={selectionChanged}>
@@ -104,10 +107,8 @@ const Visitation = ({ visits }: any) => {
             />
           </InputGroup>
         </Flex>
-        <Button onClick={onOpen}>Add Visitation</Button>
-        {/* <Button onClick={update}>update User</Button> */}
 
-        <CsvDownloader datas={allVisits} filename="csv" columns={childheaders}>
+        <CsvDownloader datas={allOrphans} filename="csv" columns={childheaders}>
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>
@@ -121,9 +122,14 @@ const Visitation = ({ visits }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <VisitTable visits={allVisits} search={search} />
+      <ChildrenTable
+        orphans={allOrphans}
+        search={search}
+        userId={userId}
+        userType={userType}
+      />
     </>
   );
 };
 
-export default Visitation;
+export default Childrens;

@@ -14,9 +14,8 @@ import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
 import { childheaders, UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
-import AddOrphan from './AddOrphan';
-import ChildrenTable from './ChildrenTable';
-
+import AddOrphan from '../../global/AddOrphan';
+import ChildrenTable from '@/components/global/ChildrenTable';
 const Childrens = ({ orphans }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setValue] = useState<string>('');

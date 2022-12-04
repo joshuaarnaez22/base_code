@@ -46,7 +46,6 @@ const TableAccounts = ({ users, search }: any) => {
   const confirmDelete = async (confirm: boolean) => {
     if (confirm) {
       const response = await removeUser({ id: userDeleteId });
-      console.log(response);
       if (response.success) toastUI(1, response.message, 'Orphan Deleted');
       else toastUI(2, response.message, 'Someting went wrong');
       router.replace(router.asPath);
@@ -54,8 +53,8 @@ const TableAccounts = ({ users, search }: any) => {
   };
 
   //delete
-  const deleteAccount = (objectId: string) => {
-    setUserDeleteId(objectId);
+  const deleteAccount = (id: string) => {
+    setUserDeleteId(id);
     onOpenDelete();
   };
 
@@ -195,9 +194,7 @@ const TableAccounts = ({ users, search }: any) => {
                         <MenuItem onClick={() => handleUpdate(currentItem)}>
                           Update
                         </MenuItem>
-                        <MenuItem
-                          onClick={() => deleteAccount(currentItem._id)}
-                        >
+                        <MenuItem onClick={() => deleteAccount(currentItem.id)}>
                           Delete
                         </MenuItem>
                         <MenuItem onClick={() => handleView(currentItem)}>

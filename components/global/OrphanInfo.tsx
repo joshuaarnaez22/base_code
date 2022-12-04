@@ -18,8 +18,8 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react';
 
-import CalendarModal from '../../global/CalendarModal';
 import { useFormContext } from 'react-hook-form';
+import CalendarModal from './CalendarModal';
 
 const OrphanInfo = () => {
   const {

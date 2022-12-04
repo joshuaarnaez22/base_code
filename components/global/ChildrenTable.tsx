@@ -1,36 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { Capitalize } from '@/services/helpers';
+// import Pagination from '@/components/global/Pagination';
 import {
   TableContainer,
   Table,
-  TableCaption,
   Thead,
   Tr,
   Th,
   Tbody,
+  Td,
+  Menu,
+  MenuItem,
+  MenuButton,
+  IconButton,
+  MenuList,
+  useDisclosure,
   Flex,
   Avatar,
   Box,
-  Badge,
-  Td,
-  Menu,
-  MenuList,
-  MenuItem,
-  MenuButton,
   Text,
-  IconButton,
-  useDisclosure,
+  Badge,
+  TableCaption,
+  useToast,
+  Collapse,
 } from '@chakra-ui/react';
-import moment from 'moment';
 import { SlOptionsVertical } from 'react-icons/sl';
+
+import React, { useEffect, useState } from 'react';
 import Pagination from '@/components/global/Pagination';
-import AddOrphan from '@/components/admin/children/AddOrphan';
+import moment from 'moment';
+import { Capitalize } from '@/services/helpers';
+import Delete from '@/components/global/Delete';
+import AddOrphan from './AddOrphan';
+import { removeOrphan } from '@/services/orphans.service';
+import { useRouter } from 'next/router';
+import { selectOrphanWithVisit } from '@/services/user.service';
 
-const ScheduleTable = ({ orphans, search }: any) => {
+const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
+  const router = useRouter();
+  const toast = useToast();
+
+  const cancelRef = React.useRef();
+  const [orphanDeleteId, setOrphanDeleteId] = useState<string>('');
   const [type, setType] = useState('');
-  const [selectedUpdate, setSelectedUpdate] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedUpdate, setSelectedUpdate] = useState();
 
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
   //Pagination
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
@@ -45,25 +63,72 @@ const ScheduleTable = ({ orphans, search }: any) => {
     setItemOffset(0);
   }, [orphans]);
 
-  const scheduleUpdate = (id: string) => {
-    console.log(id);
+  //delete dialog
+  const confirmDelete = async (confirm: boolean) => {
+    if (confirm) {
+      const response = await removeOrphan({ id: orphanDeleteId });
+      if (response.success) toastUI(1, response.message, 'Orphan Deleted');
+      else toastUI(2, response.message, 'Someting went wrong');
+      router.replace(router.asPath);
+    }
   };
 
+  //delete
+  const deleteAccount = (objectId: string) => {
+    setOrphanDeleteId(objectId);
+    onOpenDelete();
+  };
+
+  //update
+  const handleUpdate = (data: any) => {
+    setType('update');
+    setSelectedUpdate(data);
+    onOpen();
+  };
+
+  //view
   const handleView = (data: any) => {
     setType('view');
     setSelectedUpdate(data);
     onOpen();
   };
+
+  const selectOrphan = async (orpanId: string) => {
+    try {
+      const response = await selectOrphanWithVisit({
+        id: VISITID,
+        orphan_id: orpanId,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toastUI = (type: number, description: string, title: string) => {
+    toast({
+      status: type == 1 ? 'success' : 'error',
+      variant: 'left-accent',
+      position: 'top-right',
+      isClosable: true,
+      title,
+      description: `${description}`,
+      duration: 5000,
+    });
+  };
   return (
     <>
       <AddOrphan {...{ isOpen, onClose, selectedUpdate, type }} />
-      <TableContainer
-        maxWidth="100%"
-        p="30px"
-        shadow="xl"
-        borderRadius="md"
-        mb="20px"
-      >
+      <Delete
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        name="Delete Orphan"
+        {...{
+          cancelRef,
+          confirmDelete,
+        }}
+      />
+      <TableContainer p="30px" shadow="xl" borderRadius="md" mb="20px" w="100%">
         <Table variant="striped">
           {!orphans.length && <TableCaption>No Accounts</TableCaption>}
           <Thead
@@ -160,14 +225,34 @@ const ScheduleTable = ({ orphans, search }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        <MenuItem
-                          onClick={() => scheduleUpdate(currentItem._id)}
-                        >
-                          Schedule Visit
-                        </MenuItem>
-                        <MenuItem onClick={() => handleView(currentItem)}>
-                          View Profile
-                        </MenuItem>
+                        {userType === 'foster' ? (
+                          <>
+                            <MenuItem onClick={() => handleView(currentItem)}>
+                              View Profile
+                            </MenuItem>
+                            {VISITID && (
+                              <MenuItem
+                                onClick={() => selectOrphan(currentItem.id)}
+                              >
+                                Select
+                              </MenuItem>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <MenuItem onClick={() => handleUpdate(currentItem)}>
+                              Update
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => deleteAccount(currentItem.id)}
+                            >
+                              Delete
+                            </MenuItem>
+                            <MenuItem onClick={() => handleView(currentItem)}>
+                              View Profile
+                            </MenuItem>
+                          </>
+                        )}
                       </MenuList>
                     </Menu>
                   </Td>
@@ -189,4 +274,4 @@ const ScheduleTable = ({ orphans, search }: any) => {
   );
 };
 
-export default ScheduleTable;
+export default React.memo(ChildrenTable);

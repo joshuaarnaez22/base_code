@@ -30,3 +30,7 @@ export const allHistory = `${LOCALDEV}/history/getAllHistory`;
 //visitation
 export const addVisitation = `${LOCALDEV}/visitation/addVisitation`;
 export const getAllVisitation = `${LOCALDEV}/visitation/getAllVisitation`;
+export const deleteVisitation = `${LOCALDEV}/visitation/deleteVisitation`;
+export const updateStatusVisitation = `${LOCALDEV}/visitation/updateStatusVisitation`;
+export const selectOrphan = `${LOCALDEV}/visitation/updateVisitationWithOrphan`;
+export const getAllVisitationForLoggedUser = `${LOCALDEV}/visitation/getAllVisitationForLoggedUser`;

@@ -1,3 +1,7 @@
+import jwt_decode from 'jwt-decode';
+import cookie from 'js-cookie';
+import { IUserId } from './types';
+
 export const UserHeaders = [
   {
     id: 'username',
@@ -54,4 +58,9 @@ export const childheaders = [
 ];
 export const Capitalize = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
+export const getUserLoginId = () => {
+  const { userID }: IUserId = jwt_decode(cookie.get('token') as any);
+  return userID;
 };

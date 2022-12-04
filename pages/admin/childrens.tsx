@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import Childrens from '@/components/admin/children';
 import { thinScollbar } from '@/components/Scrollbar';
-import { Box, Button } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
 import { allOrphans } from '@/services/orphans.service';

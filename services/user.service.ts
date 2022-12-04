@@ -11,6 +11,12 @@ import {
   allHistory,
   deleteUser,
   getAllVisitation,
+  addVisitation,
+  deleteVisitation,
+  updateUser,
+  updateStatusVisitation,
+  selectOrphan,
+  getAllVisitationForLoggedUser,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -20,6 +26,13 @@ export const createUser = async (payload: ILogin) => {
 
 export const allUser = async () => {
   const { data } = await instance.get(getAllUser);
+  return data;
+};
+
+export const userUpdate = async (payload: any) => {
+  const { data } = await instance.put(updateUser, payload);
+  console.log('==========', data);
+
   return data;
 };
 
@@ -51,18 +64,39 @@ export const histories = async () => {
   return data;
 };
 
-export const removeUser = async ({ payload }: any) => {
+export const removeUser = async (payload: any) => {
   const { data } = await instance.put(deleteUser, payload);
   return data;
 };
 
 //visitation
-export const addVisit = async ({ payload }: any) => {
-  const { data } = await instance.put(deleteUser, payload);
+export const addVisit = async (payload: any) => {
+  console.log(payload);
+  const { data } = await instance.post(addVisitation, payload);
   return data;
 };
 
 export const getAllVisit = async () => {
   const { data } = await instance.get(getAllVisitation);
+  return data;
+};
+
+export const removeVisit = async (payload: any) => {
+  const { data } = await instance.put(deleteVisitation, payload);
+  return data;
+};
+
+export const statusUpdate = async (payload: any) => {
+  const { data } = await instance.put(updateStatusVisitation, payload);
+  return data;
+};
+
+export const selectOrphanWithVisit = async (payload: any) => {
+  const { data } = await instance.put(selectOrphan, payload);
+  return data;
+};
+
+export const getAllVisitationForUser = async (payload: any) => {
+  const { data } = await instance.post(getAllVisitationForLoggedUser, payload);
   return data;
 };

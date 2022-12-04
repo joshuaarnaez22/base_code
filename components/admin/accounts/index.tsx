@@ -28,18 +28,10 @@ const Accounts = ({ users }: any) => {
     setAllUsers(users);
   }, [users]);
 
-  const handleSearch = (e: any) => {
-    const { value } = e.target;
-    if (!value) {
-      setValue('');
-      setAllUsers(users);
-    }
-    const filt = users.filter((user: any) => {
-      return user[selectSearch].toLowerCase().startsWith(value);
-    });
-    setValue(value);
-    setAllUsers(filt);
-  };
+  const filteredUser = allUser.filter((user: any) => {
+    return user[selectSearch].toLowerCase().startsWith(search.toLowerCase());
+  });
+
   const selectionChanged = (e: any) => {
     setSelectSearch(e.target.value);
   };
@@ -81,7 +73,7 @@ const Accounts = ({ users }: any) => {
               shadow="sm"
               variant="search"
               value={search}
-              onChange={handleSearch}
+              onChange={(e) => setValue(e.target.value)}
             />
           </InputGroup>
         </Flex>
@@ -105,14 +97,7 @@ const Accounts = ({ users }: any) => {
           Download Pdf
         </Button>
       </Flex>
-
-      {/* {!isLoading ? ( */}
-      <TableAccounts users={allUser} search={search} />
-      {/* ) : (
-        <Flex h="75vh" align="center" justify="center">
-          <Loader size="24" color="gray" thickness="3px" />
-        </Flex>
-      )} */}
+      <TableAccounts users={filteredUser} search={search} />
     </>
   );
 };

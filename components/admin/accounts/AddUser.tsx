@@ -25,7 +25,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { thinnerScollbar } from '@/components/Scrollbar';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { createUser } from '@/services/user.service';
+import { createUser, userUpdate } from '@/services/user.service';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -40,16 +40,30 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
   const toast = useToast();
 
-  const schema = yup.object().shape({
-    email: yup.string().email('Invalid Email').required('Email is required.'),
-    username: yup.string().required('Username is required.'),
-    role: yup.string().required('Role is required.'),
-    password: yup.string().required('Password is required.'),
-    confirm: yup
-      .string()
-      .required('Confirm Password is required.')
-      .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
-  });
+  let schema;
+  if (type === 'update') {
+    schema = yup.object().shape({
+      email: yup.string().email('Invalid Email').notRequired(),
+      username: yup.string().notRequired(),
+      role: yup.string().notRequired(),
+      password: yup.string().notRequired(),
+      confirm: yup
+        .string()
+        .notRequired()
+        .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
+    });
+  } else {
+    schema = yup.object().shape({
+      email: yup.string().email('Invalid Email').required('Email is required.'),
+      username: yup.string().required('Username is required.'),
+      role: yup.string().required('Role is required.'),
+      password: yup.string().required('Password is required.'),
+      confirm: yup
+        .string()
+        .required('Confirm Password is required.')
+        .oneOf([yup.ref('password'), null], 'Passwords do not match.'),
+    });
+  }
 
   const {
     register,
@@ -71,18 +85,47 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       });
     }
   }, [selectedUpdate]);
+
+  const updateUser = async (userData: any) => {
+    const payload = {
+      ...userData,
+      id: selectedUpdate.id,
+      changePassword: userData.password ? true : false,
+      newPassword: userData.password,
+      type: 'admin',
+    };
+    delete payload.confirm;
+    delete payload.password;
+    // const { success, message } = await userUpdate(payload);
+    const rsponse = await userUpdate(payload);
+    console.log(rsponse);
+
+    // if (success) {
+    //   toastUI(1, message, 'Success');
+    // } else {
+    //   toastUI(2, message, 'Something went wrong');
+    // }
+    reset();
+    router.replace('/admin/accounts');
+    onClose();
+  };
+
+  const addUser = async (data: any) => {
+    const { success, message } = await createUser(data);
+    if (!success && message === 'User name or Email already exists ') {
+      toastUI(2, message, 'Already exists');
+    }
+    if (success && message === 'Account Registered successfully') {
+      toastUI(1, message, 'Account created.');
+      reset();
+      router.replace('/admin/accounts');
+      onClose();
+    }
+  };
   const onSubmit = async (data: any) => {
     try {
-      const { success, message } = await createUser(data);
-      if (!success && message === 'User name or Email already exists ') {
-        toastUI(2, message, 'Already exists');
-      }
-      if (success && message === 'Account Registered successfully') {
-        toastUI(1, message, 'Account created.');
-        // reset();
-        router.replace('/admin/accounts');
-        onClose();
-      }
+      if (type === 'add') return await addUser(data);
+      if (type === 'update') return await updateUser(data);
     } catch (error) {
       console.log(error);
     }
@@ -181,7 +224,7 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
               {type !== 'view' && (
                 <>
                   <FormControl>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <InputGroup>
                       <Input
                         placeholder="Password"
@@ -267,7 +310,8 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                 Cancel
               </Button>
               <Button colorScheme="blue" onClick={handleSubmit(onSubmit)}>
-                Create User
+                {type === 'update' && 'Update User'}
+                {type === 'add' && 'Create User'}
               </Button>
             </>
           )}

@@ -15,12 +15,16 @@ import {
   ModalOverlay,
   Stack,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import * as yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import CalendarModal from '@/components/global/CalendarModal';
 import { allOrphans } from '@/services/orphans.service';
+import { getUserLoginId } from '@/services/helpers';
+import { addVisit } from '@/services/user.service';
+import { useRouter } from 'next/router';
+import CalendarModal from './CalendarModal';
 
 const schema = yup.object().shape({
   purpose: yup.string().required('Puspose is required.'),
@@ -28,6 +32,8 @@ const schema = yup.object().shape({
 });
 
 const AddVisitation = ({ isOpen, onClose }: any) => {
+  const toast = useToast();
+  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(schema),
   });
@@ -41,13 +47,34 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
   } = methods;
 
   const onSubmit = async (data: any) => {
-    console.log(data);
+    try {
+      const user_id = getUserLoginId();
+      const payload = { ...data, user_id, date: data.visit_date };
+      delete payload.visit_date;
+      const response = await addVisit(payload);
+      if (response.success) toastUI(1, response.message, 'Orphan Added');
+      else toastUI(2, response.message, 'Someting went wrong');
+      onClose();
+      router.replace(router.asPath);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const toastUI = (type: number, description: string, title: string) => {
+    toast({
+      status: type == 1 ? 'success' : 'error',
+      variant: 'left-accent',
+      position: 'top-right',
+      isClosable: true,
+      title,
+      description: `${description}`,
+      duration: 5000,
+    });
+  };
   useEffect(() => {
     reset();
   }, [isOpen]);
-  console.log(errors);
 
   // useEffect(() => {
   //   getAllOrphans();
