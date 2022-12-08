@@ -9,13 +9,13 @@ export default function FosterSideMenu() {
   const routerChoice = [
     '/foster/dashboard',
     '/foster/visitations',
-    '/foster/childrens',
+    // '/foster/childrens',
   ];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
     if (router.pathname === routerChoice[1]) setSelectedMenu(2);
-    if (router.pathname === routerChoice[2]) setSelectedMenu(3);
+    // if (router.pathname === routerChoice[2]) setSelectedMenu(3);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -83,13 +83,13 @@ export default function FosterSideMenu() {
           isSelected={selectedMenu == 2 ? true : false}
           route={routerChoice[1]}
         />
-        <MenuOptions
+        {/* <MenuOptions
           title="Childrens"
           icon={MdSchedule}
           index={3}
           isSelected={selectedMenu == 3 ? true : false}
           route={routerChoice[2]}
-        />
+        /> */}
       </Flex>
     </Flex>
   );

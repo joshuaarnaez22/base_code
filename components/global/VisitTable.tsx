@@ -92,11 +92,11 @@ const VisitTable = ({ visits, search, userType }: any) => {
   }, [visits]);
 
   // //update
-  // const handleUpdate = (data: any) => {
-  //   setType('update');
-  //   setSelectedUpdate(data);
-  //   onOpen();
-  // };
+  const handleUpdate = (data: any) => {
+    setType('update');
+    setSelectedUpdate(data);
+    onOpen();
+  };
 
   // //view
   // const handleView = (data: any) => {
@@ -112,8 +112,8 @@ const VisitTable = ({ visits, search, userType }: any) => {
 
   const orphanSelect = (id: string) => {
     router.push(
-      { pathname: '/foster/childrens', query: { id } },
-      '/foster/childrens',
+      { pathname: '/admin/childrens', query: { id } },
+      '/admin/childrens',
     );
   };
   const toastUI = (type: number, description: string, title: string) => {
@@ -243,13 +243,6 @@ const VisitTable = ({ visits, search, userType }: any) => {
                         ></MenuButton>
                         <MenuList minWidth="180px">
                           <MenuItem>Update</MenuItem>
-                          {currentItem.status === 'approved' && (
-                            <MenuItem
-                              onClick={() => orphanSelect(currentItem.id)}
-                            >
-                              Select Orphan
-                            </MenuItem>
-                          )}
                         </MenuList>
                       </Menu>
                     ) : (
@@ -269,9 +262,9 @@ const VisitTable = ({ visits, search, userType }: any) => {
                           icon={<SlOptionsVertical />}
                         ></MenuButton>
                         <MenuList minWidth="180px">
-                          {/* <MenuItem onClick={() => handleUpdate(currentItem)}>
-                          Update
-                        </MenuItem> */}
+                          <MenuItem onClick={() => handleUpdate(currentItem)}>
+                            Update
+                          </MenuItem>
                           <MenuItem
                             onClick={() => deleteAccount(currentItem.id)}
                           >

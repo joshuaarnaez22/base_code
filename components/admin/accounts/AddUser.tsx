@@ -10,7 +10,6 @@ import {
   Collapse,
   Input,
   FormControl,
-  Select,
   FormLabel,
   Stack,
   FormHelperText,
@@ -18,6 +17,7 @@ import {
   InputRightElement,
   Icon,
   useToast,
+  Flex,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,7 +27,8 @@ import { thinnerScollbar } from '@/components/Scrollbar';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { createUser, userUpdate } from '@/services/user.service';
 import { useRouter } from 'next/router';
-
+import { Select } from 'chakra-react-select';
+import { Capitalize } from '@/services/helpers';
 interface Props {
   isOpen: any;
   onClose: any;
@@ -39,10 +40,12 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const [password, showPassword] = useState<boolean>(false);
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
   const toast = useToast();
-
+  const [role, setRole] = useState({ label: '', value: '' });
   let schema;
   if (type === 'update') {
     schema = yup.object().shape({
+      firstname: yup.string().notRequired(),
+      lastname: yup.string().notRequired(),
       email: yup.string().email('Invalid Email').notRequired(),
       username: yup.string().notRequired(),
       role: yup.string().notRequired(),
@@ -54,6 +57,8 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     });
   } else {
     schema = yup.object().shape({
+      firstname: yup.string().required('Firstname is required.'),
+      lastname: yup.string().required('Lastname is required.'),
       email: yup.string().email('Invalid Email').required('Email is required.'),
       username: yup.string().required('Username is required.'),
       role: yup.string().required('Role is required.'),
@@ -69,22 +74,30 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
   useEffect(() => {
     if (selectedUpdate) {
+      setRole({
+        label: Capitalize(selectedUpdate.role),
+        value: selectedUpdate.role,
+      });
       reset({
         email: selectedUpdate.email,
         username: selectedUpdate.username,
-        role: selectedUpdate.role,
         password: '',
         confirm: '',
       });
     }
   }, [selectedUpdate]);
+
+  useEffect(() => {
+    reset();
+  }, [isOpen]);
 
   const updateUser = async (userData: any) => {
     const payload = {
@@ -96,15 +109,8 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     };
     delete payload.confirm;
     delete payload.password;
-    // const { success, message } = await userUpdate(payload);
-    const rsponse = await userUpdate(payload);
-    console.log(rsponse);
-
-    // if (success) {
-    //   toastUI(1, message, 'Success');
-    // } else {
-    //   toastUI(2, message, 'Something went wrong');
-    // }
+    await userUpdate(payload);
+    toastUI(1, 'User successfully updated', 'Success');
     reset();
     router.replace('/admin/accounts');
     onClose();
@@ -131,6 +137,11 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     }
   };
 
+  const change = (e: any) => {
+    setValue('role', e.value, { shouldValidate: true, shouldDirty: true });
+    setRole({ label: e.label, value: e.value });
+  };
+
   const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
@@ -150,7 +161,7 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       isCentered
     >
       <ModalOverlay />
-      <ModalContent maxH="90vh" overflowY="auto" sx={thinnerScollbar}>
+      <ModalContent overflowY="auto" sx={thinnerScollbar} maxW="55%">
         <ModalHeader>
           {type === 'add' && 'Add Account'}
           {type === 'view' && 'View Account'}
@@ -160,145 +171,211 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         <ModalBody>
           <form>
             <Stack gap="3">
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  placeholder="Email"
-                  autoComplete="off"
-                  _placeholder={{
-                    color: 'white',
-                    opacity: '.5',
-                    fontFamily: 'robo',
-                    fontSize: 'SubHeader.lg',
-                  }}
-                  {...register('email')}
-                />
-                <Collapse in={errors.email ? true : false}>
-                  {errors.email && (
-                    <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.email.message as string}
-                    </FormHelperText>
-                  )}
-                </Collapse>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Username</FormLabel>
-                <Input
-                  placeholder="Username"
-                  autoComplete="off"
-                  _placeholder={{
-                    color: 'white',
-                    opacity: '.5',
-                    fontFamily: 'robo',
-                    fontSize: 'SubHeader.lg',
-                  }}
-                  {...register('username')}
-                />
-                <Collapse in={errors.username ? true : false}>
-                  {errors.username && (
-                    <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.username.message as string}
-                    </FormHelperText>
-                  )}
-                </Collapse>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Role</FormLabel>
-                <Select
-                  placeholder="Select Role"
-                  variant="normal"
-                  {...register('role')}
-                >
-                  <option value="admin">Admin</option>
-                  <option value="foster">Foster</option>
-                  <option value="socialworker">Social Worker</option>
-                </Select>
-                <Collapse in={errors.role ? true : false}>
-                  {errors.role && (
-                    <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.role.message as string}
-                    </FormHelperText>
-                  )}
-                </Collapse>
-              </FormControl>
-              {type !== 'view' && (
-                <>
-                  <FormControl>
-                    <FormLabel>Password</FormLabel>
-                    <InputGroup>
-                      <Input
-                        placeholder="Password"
-                        autoComplete="off"
-                        type={password ? 'text' : 'password'}
-                        _placeholder={{
-                          color: 'white',
-                          opacity: '.5',
-                          fontFamily: 'robo',
-                          fontSize: 'SubHeader.lg',
-                        }}
-                        {...register('password')}
-                      />
+              <Flex gap="3">
+                <FormControl isInvalid={!!errors.role} id="role" zIndex="9">
+                  <FormLabel>Role</FormLabel>
+                  <Select
+                    {...register('role')}
+                    name="role"
+                    onChange={change}
+                    selectedOptionStyle="check"
+                    colorScheme="blue"
+                    value={role}
+                    options={[
+                      {
+                        label: 'Admin',
+                        value: 'admin',
+                      },
+                      {
+                        label: 'Foster',
+                        value: 'foster',
+                      },
+                      {
+                        label: 'Social Worker',
+                        value: 'socialworker',
+                      },
+                      {
+                        label: 'Volunteer',
+                        value: 'volunteer',
+                      },
+                    ]}
+                  />
+                  <Collapse in={errors.role ? true : false}>
+                    {errors.role && (
+                      <FormHelperText fontSize="SubHeader.md" color="red">
+                        {errors.role.message as string}
+                      </FormHelperText>
+                    )}
+                  </Collapse>
+                </FormControl>
+                <FormControl isInvalid={errors.firstname ? true : false}>
+                  <FormLabel>Firstname</FormLabel>
+                  <Input
+                    placeholder="Firstname"
+                    autoComplete="off"
+                    _placeholder={{
+                      color: 'white',
+                      opacity: '.5',
+                      fontFamily: 'robo',
+                      fontSize: 'SubHeader.lg',
+                    }}
+                    {...register('firstname')}
+                  />
+                  <Collapse in={errors.firstname ? true : false}>
+                    {errors.firstname && (
+                      <FormHelperText fontSize="SubHeader.md" color="red">
+                        {errors.firstname.message as string}
+                      </FormHelperText>
+                    )}
+                  </Collapse>
+                </FormControl>
+              </Flex>
+              <Flex gap="3">
+                <FormControl isInvalid={errors.lastname ? true : false}>
+                  <FormLabel>Lastname</FormLabel>
+                  <Input
+                    placeholder="Lastname"
+                    autoComplete="off"
+                    _placeholder={{
+                      color: 'white',
+                      opacity: '.5',
+                      fontFamily: 'robo',
+                      fontSize: 'SubHeader.lg',
+                    }}
+                    {...register('lastname')}
+                  />
+                  <Collapse in={errors.lastname ? true : false}>
+                    {errors.lastname && (
+                      <FormHelperText fontSize="SubHeader.md" color="red">
+                        {errors.lastname.message as string}
+                      </FormHelperText>
+                    )}
+                  </Collapse>
+                </FormControl>
+                <FormControl isInvalid={errors.email ? true : false}>
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    placeholder="Email"
+                    autoComplete="off"
+                    _placeholder={{
+                      color: 'white',
+                      opacity: '.5',
+                      fontFamily: 'robo',
+                      fontSize: 'SubHeader.lg',
+                    }}
+                    {...register('email')}
+                  />
+                  <Collapse in={errors.email ? true : false}>
+                    {errors.email && (
+                      <FormHelperText fontSize="SubHeader.md" color="red">
+                        {errors.email.message as string}
+                      </FormHelperText>
+                    )}
+                  </Collapse>
+                </FormControl>
+              </Flex>
+              <Flex gap="3">
+                <FormControl isInvalid={errors.username ? true : false}>
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    placeholder="Username"
+                    autoComplete="off"
+                    _placeholder={{
+                      color: 'white',
+                      opacity: '.5',
+                      fontFamily: 'robo',
+                      fontSize: 'SubHeader.lg',
+                    }}
+                    {...register('username')}
+                  />
+                  <Collapse in={errors.username ? true : false}>
+                    {errors.username && (
+                      <FormHelperText fontSize="SubHeader.md" color="red">
+                        {errors.username.message as string}
+                      </FormHelperText>
+                    )}
+                  </Collapse>
+                </FormControl>
 
-                      <InputRightElement>
-                        <Icon
-                          onClick={() => showPassword(!password)}
-                          as={password ? FiEye : FiEyeOff}
-                          color="black"
-                          _hover={{
-                            cursor: 'pointer',
-                            transform: 'scale(1.1)',
-                            transition: 'all 1s ease',
+                {type !== 'view' && (
+                  <>
+                    <FormControl isInvalid={errors.password ? true : false}>
+                      <FormLabel>Password</FormLabel>
+                      <InputGroup>
+                        <Input
+                          placeholder="Password"
+                          autoComplete="off"
+                          type={password ? 'text' : 'password'}
+                          _placeholder={{
+                            color: 'white',
+                            opacity: '.5',
+                            fontFamily: 'robo',
+                            fontSize: 'SubHeader.lg',
                           }}
+                          {...register('password')}
                         />
-                      </InputRightElement>
-                    </InputGroup>
-                    <Collapse in={errors.password ? true : false}>
-                      {errors.password && (
-                        <FormHelperText fontSize="SubHeader.md" color="red">
-                          {errors.password.message as string}
-                        </FormHelperText>
-                      )}
-                    </Collapse>
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <InputGroup>
-                      <Input
-                        placeholder="Confirm Password"
-                        autoComplete="off"
-                        type={confirmPass ? 'text' : 'password'}
-                        _placeholder={{
-                          color: 'white',
-                          opacity: '.5',
-                          fontFamily: 'robo',
-                          fontSize: 'SubHeader.lg',
-                        }}
-                        {...register('confirm')}
-                      />
 
-                      <InputRightElement>
-                        <Icon
-                          onClick={() => showConfirmPass(!confirmPass)}
-                          as={confirmPass ? FiEye : FiEyeOff}
-                          color="black"
-                          _hover={{
-                            cursor: 'pointer',
-                            transform: 'scale(1.1)',
-                            transition: 'all 1s ease',
+                        <InputRightElement>
+                          <Icon
+                            onClick={() => showPassword(!password)}
+                            as={password ? FiEye : FiEyeOff}
+                            color="black"
+                            _hover={{
+                              cursor: 'pointer',
+                              transform: 'scale(1.1)',
+                              transition: 'all 1s ease',
+                            }}
+                          />
+                        </InputRightElement>
+                      </InputGroup>
+                      <Collapse in={errors.password ? true : false}>
+                        {errors.password && (
+                          <FormHelperText fontSize="SubHeader.md" color="red">
+                            {errors.password.message as string}
+                          </FormHelperText>
+                        )}
+                      </Collapse>
+                    </FormControl>
+                    <FormControl isInvalid={errors.confirm ? true : false}>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <InputGroup>
+                        <Input
+                          placeholder="Confirm Password"
+                          autoComplete="off"
+                          type={confirmPass ? 'text' : 'password'}
+                          _placeholder={{
+                            color: 'white',
+                            opacity: '.5',
+                            fontFamily: 'robo',
+                            fontSize: 'SubHeader.lg',
                           }}
+                          {...register('confirm')}
                         />
-                      </InputRightElement>
-                    </InputGroup>
-                    <Collapse in={errors.confirm ? true : false}>
-                      {errors.confirm && (
-                        <FormHelperText fontSize="SubHeader.md" color="red">
-                          {errors.confirm.message as string}
-                        </FormHelperText>
-                      )}
-                    </Collapse>
-                  </FormControl>
-                </>
-              )}
+
+                        <InputRightElement>
+                          <Icon
+                            onClick={() => showConfirmPass(!confirmPass)}
+                            as={confirmPass ? FiEye : FiEyeOff}
+                            color="black"
+                            _hover={{
+                              cursor: 'pointer',
+                              transform: 'scale(1.1)',
+                              transition: 'all 1s ease',
+                            }}
+                          />
+                        </InputRightElement>
+                      </InputGroup>
+                      <Collapse in={errors.confirm ? true : false}>
+                        {errors.confirm && (
+                          <FormHelperText fontSize="SubHeader.md" color="red">
+                            {errors.confirm.message as string}
+                          </FormHelperText>
+                        )}
+                      </Collapse>
+                    </FormControl>
+                  </>
+                )}
+              </Flex>
             </Stack>
           </form>
         </ModalBody>
@@ -309,7 +386,11 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
               <Button colorScheme="gray" mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="blue" onClick={handleSubmit(onSubmit)}>
+              <Button
+                colorScheme="blue"
+                onClick={handleSubmit(onSubmit)}
+                isLoading={isSubmitting}
+              >
                 {type === 'update' && 'Update User'}
                 {type === 'add' && 'Create User'}
               </Button>

@@ -34,7 +34,7 @@ import { removeOrphan } from '@/services/orphans.service';
 import { useRouter } from 'next/router';
 import { selectOrphanWithVisit } from '@/services/user.service';
 
-const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
+const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
   const router = useRouter();
   const toast = useToast();
 
@@ -95,11 +95,13 @@ const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
 
   const selectOrphan = async (orpanId: string) => {
     try {
-      const response = await selectOrphanWithVisit({
+      await selectOrphanWithVisit({
         id: VISITID,
         orphan_id: orpanId,
       });
-      console.log(response);
+      toastUI(1, 'Selected Success', 'Success');
+
+      router.push('/admin/visitations');
     } catch (error) {
       console.log(error);
     }
@@ -225,34 +227,31 @@ const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        {userType === 'foster' ? (
-                          <>
-                            <MenuItem onClick={() => handleView(currentItem)}>
-                              View Profile
-                            </MenuItem>
-                            {VISITID && (
-                              <MenuItem
-                                onClick={() => selectOrphan(currentItem.id)}
-                              >
-                                Select
-                              </MenuItem>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            <MenuItem onClick={() => handleUpdate(currentItem)}>
-                              Update
-                            </MenuItem>
+                        <>
+                          {VISITID ? (
                             <MenuItem
-                              onClick={() => deleteAccount(currentItem.id)}
+                              onClick={() => selectOrphan(currentItem.id)}
                             >
-                              Delete
+                              Select
                             </MenuItem>
-                            <MenuItem onClick={() => handleView(currentItem)}>
-                              View Profile
-                            </MenuItem>
-                          </>
-                        )}
+                          ) : (
+                            <>
+                              <MenuItem
+                                onClick={() => handleUpdate(currentItem)}
+                              >
+                                Update
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() => deleteAccount(currentItem.id)}
+                              >
+                                Delete
+                              </MenuItem>
+                              <MenuItem onClick={() => handleView(currentItem)}>
+                                View Profile
+                              </MenuItem>
+                            </>
+                          )}
+                        </>
                       </MenuList>
                     </Menu>
                   </Td>

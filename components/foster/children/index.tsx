@@ -122,12 +122,7 @@ const Childrens = ({ orphans, userType }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <ChildrenTable
-        orphans={allOrphans}
-        search={search}
-        userId={userId}
-        userType={userType}
-      />
+      <ChildrenTable orphans={allOrphans} search={search} />
     </>
   );
 };

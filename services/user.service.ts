@@ -17,6 +17,10 @@ import {
   updateStatusVisitation,
   selectOrphan,
   getAllVisitationForLoggedUser,
+  getAllActiveOrphanApi,
+  addMonitoring,
+  getAllMonitoring,
+  deleteMonitoring,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -98,5 +102,27 @@ export const selectOrphanWithVisit = async (payload: any) => {
 
 export const getAllVisitationForUser = async (payload: any) => {
   const { data } = await instance.post(getAllVisitationForLoggedUser, payload);
+  return data;
+};
+
+export const getAllActiveChild = async () => {
+  const { data } = await instance.get(getAllActiveOrphanApi);
+  return data;
+};
+
+export const addMonitoringOrphans = async (payload: any) => {
+  const { data } = await instance.post(addMonitoring, payload);
+  return data;
+};
+
+export const getAllOrphans = async () => {
+  const { data } = await instance.get(getAllMonitoring);
+  return data;
+};
+
+export const deleteMonitor = async (payload: any) => {
+  console.log(payload);
+
+  const { data } = await instance.put(deleteMonitoring, payload);
   return data;
 };

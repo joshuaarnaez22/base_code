@@ -28,4 +28,5 @@ export interface ILogin {
 }
 export interface IUserId {
   userID: string;
+  userId: string;
 }

@@ -25,13 +25,16 @@ import { getUserLoginId } from '@/services/helpers';
 import { addVisit } from '@/services/user.service';
 import { useRouter } from 'next/router';
 import CalendarModal from './CalendarModal';
+import moment from 'moment';
 
 const schema = yup.object().shape({
   purpose: yup.string().required('Puspose is required.'),
   visit_date: yup.string().required('Visitation Date is required.'),
 });
 
-const AddVisitation = ({ isOpen, onClose }: any) => {
+const AddVisitation = ({ isOpen, onClose, selectedUpdate, type }: any) => {
+  console.log(selectedUpdate);
+
   const toast = useToast();
   const router = useRouter();
   const methods = useForm({
@@ -76,6 +79,16 @@ const AddVisitation = ({ isOpen, onClose }: any) => {
     reset();
   }, [isOpen]);
 
+  useEffect(() => {
+    if (selectedUpdate) {
+      reset({
+        purpose: selectedUpdate.purpose,
+        visit_date: moment(new Date(selectedUpdate.dateAdded))
+          .utc()
+          .format('YYYY-MM-DD'),
+      });
+    }
+  }, [selectedUpdate]);
   // useEffect(() => {
   //   getAllOrphans();
   // }, []);

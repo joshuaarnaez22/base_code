@@ -7,6 +7,7 @@ export const pdfDownloader = (header: any, body: any) => {
     head: header,
     body: body,
   });
+  console.log(doc);
 
   // for (let index = 0; index < 5; index++) {
   //   doc.addPage();

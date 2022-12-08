@@ -90,9 +90,12 @@ const Select: ComponentStyleConfig = {
       field: {
         border: '1px solid',
         borderColor: 'gray300',
-        '> option, > optgroup': {
-          // bg: 'blue',
-        },
+        // '> option': {
+        //   h: '30px',
+        // },
+        // '> option, > optgroup': {
+        //   borderRadius: '5px',
+        // },
         // _hover: {
         //   borderColor: 'gray400',
         // },

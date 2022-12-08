@@ -50,6 +50,8 @@ const Accounts = ({ users }: any) => {
     });
     const header = [['Email', 'Username', 'Role', 'status']];
     const body = mappedDate.map(Object.values);
+    console.log(body);
+
     pdfDownloader(header, body);
   };
 

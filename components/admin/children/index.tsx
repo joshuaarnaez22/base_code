@@ -16,12 +16,20 @@ import { childheaders, UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
 import AddOrphan from '../../global/AddOrphan';
 import ChildrenTable from '@/components/global/ChildrenTable';
+import { useRouter } from 'next/router';
+
 const Childrens = ({ orphans }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('firstname');
   const [allOrphans, setAllOrphans] = useState(orphans);
   const [type] = useState('add');
+  const router = useRouter();
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    if (router.query.id) setUserId(router.query.id as string);
+  }, [router]);
 
   useEffect(() => {
     setAllOrphans(orphans);
@@ -121,7 +129,7 @@ const Childrens = ({ orphans }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <ChildrenTable orphans={allOrphans} search={search} />
+      <ChildrenTable orphans={allOrphans} search={search} userId={userId} />
     </>
   );
 };

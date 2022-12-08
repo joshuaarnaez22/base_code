@@ -29,8 +29,9 @@ export const config = {
     '/admin/visitations',
     '/foster/dashboard',
     '/foster/schedule',
-    '/foster/childrens',
+    // '/foster/childrens',
     '/admin/history',
+    '/admin/monitoring',
     '/socialworker/accounts',
   ],
 };
