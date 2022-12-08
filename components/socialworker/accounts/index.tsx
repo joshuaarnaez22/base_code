@@ -61,6 +61,7 @@ const Accounts = ({ users }: any) => {
     const header = [['Email', 'Username', 'Role', 'status']];
     const body = mappedDate.map(Object.values);
     pdfDownloader(header, body);
+    window.location.reload();
   };
 
   return (

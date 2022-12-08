@@ -87,6 +87,7 @@ const Childrens = ({ orphans }: any) => {
     ];
     const body = mappedData.map(Object.values);
     pdfDownloader(header, body);
+    window.location.reload();
   };
   return (
     <>

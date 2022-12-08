@@ -83,6 +83,7 @@ const Childrens = ({ orphans, userType }: any) => {
     ];
     const body = mappedData.map(Object.values);
     pdfDownloader(header, body);
+    window.location.reload();
   };
   return (
     <>
