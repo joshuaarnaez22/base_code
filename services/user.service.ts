@@ -21,6 +21,8 @@ import {
   addMonitoring,
   getAllMonitoring,
   deleteMonitoring,
+  updateOrphan,
+  addinquiry,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -124,5 +126,15 @@ export const deleteMonitor = async (payload: any) => {
   console.log(payload);
 
   const { data } = await instance.put(deleteMonitoring, payload);
+  return data;
+};
+
+export const updateOrphanFunc = async (payload: any) => {
+  const { data } = await instance.put(updateOrphan, payload);
+  return data;
+};
+
+export const inquiryAdd = async (payload: any) => {
+  const { data } = await instance.post(addinquiry, payload);
   return data;
 };

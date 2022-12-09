@@ -7,7 +7,7 @@ import {
 } from 'react-icons/md';
 import { IoIosPeople } from 'react-icons/io';
 import { RiFileHistoryLine } from 'react-icons/ri';
-
+import { BsQuestionSquareFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 export default function AdminSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
@@ -18,6 +18,7 @@ export default function AdminSideMenu() {
     '/admin/childrens',
     '/admin/visitations',
     '/admin/monitoring',
+    '/admin/inquiries',
   ];
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function AdminSideMenu() {
     if (router.pathname === routerChoice[2]) setSelectedMenu(3);
     if (router.pathname === routerChoice[3]) setSelectedMenu(4);
     if (router.pathname === routerChoice[4]) setSelectedMenu(5);
+    if (router.pathname === routerChoice[5]) setSelectedMenu(6);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -113,6 +115,13 @@ export default function AdminSideMenu() {
           index={5}
           isSelected={selectedMenu == 5 ? true : false}
           route={routerChoice[4]}
+        />
+        <MenuOptions
+          title="Inquiries"
+          icon={BsQuestionSquareFill}
+          index={6}
+          isSelected={selectedMenu == 6 ? true : false}
+          route={routerChoice[5]}
         />
       </Flex>
     </Flex>

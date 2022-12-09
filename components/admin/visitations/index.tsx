@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
-import { childheaders, UserHeaders } from '@/services/helpers';
+import { visitHeader } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
 import AddVisitation from '../../global/AddVisitation';
 import VisitTable from '@/components/global/VisitTable';
@@ -45,50 +45,38 @@ const Visitation = ({ visits }: any) => {
   };
 
   const download = () => {
-    // const outputData = [...allOrphans];
-    // const mappedData: any = [];
-    // outputData.forEach(
-    //   ({
-    //     firstname,
-    //     lastname,
-    //     gender,
-    //     age,
-    //     present_whereabouts,
-    //     moral,
-    //   }: any) => {
-    //     const data = {
-    //       firstname,
-    //       lastname,
-    //       gender,
-    //       age,
-    //       present_whereabouts,
-    //       moral,
-    //     };
-    //     mappedData.push({ ...data });
-    //   },
-    // );
-    // const header = [
-    //   [
-    //     'Firstname',
-    //     'Lastname',
-    //     'Gender',
-    //     'Age',
-    //     'Present Whereabouts',
-    //     'Moral',
-    //   ],
-    // ];
-    // const body = mappedData.map(Object.values);
-    // pdfDownloader(header, body);
+    const outputData = [...allVisits];
+
+    const mappedData: any = [];
+    outputData.forEach(
+      ({ users, orphan, purpose, status, date_added }: any) => {
+        const data = {
+          users,
+          orphan,
+          purpose,
+          status,
+          date_added,
+        };
+        mappedData.push({ ...data });
+      },
+    );
+    const header = [
+      ['Created By', 'Orphan Name', 'Purpose', 'Status', 'Date Added'],
+    ];
+    const body = mappedData.map(Object.values);
+    pdfDownloader(header, body);
   };
   return (
     <>
       <AddVisitation {...{ isOpen, onClose }} type="add" />
       <Flex justify="space-between" w="100%">
         <Flex>
-          <Select variant="normal" w="130px" onChange={selectionChanged}>
-            <option value="firstname">Firstname</option>
-            <option value="lastname">Lastname</option>
+          <Select variant="normal" w="150px" onChange={selectionChanged}>
+            <option value="users">Name</option>
+            <option value="purpose">Purpose</option>
             <option value="status">Status</option>
+            <option value="orphan">Orphan</option>
+            <option value="date_added">Date Added</option>
           </Select>
           <InputGroup w="300px">
             <InputLeftElement pointerEvents="none">
@@ -107,7 +95,7 @@ const Visitation = ({ visits }: any) => {
         <Button onClick={onOpen}>Add Visitation</Button>
         {/* <Button onClick={update}>update User</Button> */}
 
-        <CsvDownloader datas={allVisits} filename="csv" columns={childheaders}>
+        <CsvDownloader datas={allVisits} filename="csv" columns={visitHeader}>
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>

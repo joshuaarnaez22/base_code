@@ -23,6 +23,10 @@ const ThirdSection = ({ resources }: any) => {
               pr="30px"
               h="300px"
               gap="20px"
+              // _hover={{
+              //   transform: 'rotateY(90deg)',
+              // }}
+              // transition="all 1s ease"
             >
               <Image src={img} alt="" w="50px" h="50px" />
               <Text>{title}</Text>

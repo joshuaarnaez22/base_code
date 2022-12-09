@@ -93,8 +93,12 @@ const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
     onOpen();
   };
 
-  const selectOrphan = async (orpanId: string) => {
+  const selectOrphan = async (orpanId: string, status: string) => {
     try {
+      if (status === 'adopted') {
+        toastUI(2, 'Orphan is already adopted', 'Adopted');
+        return;
+      }
       await selectOrphanWithVisit({
         id: VISITID,
         orphan_id: orpanId,
@@ -179,7 +183,7 @@ const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
                           >
                             {currentItem.status === 'active'
                               ? 'active'
-                              : 'inactive'}
+                              : 'adopted'}
                           </Badge>
                         </Text>
                         <Text fontSize="sm" fontWeight="bold">
@@ -230,7 +234,9 @@ const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
                         <>
                           {VISITID ? (
                             <MenuItem
-                              onClick={() => selectOrphan(currentItem.id)}
+                              onClick={() =>
+                                selectOrphan(currentItem.id, currentItem.status)
+                              }
                             >
                               Select
                             </MenuItem>

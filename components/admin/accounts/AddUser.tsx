@@ -89,6 +89,8 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       reset({
         email: selectedUpdate.email,
         username: selectedUpdate.username,
+        firstname: selectedUpdate.firstname,
+        lastname: selectedUpdate.lastname,
         password: '',
         confirm: '',
       });

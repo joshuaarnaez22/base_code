@@ -56,11 +56,34 @@ export const childheaders = [
     displayName: 'Present Whereabouts',
   },
 ];
+
+export const visitHeader = [
+  {
+    id: 'users',
+    displayName: 'Created By',
+  },
+  {
+    id: 'orphan',
+    displayName: 'Orphan Name',
+  },
+  {
+    id: 'purpose',
+    displayName: ' Purpose',
+  },
+  {
+    id: 'status',
+    displayName: ' Status',
+  },
+  {
+    id: 'date_added',
+    displayName: ' Date Added',
+  },
+];
 export const Capitalize = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
 export const getUserLoginId = () => {
-  const { userID }: IUserId = jwt_decode(cookie.get('token') as any);
-  return userID;
+  const { userID, userId }: IUserId = jwt_decode(cookie.get('token') as any);
+  return { userID, userId };
 };

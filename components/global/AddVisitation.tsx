@@ -33,8 +33,6 @@ const schema = yup.object().shape({
 });
 
 const AddVisitation = ({ isOpen, onClose, selectedUpdate, type }: any) => {
-  console.log(selectedUpdate);
-
   const toast = useToast();
   const router = useRouter();
   const methods = useForm({
@@ -51,8 +49,8 @@ const AddVisitation = ({ isOpen, onClose, selectedUpdate, type }: any) => {
 
   const onSubmit = async (data: any) => {
     try {
-      const user_id = getUserLoginId();
-      const payload = { ...data, user_id, date: data.visit_date };
+      const { userId } = getUserLoginId();
+      const payload = { ...data, user_id: userId, date: data.visit_date };
       delete payload.visit_date;
       const response = await addVisit(payload);
       if (response.success) toastUI(1, response.message, 'Orphan Added');

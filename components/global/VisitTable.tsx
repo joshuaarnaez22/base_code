@@ -28,6 +28,7 @@ import { removeVisit, statusUpdate } from '@/services/user.service';
 import { useRouter } from 'next/router';
 import Update from '@/components/global/Update';
 import AddVisitation from './AddVisitation';
+import { Capitalize } from '@/services/helpers';
 const VisitTable = ({ visits, search, userType }: any) => {
   const toast = useToast();
   const router = useRouter();
@@ -167,7 +168,7 @@ const VisitTable = ({ visits, search, userType }: any) => {
             letterSpacing="0.2"
           >
             <Tr>
-              <Th fontWeight="bolder">Profile</Th>
+              <Th fontWeight="bolder">Created By</Th>
               <Th fontWeight="bolder">Purpose</Th>
               <Th fontWeight="bolder">Orphan</Th>
               <Th fontWeight="bolder">Date added</Th>
@@ -185,31 +186,24 @@ const VisitTable = ({ visits, search, userType }: any) => {
                   letterSpacing="0.2"
                 >
                   <Td>
-                    <Flex>
+                    <Flex align="center">
                       <Avatar src="" name={currentItem.firstname} />
                       <Box ml="3">
                         <Text fontWeight="bold">
-                          {/* {`${Capitalize(currentItem.firstname)} ${Capitalize(
-                            currentItem.lastname,
-                          )}`} */}
-                          Username
-                          <Badge
-                            ml="1"
-                            colorScheme={
-                              currentItem.status === 'pending'
-                                ? 'red'
-                                : currentItem.status === 'booked'
-                                ? 'yellow'
-                                : 'green'
-                            }
-                            fontSize="10px"
-                          >
-                            {currentItem.status}
-                          </Badge>
+                          {`${Capitalize(currentItem.users)}`}
                         </Text>
-                        <Text fontSize="sm" fontWeight="bold">
-                          Admin
-                        </Text>
+                        <Badge
+                          colorScheme={
+                            currentItem.status === 'pending'
+                              ? 'red'
+                              : currentItem.status === 'booked'
+                              ? 'yellow'
+                              : 'green'
+                          }
+                          fontSize="10px"
+                        >
+                          {currentItem.status}
+                        </Badge>
                       </Box>
                     </Flex>
                   </Td>
@@ -270,11 +264,14 @@ const VisitTable = ({ visits, search, userType }: any) => {
                           >
                             Delete
                           </MenuItem>
-                          <MenuItem
-                            onClick={() => handleStatus(currentItem.id)}
-                          >
-                            Confirm Visit
-                          </MenuItem>
+                          {currentItem.status === 'pending' && (
+                            <MenuItem
+                              onClick={() => handleStatus(currentItem.id)}
+                            >
+                              Confirm Visit
+                            </MenuItem>
+                          )}
+
                           {currentItem.status === 'approved' && (
                             <MenuItem
                               onClick={() => orphanSelect(currentItem.id)}

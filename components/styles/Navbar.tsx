@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -13,9 +13,18 @@ import {
 import { AiFillBell } from 'react-icons/ai';
 import cookie from 'js-cookie';
 import { useRouter } from 'next/router';
+import jwt_decode from 'jwt-decode';
+import { Capitalize } from '@/services/helpers';
 
-const FosterNavbar = () => {
+const Navbar = () => {
   const router = useRouter();
+  const [user, setUser] = useState('test');
+  useEffect(() => {
+    const { fullname }: { fullname: string } = jwt_decode(
+      cookie.get('token') as string,
+    );
+    setUser(fullname);
+  }, []);
 
   return (
     <Flex
@@ -32,7 +41,7 @@ const FosterNavbar = () => {
           <Icon as={AiFillBell} w="20px" h="20px" />
           <Box w="1px" bg="gray" h="30px" opacity=".5" />
           <Text fontFamily="robo" fontSize="SubHeader.lg" fontWeight="semibold">
-            Foster Bond
+            {user.toUpperCase()}
           </Text>
           <Menu>
             <MenuButton
@@ -41,16 +50,9 @@ const FosterNavbar = () => {
                 transition: 'all .5s ease-in-out',
               }}
               transition="all .5s ease-in-out"
+              outline="transparent"
             >
-              <Flex justify="center" align="center" mr="20px">
-                <Avatar
-                  fontFamily="robo"
-                  name="James Bond"
-                  src="https://bit.ly/dan-abramov"
-                  h="50px"
-                  w="50px"
-                />
-              </Flex>
+              <Avatar fontFamily="robo" name={user} src="" mr="20px" />
             </MenuButton>
             <MenuList minW="100px">
               <MenuItem>Profile</MenuItem>
@@ -70,4 +72,4 @@ const FosterNavbar = () => {
   );
 };
 
-export default FosterNavbar;
+export default Navbar;

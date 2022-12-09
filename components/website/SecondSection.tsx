@@ -40,7 +40,7 @@ const SecondSection = () => {
           Request
         </Button>
         <Text fontFamily="robo" fontWeight="extranormal" fontSize="30px">
-          Why Us ?
+          Our Services
         </Text>
       </Flex>
     </>

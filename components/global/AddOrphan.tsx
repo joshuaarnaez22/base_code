@@ -20,6 +20,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createOrphan } from '@/services/orphans.service';
 import moment from 'moment';
 import { useRouter } from 'next/router';
+import { updateOrphanFunc } from '@/services/user.service';
+import { getUserLoginId } from '@/services/helpers';
 
 const schema = yup.object().shape({
   firstname: yup.string().required('Firstname is required.'),
@@ -96,20 +98,39 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
 
   const onSubmit = async (data: any) => {
     try {
-      const res = await createOrphan(data);
-      if (res.success) {
-        toastUI(1, res.message, 'Orphan created');
-        reset();
-        onClose();
-        router.replace(router.asPath);
-      } else {
-        toastUI(2, res.message, 'Error');
-      }
+      if (type === 'add') await addUser(data);
+      if (type === 'update') await updateUser(data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const addUser = async (data: any) => {
+    const res = await createOrphan(data);
+    if (res.success) {
+      toastUI(1, res.message, 'Orphan created');
+      reset();
+      onClose();
+      router.replace(router.asPath);
+    } else {
+      toastUI(2, res.message, 'Error');
+    }
+  };
+
+  const updateUser = async (data: any) => {
+    const { userId }: { userId: string } = getUserLoginId();
+    const payload = { ...data, id: userId };
+
+    const res = await updateOrphanFunc(payload);
+    if (res.success) {
+      toastUI(1, res.message, 'Orphan Update');
+      reset();
+      onClose();
+      router.replace(router.asPath);
+    } else {
+      toastUI(2, res.message, 'Error');
+    }
+  };
   const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',

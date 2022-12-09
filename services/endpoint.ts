@@ -15,6 +15,7 @@ export const addOrphan = `${LOCALDEV}/orphans/addOrphan`;
 export const getAllOrphan = `${LOCALDEV}/orphans/getAllOrphan`;
 export const deleteOrphan = `${LOCALDEV}/orphans/deleteOrphan`;
 export const getAllActiveOrphanApi = `${LOCALDEV}/orphans/getAllActiveOrphanApi`;
+export const updateOrphan = `${LOCALDEV}/orphans/updateOrphan`;
 
 //dashboard admin endpoints
 export const getTotalSocialWorker = `${LOCALDEV}/socialworker/getTotalSocialWorker`;
@@ -40,3 +41,6 @@ export const getAllVisitationForLoggedUser = `${LOCALDEV}/visitation/getAllVisit
 export const addMonitoring = `${LOCALDEV}/monitoring/addMonitoring`;
 export const getAllMonitoring = `${LOCALDEV}/monitoring/getAllMonitoring`;
 export const deleteMonitoring = `${LOCALDEV}/monitoring/deleteMonitoring`;
+
+//inquiry
+export const addinquiry = `${LOCALDEV}/inquiry/addinquiry`;
