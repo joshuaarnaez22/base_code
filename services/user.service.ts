@@ -23,6 +23,8 @@ import {
   deleteMonitoring,
   updateOrphan,
   addinquiry,
+  getAllInquiry,
+  updateReadStatusInquiry,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -136,5 +138,15 @@ export const updateOrphanFunc = async (payload: any) => {
 
 export const inquiryAdd = async (payload: any) => {
   const { data } = await instance.post(addinquiry, payload);
+  return data;
+};
+
+export const allInqueries = async () => {
+  const { data } = await instance.get(getAllInquiry);
+  return data;
+};
+
+export const updateStatusInquiry = async (payload: any) => {
+  const { data } = await instance.put(updateReadStatusInquiry, payload);
   return data;
 };

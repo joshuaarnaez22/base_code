@@ -1,4 +1,5 @@
 import { Flex, Box, Image, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 const BgProps = {
@@ -15,6 +16,7 @@ const HeaderMenuProps = {
   cursor: 'pointer',
 };
 const FirstSection = () => {
+  const router = useRouter();
   return (
     <Flex h="100vh">
       <Box zIndex="1" w="100vw" h="100vh" bg="#00000033" pos="absolute" />
@@ -77,6 +79,7 @@ const FirstSection = () => {
               transform: 'scale(1.2)',
               transition: 'all .5s ease-in-out',
             }}
+            onClick={() => router.push('/login')}
           >
             Login
           </Text>

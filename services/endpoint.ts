@@ -44,3 +44,5 @@ export const deleteMonitoring = `${LOCALDEV}/monitoring/deleteMonitoring`;
 
 //inquiry
 export const addinquiry = `${LOCALDEV}/inquiry/addinquiry`;
+export const getAllInquiry = `${LOCALDEV}/inquiry/getAllInquiry`;
+export const updateReadStatusInquiry = `${LOCALDEV}/inquiry/updateReadStatusInquiry`;

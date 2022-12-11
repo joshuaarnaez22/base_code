@@ -20,10 +20,11 @@ import {
   Badge,
   TableCaption,
   useToast,
-  Collapse,
+  Icon,
 } from '@chakra-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
-
+import { FcDeleteDatabase } from 'react-icons/fc';
+import { GrUpdate, GrFormView, GrSelect } from 'react-icons/gr';
 import React, { useEffect, useState } from 'react';
 import Pagination from '@/components/global/Pagination';
 import moment from 'moment';
@@ -34,7 +35,7 @@ import { removeOrphan } from '@/services/orphans.service';
 import { useRouter } from 'next/router';
 import { selectOrphanWithVisit } from '@/services/user.service';
 
-const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
+const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
   const router = useRouter();
   const toast = useToast();
 
@@ -104,8 +105,8 @@ const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
         orphan_id: orpanId,
       });
       toastUI(1, 'Selected Success', 'Success');
-
-      router.push('/admin/visitations');
+      if (userType === 'admin') router.push('/admin/visitations');
+      else router.push('/socialworker/visitations');
     } catch (error) {
       console.log(error);
     }
@@ -146,9 +147,7 @@ const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
             letterSpacing="0.2"
           >
             <Tr>
-              <Th w="45%" fontWeight="bolder">
-                Profile
-              </Th>
+              <Th fontWeight="bolder">Profile</Th>
               <Th fontWeight="bolder">Gender</Th>
               <Th fontWeight="bolder">Date of birth</Th>
               <Th fontWeight="bolder">Date of Admission</Th>
@@ -238,22 +237,36 @@ const ChildrenTable = ({ orphans, search, userId: VISITID }: any) => {
                                 selectOrphan(currentItem.id, currentItem.status)
                               }
                             >
-                              Select
+                              <Flex align="center" gap="3">
+                                <Icon as={GrSelect} />
+                                Select
+                              </Flex>
                             </MenuItem>
                           ) : (
                             <>
                               <MenuItem
                                 onClick={() => handleUpdate(currentItem)}
                               >
-                                Update
+                                <Flex align="center" gap="3">
+                                  <Icon as={GrUpdate} />
+                                  Update
+                                </Flex>
                               </MenuItem>
-                              <MenuItem
-                                onClick={() => deleteAccount(currentItem.id)}
-                              >
-                                Delete
-                              </MenuItem>
+                              {userType === 'admin' && (
+                                <MenuItem
+                                  onClick={() => deleteAccount(currentItem.id)}
+                                >
+                                  <Flex align="center" gap="3">
+                                    <Icon as={FcDeleteDatabase} />
+                                    Delete
+                                  </Flex>
+                                </MenuItem>
+                              )}
                               <MenuItem onClick={() => handleView(currentItem)}>
-                                View Profile
+                                <Flex align="center" gap="3">
+                                  <Icon as={GrFormView} boxSize="4" />
+                                  View Profile
+                                </Flex>
                               </MenuItem>
                             </>
                           )}

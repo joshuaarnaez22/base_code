@@ -19,8 +19,14 @@ import {
   Badge,
   TableCaption,
   useToast,
+  Icon,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+import { FcDeleteDatabase } from 'react-icons/fc';
+import { GrUpdate } from 'react-icons/gr';
+import { FaChild } from 'react-icons/fa';
+import { GiConfirmed } from 'react-icons/gi';
+
 import { SlOptionsVertical } from 'react-icons/sl';
 import Pagination from '@/components/global/Pagination';
 import Delete from '@/components/global/Delete';
@@ -112,10 +118,17 @@ const VisitTable = ({ visits, search, userType }: any) => {
   };
 
   const orphanSelect = (id: string) => {
-    router.push(
-      { pathname: '/admin/childrens', query: { id } },
-      '/admin/childrens',
-    );
+    if (userType === 'admin') {
+      router.push(
+        { pathname: '/admin/childrens', query: { id } },
+        '/admin/childrens',
+      );
+    } else {
+      router.push(
+        { pathname: '/socialworker/childrens', query: { id } },
+        '/socialworker/childrens',
+      );
+    }
   };
   const toastUI = (type: number, description: string, title: string) => {
     toast({
@@ -187,7 +200,7 @@ const VisitTable = ({ visits, search, userType }: any) => {
                 >
                   <Td>
                     <Flex align="center">
-                      <Avatar src="" name={currentItem.firstname} />
+                      <Avatar src="" name={currentItem.users} />
                       <Box ml="3">
                         <Text fontWeight="bold">
                           {`${Capitalize(currentItem.users)}`}
@@ -219,7 +232,7 @@ const VisitTable = ({ visits, search, userType }: any) => {
                   </Td>
                   <Td>{currentItem.date_added}</Td>
                   <Td>
-                    {userType === 'foster' ? (
+                    {/* {userType === 'foster' ? (
                       <Menu>
                         <MenuButton
                           _hover={{
@@ -239,49 +252,63 @@ const VisitTable = ({ visits, search, userType }: any) => {
                           <MenuItem>Update</MenuItem>
                         </MenuList>
                       </Menu>
-                    ) : (
-                      <Menu>
-                        <MenuButton
-                          _hover={{
-                            cursor: 'pointer',
-                            shadow: 'md',
-                            bg: 'main',
-                            transition: 'all .5s ease',
-                          }}
-                          transition="all .5s ease"
-                          bg="transparent"
-                          borderRadius="full"
-                          as={IconButton}
-                          aria-label="Options"
-                          icon={<SlOptionsVertical />}
-                        ></MenuButton>
-                        <MenuList minWidth="180px">
-                          <MenuItem onClick={() => handleUpdate(currentItem)}>
+                    ) : ( */}
+                    <Menu>
+                      <MenuButton
+                        _hover={{
+                          cursor: 'pointer',
+                          shadow: 'md',
+                          bg: 'main',
+                          transition: 'all .5s ease',
+                        }}
+                        transition="all .5s ease"
+                        bg="transparent"
+                        borderRadius="full"
+                        as={IconButton}
+                        aria-label="Options"
+                        icon={<SlOptionsVertical />}
+                      ></MenuButton>
+                      <MenuList minWidth="180px">
+                        <MenuItem onClick={() => handleUpdate(currentItem)}>
+                          <Flex align="center" gap="3">
+                            <Icon as={GrUpdate} />
                             Update
-                          </MenuItem>
+                          </Flex>
+                        </MenuItem>
+                        {userType === 'admin' && (
                           <MenuItem
                             onClick={() => deleteAccount(currentItem.id)}
                           >
-                            Delete
+                            <Flex align="center" gap="3">
+                              <Icon as={FcDeleteDatabase} />
+                              Delete
+                            </Flex>
                           </MenuItem>
-                          {currentItem.status === 'pending' && (
-                            <MenuItem
-                              onClick={() => handleStatus(currentItem.id)}
-                            >
+                        )}
+                        {currentItem.status === 'pending' && (
+                          <MenuItem
+                            onClick={() => handleStatus(currentItem.id)}
+                          >
+                            <Flex align="center" gap="3">
+                              <Icon as={GiConfirmed} />
                               Confirm Visit
-                            </MenuItem>
-                          )}
+                            </Flex>
+                          </MenuItem>
+                        )}
 
-                          {currentItem.status === 'approved' && (
-                            <MenuItem
-                              onClick={() => orphanSelect(currentItem.id)}
-                            >
+                        {currentItem.status === 'approved' && (
+                          <MenuItem
+                            onClick={() => orphanSelect(currentItem.id)}
+                          >
+                            <Flex align="center" gap="3">
+                              <Icon as={FaChild} color="red" />
                               Select Orphan
-                            </MenuItem>
-                          )}
-                        </MenuList>
-                      </Menu>
-                    )}
+                            </Flex>
+                          </MenuItem>
+                        )}
+                      </MenuList>
+                    </Menu>
+                    {/* )} */}
                   </Td>
                 </Tr>
               );

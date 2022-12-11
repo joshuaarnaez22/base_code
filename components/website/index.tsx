@@ -64,8 +64,7 @@ const Website = ({ resources }: any) => {
     <>
       <Box
         h="100vh"
-        overflowY="auto"
-        overflowX="hidden"
+        overflow="scroll"
         scrollBehavior="smooth"
         sx={hideScollbar}
         pos="relative"
@@ -78,75 +77,86 @@ const Website = ({ resources }: any) => {
         <ThirdSection resources={resources} />
 
         <Flex>
-          <Flex w="100vw" gap="20px" justify="center" align="center" h="90vh">
-            <Flex w="50%" direction="column" align="center">
-              <Text fontSize="32px" fontWeight="bolder">
-                Contact Us
-              </Text>
-              <Box w="50%">
-                <form onSubmit={handleSubmit}>
-                  <Flex direction="column" gap="10" w="auto">
-                    <FormControl>
-                      <FormLabel>Name</FormLabel>
-                      <Input
-                        type="text"
-                        placeholder="Name"
-                        value={form.name}
-                        onChange={(e) =>
-                          setForm({ ...form, name: e.target.value })
-                        }
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Email address</FormLabel>
-                      <Input
-                        type="email"
-                        placeholder="Email address"
-                        value={form.email}
-                        onChange={(e) =>
-                          setForm({ ...form, email: e.target.value })
-                        }
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Phone number</FormLabel>
-                      <InputGroup>
-                        <InputLeftAddon>+63</InputLeftAddon>
+          <Flex w="100vw" justify="center" align="center" h="90vh">
+            <Flex w="50%">
+              <Flex
+                direction="column"
+                align="center"
+                w="80%"
+                mx="auto"
+                py="30px"
+                boxShadow="2xl"
+                rounded="md"
+                bg="white"
+              >
+                <Text fontSize="32px" fontWeight="bolder">
+                  Contact Us
+                </Text>
+                <Box w="50%">
+                  <form onSubmit={handleSubmit}>
+                    <Flex direction="column" gap="10" w="auto">
+                      <FormControl>
+                        <FormLabel>Name</FormLabel>
                         <Input
-                          type="number"
-                          placeholder="Phone number"
-                          value={form.phone}
+                          type="text"
+                          placeholder="Name"
+                          value={form.name}
                           onChange={(e) =>
-                            setForm({ ...form, phone: e.target.value })
+                            setForm({ ...form, name: e.target.value })
                           }
                           required
                         />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Message</FormLabel>
-                      <Textarea
-                        placeholder="Message"
-                        value={form.message}
-                        onChange={(e) =>
-                          setForm({ ...form, message: e.target.value })
-                        }
-                        required
-                      />
-                    </FormControl>
-                    <Button
-                      mt="3"
-                      type="submit"
-                      isLoading={loader}
-                      loadingText="Sending..."
-                    >
-                      Submit
-                    </Button>
-                  </Flex>
-                </form>
-              </Box>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Email address</FormLabel>
+                        <Input
+                          type="email"
+                          placeholder="Email address"
+                          value={form.email}
+                          onChange={(e) =>
+                            setForm({ ...form, email: e.target.value })
+                          }
+                          required
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Phone number</FormLabel>
+                        <InputGroup>
+                          <InputLeftAddon>+63</InputLeftAddon>
+                          <Input
+                            type="number"
+                            placeholder="Phone number"
+                            value={form.phone}
+                            onChange={(e) =>
+                              setForm({ ...form, phone: e.target.value })
+                            }
+                            required
+                          />
+                        </InputGroup>
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Message</FormLabel>
+                        <Textarea
+                          placeholder="Message"
+                          value={form.message}
+                          onChange={(e) =>
+                            setForm({ ...form, message: e.target.value })
+                          }
+                          required
+                        />
+                      </FormControl>
+                      <Button
+                        mt="3"
+                        type="submit"
+                        isLoading={loader}
+                        loadingText="Sending..."
+                      >
+                        Submit
+                      </Button>
+                    </Flex>
+                  </form>
+                </Box>
+              </Flex>
             </Flex>
             <Flex w="50%" h="inherit">
               <iframe

@@ -19,6 +19,7 @@ import {
   Badge,
   TableCaption,
   useToast,
+  Icon,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
@@ -27,8 +28,10 @@ import AddUser from './AddUser';
 import Delete from '@/components/global/Delete';
 import { removeUser } from '@/services/user.service';
 import { useRouter } from 'next/router';
+import { FcDeleteDatabase } from 'react-icons/fc';
+import { GrUpdate, GrFormView } from 'react-icons/gr';
 
-const TableAccounts = ({ users, search }: any) => {
+const TableAccounts = ({ users, search, userType }: any) => {
   const toast = useToast();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -191,14 +194,34 @@ const TableAccounts = ({ users, search }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        <MenuItem onClick={() => handleUpdate(currentItem)}>
-                          Update
+                        <MenuItem
+                          minH="40px"
+                          onClick={() => handleUpdate(currentItem)}
+                        >
+                          <Flex align="center" gap="3">
+                            <Icon as={GrUpdate} />
+                            Update
+                          </Flex>
                         </MenuItem>
-                        <MenuItem onClick={() => deleteAccount(currentItem.id)}>
-                          Delete
-                        </MenuItem>
-                        <MenuItem onClick={() => handleView(currentItem)}>
-                          View Profile
+                        {userType === 'admin' && (
+                          <MenuItem
+                            minH="40px"
+                            onClick={() => deleteAccount(currentItem.id)}
+                          >
+                            <Flex align="center" gap="3">
+                              <Icon as={FcDeleteDatabase} />
+                              Delete
+                            </Flex>
+                          </MenuItem>
+                        )}
+                        <MenuItem
+                          minH="40px"
+                          onClick={() => handleView(currentItem)}
+                        >
+                          <Flex align="center" gap="3">
+                            <Icon as={GrFormView} boxSize={4} />
+                            View Profile
+                          </Flex>
                         </MenuItem>
                       </MenuList>
                     </Menu>

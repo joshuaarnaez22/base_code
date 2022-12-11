@@ -2,14 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Text, Flex, Image, Icon } from '@chakra-ui/react';
 import { MdOutlineDashboard, MdSchedule } from 'react-icons/md';
 import { useRouter } from 'next/router';
+import { IoIosPeople } from 'react-icons/io';
 
 export default function SocialWorkerSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = ['/socialworker/accounts'];
+  const routerChoice = [
+    '/socialworker/accounts',
+    '/socialworker/childrens',
+    '/socialworker/visitations',
+  ];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
+    if (router.pathname === routerChoice[1]) setSelectedMenu(2);
+    if (router.pathname === routerChoice[2]) setSelectedMenu(3);
   }, [router]);
 
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
@@ -69,6 +76,20 @@ export default function SocialWorkerSideMenu() {
           index={1}
           isSelected={selectedMenu == 1 ? true : false}
           route={routerChoice[0]}
+        />
+        <MenuOptions
+          title="Childrens"
+          icon={IoIosPeople}
+          index={2}
+          isSelected={selectedMenu == 2 ? true : false}
+          route={routerChoice[1]}
+        />
+        <MenuOptions
+          title="Visitations"
+          icon={MdSchedule}
+          index={3}
+          isSelected={selectedMenu == 3 ? true : false}
+          route={routerChoice[2]}
         />
       </Flex>
     </Flex>

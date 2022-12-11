@@ -26,6 +26,7 @@ export const config = {
     '/admin/dashboard',
     '/admin/accounts',
     '/admin/childrens',
+    '/socialworker/childrens',
     '/admin/visitations',
     '/foster/dashboard',
     '/foster/schedule',

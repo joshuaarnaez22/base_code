@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AddUser from './AddUser';
+import AddUser from '../../global/AddUser';
 import {
   Flex,
   InputGroup,
@@ -8,12 +8,11 @@ import {
   Icon,
   Input,
   Button,
-  Box,
+  // Text,
   Select,
 } from '@chakra-ui/react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
-// import Loader from '@/components/global/Loader';
-import TableAccounts from './TableAccounts';
+import TableAccounts from '../../global/TableAccounts';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
 import { UserHeaders } from '@/services/helpers';
@@ -22,7 +21,6 @@ import { pdfDownloader } from '@/services/pdfDownload';
 const Accounts = ({ users }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [allUser, setAllUsers] = useState(users);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('username');
 
@@ -30,25 +28,17 @@ const Accounts = ({ users }: any) => {
     setAllUsers(users);
   }, [users]);
 
-  const handleSearch = (e: any) => {
-    const { value } = e.target;
-    if (!value) {
-      setValue('');
-      setAllUsers(users);
-    }
-    const filt = users.filter((user: any) => {
-      return user[selectSearch].toLowerCase().startsWith(value);
-    });
-    setValue(value);
-    setAllUsers(filt);
-  };
+  const filteredUser = allUser.filter((user: any) => {
+    return user[selectSearch].toLowerCase().startsWith(search.toLowerCase());
+  });
+
   const selectionChanged = (e: any) => {
     setSelectSearch(e.target.value);
   };
 
   const download = () => {
     const outputData = [...allUser];
-    const mappedDate: any = [];
+    const mappedData: any = [];
     outputData.forEach(({ email, username, role, status }) => {
       const data = {
         email,
@@ -56,10 +46,10 @@ const Accounts = ({ users }: any) => {
         role,
         status,
       };
-      mappedDate.push({ ...data });
+      mappedData.push({ ...data });
     });
     const header = [['Email', 'Username', 'Role', 'status']];
-    const body = mappedDate.map(Object.values);
+    const body = mappedData.map(Object.values);
     pdfDownloader(header, body);
     window.location.reload();
   };
@@ -84,7 +74,7 @@ const Accounts = ({ users }: any) => {
               shadow="sm"
               variant="search"
               value={search}
-              onChange={handleSearch}
+              onChange={(e) => setValue(e.target.value)}
             />
           </InputGroup>
         </Flex>
@@ -108,14 +98,11 @@ const Accounts = ({ users }: any) => {
           Download Pdf
         </Button>
       </Flex>
-
-      {/* {!isLoading ? ( */}
-      <TableAccounts users={allUser} search={search} />
-      {/* ) : (
-        <Flex h="75vh" align="center" justify="center">
-          <Loader size="24" color="gray" thickness="3px" />
-        </Flex>
-      )} */}
+      <TableAccounts
+        users={filteredUser}
+        search={search}
+        userType="socialworker"
+      />
     </>
   );
 };

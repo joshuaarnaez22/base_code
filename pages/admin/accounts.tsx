@@ -5,6 +5,7 @@ import { thinScollbar } from '@/components/Scrollbar';
 import { allUser } from '@/services/user.service';
 import Accounts from '@/components/admin/accounts';
 import { Box } from '@chakra-ui/react';
+import Head from 'next/head';
 
 export async function getServerSideProps() {
   const { user: users } = await allUser();
@@ -15,16 +16,21 @@ export async function getServerSideProps() {
 
 const accounts: NextPageWithLayout = ({ users }: any) => {
   return (
-    <Box
-      w="100%"
-      h="90vh"
-      overflowY="auto"
-      mx="20px"
-      sx={thinScollbar}
-      p="20px"
-    >
-      <Accounts users={users} />
-    </Box>
+    <>
+      <Head>
+        <title>Accounts</title>
+      </Head>
+      <Box
+        w="100%"
+        h="90vh"
+        overflowY="auto"
+        mx="20px"
+        sx={thinScollbar}
+        p="20px"
+      >
+        <Accounts users={users} />
+      </Box>
+    </>
   );
 };
 

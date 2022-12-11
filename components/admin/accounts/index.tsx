@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AddUser from './AddUser';
+import AddUser from '../../global/AddUser';
 import {
   Flex,
   InputGroup,
@@ -12,15 +12,13 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
-import TableAccounts from './TableAccounts';
+import TableAccounts from '../../global/TableAccounts';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
 import { UserHeaders } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
-import { useRouter } from 'next/router';
 
 const Accounts = ({ users }: any) => {
-  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [allUser, setAllUsers] = useState(users);
   const [search, setValue] = useState<string>('');
@@ -53,13 +51,12 @@ const Accounts = ({ users }: any) => {
     const header = [['Email', 'Username', 'Role', 'status']];
     const body = mappedData.map(Object.values);
     pdfDownloader(header, body);
-    // router.replace(router.asPath);
     window.location.reload();
   };
 
   return (
     <>
-      <AddUser {...{ isOpen, onClose }} type="add" />
+      <AddUser {...{ isOpen, onClose }} type="add" />;
       <Flex justify="space-between">
         {/* <Text>Accounts</Text> */}
         <Flex>
@@ -101,7 +98,7 @@ const Accounts = ({ users }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <TableAccounts users={filteredUser} search={search} />
+      <TableAccounts users={filteredUser} search={search} userType="admin" />
     </>
   );
 };

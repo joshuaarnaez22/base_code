@@ -59,7 +59,7 @@ const Navbar = () => {
               <MenuItem
                 onClick={() => {
                   cookie.remove('token');
-                  router.push('/');
+                  router.push('/login');
                 }}
               >
                 Log out

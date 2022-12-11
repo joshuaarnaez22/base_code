@@ -109,7 +109,7 @@ const Visitation = ({ visits }: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <VisitTable visits={allVisits} search={search} />
+      <VisitTable visits={allVisits} search={search} userType="admin" />
     </>
   );
 };

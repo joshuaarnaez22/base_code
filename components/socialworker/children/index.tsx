@@ -134,7 +134,7 @@ const Childrens = ({ orphans }: any) => {
         orphans={allOrphans}
         search={search}
         userId={userId}
-        userType="admin"
+        userType="socialworker"
       />
     </>
   );

@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
-import Childrens from '@/components/admin/children';
 import { thinScollbar } from '@/components/Scrollbar';
 import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
 import { allOrphans } from '@/services/orphans.service';
-import Head from 'next/head';
+import Childrens from '@/components/socialworker/children';
 
 export async function getServerSideProps() {
   const { orphan } = await allOrphans();
@@ -16,26 +15,21 @@ export async function getServerSideProps() {
 }
 const children: NextPageWithLayout = ({ orphan }: any) => {
   return (
-    <>
-      <Head>
-        <title>Childrens</title>
-      </Head>
-      <Box
-        w="100%"
-        h="90vh"
-        overflowY="auto"
-        mx="20px"
-        sx={thinScollbar}
-        p="20px"
-      >
-        <Childrens orphans={orphan} />
-      </Box>
-    </>
+    <Box
+      w="100%"
+      h="90vh"
+      overflowY="auto"
+      mx="20px"
+      sx={thinScollbar}
+      p="20px"
+    >
+      <Childrens orphans={orphan} />
+    </Box>
   );
 };
 
 children.getLayout = function getLayout(page: ReactElement) {
-  return <Layout type="admin">{page}</Layout>;
+  return <Layout type="socialworker">{page}</Layout>;
 };
 
 export default children;
