@@ -1,3 +1,4 @@
+import { Capitalize } from '@/services/helpers';
 import {
   Text,
   Modal,
@@ -7,7 +8,6 @@ import {
   ModalHeader,
   ModalOverlay,
   ModalFooter,
-  Flex,
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
@@ -15,14 +15,17 @@ const ReadModal = ({ isOpen, onClose, messageData, setMessageToRead }: any) => {
   useEffect(() => {
     if (messageData) setMessageToRead(messageData.id);
   }, [messageData]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent maxW="250px">
-        <ModalHeader>Inquery</ModalHeader>
+      <ModalContent>
+        <ModalHeader>
+          {messageData ? Capitalize(messageData.name) : ''}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>Read</Text>
+          <Text>{messageData ? messageData.message : ''}</Text>
         </ModalBody>
         <ModalFooter></ModalFooter>
       </ModalContent>

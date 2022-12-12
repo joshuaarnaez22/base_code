@@ -62,9 +62,10 @@ const Login = () => {
       <Flex
         height="100vh"
         position="relative"
-        pt="50px"
         align="center"
         direction="column"
+        justify="center"
+        pb="25vh"
       >
         <FormProvider {...formMethods}>
           <form onSubmit={formMethods.handleSubmit(onSubmit)}>

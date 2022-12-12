@@ -58,15 +58,14 @@ export default function SocialWorkerSideMenu() {
   return (
     <Flex w="18vw" h="90vh" bg="#363740" direction="column">
       <Flex justify="center" align="start" gap="10px" py="30px" w="inherit">
-        <Image src="/logo.png" alt="logo" h="32px" w="32px" />
         <Text
-          fontFamily="mulish"
-          fontSize="19px"
-          fontWeight="700"
+          fontFamily="robo"
+          fontSize="22px"
+          fontWeight="extrabold"
           color="white"
           pt="5px"
         >
-          Holy
+          HOLY INFANT NURSERY
         </Text>
       </Flex>
       <Flex direction="column" mt="15px">

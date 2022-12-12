@@ -77,7 +77,13 @@ const Website = ({ resources }: any) => {
         <ThirdSection resources={resources} />
 
         <Flex>
-          <Flex w="100vw" justify="center" align="center" h="90vh">
+          <Flex
+            w="100vw"
+            justify="center"
+            align="center"
+            h="90vh"
+            direction={{ base: 'column', lg: 'row' }}
+          >
             <Flex w="50%">
               <Flex
                 direction="column"

@@ -14,8 +14,6 @@ export async function getServerSideProps() {
   };
 }
 const inquiries: NextPageWithLayout = ({ inquiryData }: any) => {
-  console.log(inquiryData);
-
   return (
     <Box
       w="100%"

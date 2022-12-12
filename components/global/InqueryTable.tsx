@@ -20,32 +20,33 @@ import {
   Badge,
   TableCaption,
   useToast,
+  Icon,
 } from '@chakra-ui/react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { FcDeleteDatabase } from 'react-icons/fc';
-import { GrUpdate, GrFormView, GrSelect } from 'react-icons/gr';
+import { GrFormView } from 'react-icons/gr';
 import React, { useEffect, useState } from 'react';
 import Pagination from '@/components/global/Pagination';
-import moment from 'moment';
 import { Capitalize } from '@/services/helpers';
 import Delete from '@/components/global/Delete';
-import AddOrphan from './AddOrphan';
-import { removeOrphan } from '@/services/orphans.service';
-import { useRouter } from 'next/router';
 import ReadModal from './ReadModal';
-import { updateStatusInquiry } from '@/services/user.service';
+import { updateStatusInquiry, inquiryDelete } from '@/services/user.service';
+import { useRouter } from 'next/router';
 
 const InqueryTable = ({ allInquery, search }: any) => {
-  const router = useRouter();
   const toast = useToast();
-
+  const router = useRouter();
   const cancelRef = React.useRef();
   // const [orphanDeleteId, setOrphanDeleteId] = useState<string>('');
-  const [type, setType] = useState('');
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedUpdate, setSelectedUpdate] = useState();
-  const [messageData, setMessageData] = useState();
 
+  const [messageData, setMessageData] = useState();
+  const [deleteId, setDeleteId] = useState('');
   //Pagination
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
@@ -61,24 +62,18 @@ const InqueryTable = ({ allInquery, search }: any) => {
 
   //delete dialog
   const confirmDelete = async (confirm: boolean) => {
-    console.log(123);
+    if (confirm) {
+      await inquiryDelete({ id: deleteId });
+      router.replace(router.asPath);
+
+      toastUI(1, 'Inquiry Deleted Successfully', 'Success');
+    }
   };
 
-  //delete
-  const deleteAccount = (objectId: string) => {
-    console.log(123);
+  const handleDelete = (id: string) => {
+    setDeleteId(id);
+    onOpenDelete();
   };
-
-  //update
-  const handleUpdate = (data: any) => {
-    console.log(123);
-  };
-
-  //view
-  const handleView = (data: any) => {
-    console.log(123);
-  };
-
   const viewMessage = (data: any) => {
     setMessageData(data);
     onOpen();
@@ -92,10 +87,9 @@ const InqueryTable = ({ allInquery, search }: any) => {
       id,
       read: true,
     };
-
-    const response = await updateStatusInquiry(payload);
-    console.log(response);
+    await updateStatusInquiry(payload);
   };
+
   const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
@@ -109,16 +103,15 @@ const InqueryTable = ({ allInquery, search }: any) => {
   };
   return (
     <>
-      {/* <AddOrphan {...{ isOpen, onClose, selectedUpdate, type }} />
-        <Delete
-          isOpen={isOpenDelete}
-          onClose={onCloseDelete}
-          name="Delete Orphan"
-          {...{
-            cancelRef,
-            confirmDelete,
-          }}
-        /> */}
+      <Delete
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        name="Delete Inquiry"
+        {...{
+          cancelRef,
+          confirmDelete,
+        }}
+      />
       <ReadModal {...{ isOpen, onClose, messageData, setMessageToRead }} />
       <TableContainer p="30px" shadow="xl" borderRadius="md" mb="20px" w="100%">
         <Table variant="striped">
@@ -197,7 +190,14 @@ const InqueryTable = ({ allInquery, search }: any) => {
                           <MenuItem onClick={() => viewMessage(currentItem)}>
                             View
                           </MenuItem>
-                          <MenuItem>Delete</MenuItem>
+                          <MenuItem
+                            onClick={() => handleDelete(currentItem.id)}
+                          >
+                            <Flex align="center" gap="3">
+                              <Icon as={FcDeleteDatabase} />
+                              Delete
+                            </Flex>
+                          </MenuItem>
                         </MenuList>
                       </Menu>
                     </Flex>

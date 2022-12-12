@@ -9,6 +9,7 @@ import {
   Flex,
   Stack,
   Collapse,
+  Image,
 } from '@chakra-ui/react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useFormContext, useFormState } from 'react-hook-form';
@@ -24,10 +25,8 @@ const LoginFields = () => {
 
   return (
     <>
-      <Flex gap="5" direction="column" align="center">
-        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="robo">
-          Sign In
-        </Text>
+      <Flex gap="5" direction="column" align="center" justify="center">
+        <Image src="logo300.png" alt="logo" />
         <Text fontSize="Header.xs" fontWeight="normal" fontFamily="robo">
           Sign in to Holy Infant.
         </Text>

@@ -25,6 +25,9 @@ import {
   addinquiry,
   getAllInquiry,
   updateReadStatusInquiry,
+  deleteInquiry,
+  getAllUnreadInquiry,
+  readAllinquryMessages,
 } from './endpoint';
 import { ILogin } from './types';
 export const createUser = async (payload: ILogin) => {
@@ -148,5 +151,20 @@ export const allInqueries = async () => {
 
 export const updateStatusInquiry = async (payload: any) => {
   const { data } = await instance.put(updateReadStatusInquiry, payload);
+  return data;
+};
+
+export const inquiryDelete = async (payload: any) => {
+  const { data } = await instance.put(deleteInquiry, payload);
+  return data;
+};
+
+export const getAllUnread = async () => {
+  const { data } = await instance.get(getAllUnreadInquiry);
+  return data;
+};
+
+export const readAll = async () => {
+  const { data } = await instance.put(readAllinquryMessages);
   return data;
 };
