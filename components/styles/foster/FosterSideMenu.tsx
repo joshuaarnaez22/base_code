@@ -55,11 +55,17 @@ export default function FosterSideMenu() {
   };
 
   return (
-    <Flex w="18vw" h="90vh" bg="#363740" direction="column">
+    <Flex
+      w="18vw"
+      h="90vh"
+      bg="#363740"
+      direction="column"
+      overflow="hidden scroll"
+    >
       <Flex justify="center" align="start" gap="10px" py="30px" w="inherit">
         <Text
           fontFamily="robo"
-          fontSize="22px"
+          fontSize="15px"
           fontWeight="extrabold"
           color="white"
           pt="5px"

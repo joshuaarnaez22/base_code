@@ -9,6 +9,7 @@ import { IoIosPeople } from 'react-icons/io';
 import { RiFileHistoryLine } from 'react-icons/ri';
 import { BsQuestionSquareFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
+import { thinScollbar } from '@/components/Scrollbar';
 export default function AdminSideMenu() {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
@@ -67,11 +68,20 @@ export default function AdminSideMenu() {
   };
 
   return (
-    <Flex w="18vw" h="90vh" bg="#363740" direction="column">
+    <Flex
+      minW="250px"
+      h="90vh"
+      bg="#363740"
+      direction="column"
+      // overflow="hidden scroll"
+      overflowY="scroll"
+      overflowX="hidden"
+      sx={thinScollbar}
+    >
       <Flex justify="center" align="start" gap="10px" py="30px" w="inherit">
         <Text
           fontFamily="robo"
-          fontSize="22px"
+          fontSize="15px"
           fontWeight="extrabold"
           color="white"
           pt="5px"

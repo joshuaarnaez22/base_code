@@ -81,24 +81,23 @@ const Website = ({ resources }: any) => {
             w="100vw"
             justify="center"
             align="center"
-            h="90vh"
+            h={{ base: '150vh', lg: '100vh' }}
             direction={{ base: 'column', lg: 'row' }}
+            gap={{ base: '10', lg: '0' }}
           >
-            <Flex w="50%">
+            <Flex w="100%">
               <Flex
-                direction="column"
-                align="center"
-                w="80%"
-                mx="auto"
-                py="30px"
-                boxShadow="2xl"
-                rounded="md"
-                bg="white"
+                py="10"
+                display="column"
+                shadow="2xl"
+                mx={{ base: '5%' }}
+                px={{ base: '5%' }}
+                w="inherit"
               >
-                <Text fontSize="32px" fontWeight="bolder">
+                <Text fontSize="32px" fontWeight="bolder" align="center" mt="5">
                   Contact Us
                 </Text>
-                <Box w="50%">
+                <Box>
                   <form onSubmit={handleSubmit}>
                     <Flex direction="column" gap="10" w="auto">
                       <FormControl>
@@ -164,7 +163,7 @@ const Website = ({ resources }: any) => {
                 </Box>
               </Flex>
             </Flex>
-            <Flex w="50%" h="inherit">
+            <Flex w="100%" h="inherit">
               <iframe
                 src="https://maps.google.com/maps?q=JW37+PW8,%20San%20Francisco%20St.%20San%20Sebastian%20Village,%20Brgy.%20Sum-Ag,%20Bacolod,%206100%20Negros%20Occidental&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
                 width="100%"

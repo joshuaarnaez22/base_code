@@ -36,8 +36,6 @@ interface Props {
   type?: string;
 }
 const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
-  console.log(123);
-
   const router = useRouter();
   const [password, showPassword] = useState<boolean>(false);
   const [confirmPass, showConfirmPass] = useState<boolean>(false);

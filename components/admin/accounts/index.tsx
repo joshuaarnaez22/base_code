@@ -56,7 +56,7 @@ const Accounts = ({ users }: any) => {
 
   return (
     <>
-      <AddUser {...{ isOpen, onClose }} type="add" />;
+      <AddUser {...{ isOpen, onClose }} type="add" />
       <Flex justify="space-between">
         {/* <Text>Accounts</Text> */}
         <Flex>
