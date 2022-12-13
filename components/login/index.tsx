@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Flex, Image, useToast } from '@chakra-ui/react';
 import { loginAuth } from '@/services/auth';
 import cookie from 'js-cookie';
+import { getUserLoginId } from '@/services/helpers';
 const schema = yup.object().shape({
   username: yup.string().required('Username is required.'),
   password: yup.string().required('Password is required.'),
@@ -30,6 +31,7 @@ const Login = () => {
   const onSubmit = async (payload: any) => {
     try {
       const { data } = await loginAuth(payload);
+      console.log(data);
       const { token, role, success, message } = data;
       if (success) {
         cookie.set('token', token);
@@ -43,6 +45,9 @@ const Login = () => {
       toastUI(2, 'Something went wrong', 'Error');
       console.log(error);
     }
+
+    const { userId } = getUserLoginId();
+    console.log(userId);
   };
 
   const toastUI = (type: number, description: string, title: string) => {

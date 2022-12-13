@@ -11,7 +11,7 @@ import {
   MenuItem,
   Image,
   useDisclosure,
-  Button,
+  IconButton,
 } from '@chakra-ui/react';
 import { AiFillBell } from 'react-icons/ai';
 import cookie from 'js-cookie';
@@ -21,10 +21,21 @@ import { getAllUnread } from '@/services/user.service';
 import ProfileDrawer from '../global/ProfileDrawer';
 import { FaGlobe, FaUserCog } from 'react-icons/fa';
 import { AiOutlineLogout } from 'react-icons/ai';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import UserMenuAdmin from '../global/UserMenuAdmin';
+import UserSocialWorkerMenu from '../global/UserSocialWorkerMenu';
 
-const Navbar = () => {
+const Navbar = ({ type }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenMenu,
+    onOpen: onOpenMenu,
+    onClose: onCloseMenu,
+  } = useDisclosure();
+
   const btnRef = React.useRef();
+  const btnRefMenu = React.useRef();
+
   const router = useRouter();
   const [user, setUser] = useState('test');
   const [totalUnread, setTotalUnread] = useState(0);
@@ -51,6 +62,14 @@ const Navbar = () => {
   return (
     <>
       <ProfileDrawer {...{ isOpen, onClose, btnRef }} />
+
+      {type === 'admin' && (
+        <UserMenuAdmin {...{ isOpenMenu, onCloseMenu, btnRefMenu }} />
+      )}
+      {type === 'socialworker' && (
+        <UserSocialWorkerMenu {...{ isOpenMenu, onCloseMenu, btnRefMenu }} />
+      )}
+
       <Flex
         h="10vh"
         bg="main"
@@ -70,7 +89,18 @@ const Navbar = () => {
             alt="logo"
             display={{ base: 'none', lg: 'block' }}
           />
-          <Button display={{ base: 'block', lg: 'none' }}>Cluicj</Button>
+          <Box display={{ base: 'block', lg: 'none' }}>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<GiHamburgerMenu />}
+                variant="outline"
+                onClick={onOpenMenu}
+              />
+            </Menu>
+          </Box>
+
           <Flex align="center" gap="30px">
             <Flex
               pos="relative"

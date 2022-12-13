@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Flex, Image, Icon } from '@chakra-ui/react';
+import { Text, Flex, Icon } from '@chakra-ui/react';
 import { MdOutlineDashboard, MdSchedule } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { IoIosPeople } from 'react-icons/io';
-
-export default function SocialWorkerSideMenu() {
+import { hideScollbar } from '@/components/Scrollbar';
+interface MenuProps {
+  type?: string;
+  closeDrawer?: any;
+}
+export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
   const routerChoice = [
@@ -19,6 +23,11 @@ export default function SocialWorkerSideMenu() {
     if (router.pathname === routerChoice[2]) setSelectedMenu(3);
   }, [router]);
 
+  const mobileHandler = (status: boolean) => {
+    if (status && type === 'mobile') closeDrawer(true);
+    return;
+  };
+
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
     return (
       <Flex
@@ -32,6 +41,7 @@ export default function SocialWorkerSideMenu() {
         onClick={() => {
           setSelectedMenu(index);
           router.push(route);
+          mobileHandler(true);
         }}
         bg={isSelected && 'rgba(0, 0, 0, 0.5)'}
         borderLeft={isSelected && '5px solid white'}
@@ -57,11 +67,13 @@ export default function SocialWorkerSideMenu() {
 
   return (
     <Flex
-      w="18vw"
+      minW="250px"
       h="90vh"
       bg="#363740"
       direction="column"
-      overflow="hidden scroll"
+      overflowY="scroll"
+      overflowX="hidden"
+      sx={hideScollbar}
     >
       <Flex justify="center" align="start" gap="10px" py="30px" w="inherit">
         <Text

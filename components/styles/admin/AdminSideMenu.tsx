@@ -7,10 +7,15 @@ import {
 } from 'react-icons/md';
 import { IoIosPeople } from 'react-icons/io';
 import { RiFileHistoryLine } from 'react-icons/ri';
-import { BsQuestionSquareFill } from 'react-icons/bs';
+import { BsQuestionSquareFill, BsClockFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
-import { thinScollbar } from '@/components/Scrollbar';
-export default function AdminSideMenu() {
+import { hideScollbar } from '@/components/Scrollbar';
+
+interface MenuProps {
+  type?: string;
+  closeDrawer?: any;
+}
+export default function AdminSideMenu({ type, closeDrawer }: MenuProps) {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
   const routerChoice = [
@@ -20,6 +25,7 @@ export default function AdminSideMenu() {
     '/admin/visitations',
     '/admin/monitoring',
     '/admin/inquiries',
+    '/admin/schedules',
   ];
 
   useEffect(() => {
@@ -29,8 +35,13 @@ export default function AdminSideMenu() {
     if (router.pathname === routerChoice[3]) setSelectedMenu(4);
     if (router.pathname === routerChoice[4]) setSelectedMenu(5);
     if (router.pathname === routerChoice[5]) setSelectedMenu(6);
+    if (router.pathname === routerChoice[6]) setSelectedMenu(7);
   }, [router]);
 
+  const mobileHandler = (status: boolean) => {
+    if (status && type === 'mobile') closeDrawer(true);
+    return;
+  };
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
     return (
       <Flex
@@ -44,6 +55,7 @@ export default function AdminSideMenu() {
         onClick={() => {
           setSelectedMenu(index);
           router.push(route);
+          mobileHandler(true);
         }}
         bg={isSelected && 'rgba(0, 0, 0, 0.5)'}
         borderLeft={isSelected && '5px solid white'}
@@ -76,7 +88,7 @@ export default function AdminSideMenu() {
       // overflow="hidden scroll"
       overflowY="scroll"
       overflowX="hidden"
-      sx={thinScollbar}
+      sx={hideScollbar}
     >
       <Flex justify="center" align="start" gap="10px" py="30px" w="inherit">
         <Text
@@ -131,6 +143,14 @@ export default function AdminSideMenu() {
           index={6}
           isSelected={selectedMenu == 6 ? true : false}
           route={routerChoice[5]}
+        />
+        <MenuOptions
+          title="Schedules"
+          s
+          icon={BsClockFill}
+          index={7}
+          isSelected={selectedMenu == 7 ? true : false}
+          route={routerChoice[6]}
         />
       </Flex>
     </Flex>

@@ -17,7 +17,7 @@ export default function Layout({ type, children }: any) {
         overflowX="hidden"
         overflowY="hidden"
       >
-        <Navbar />
+        <Navbar type={type} />
         <Flex p={0} h="100vh" w="100vw">
           <Box display={{ base: 'none', lg: 'block' }}>
             {type === 'admin' && <AdminSideMenu />}
