@@ -13,11 +13,15 @@ export function middleware(request) {
     url.startsWith(`${origin}/foster`) && role !== 'foster',
     url.startsWith(`${origin}/socialworker`) && role !== 'socialworker',
   ];
-
+  console.log(role);
+  const redirect =
+    role === 'socialworker'
+      ? 'accounts'
+      : role === 'volunteer'
+      ? 'schedules'
+      : 'dashboard';
   if (routes[0] || routes[1] || routes[2]) {
-    return NextResponse.redirect(
-      `${origin}/${role}/${role === 'socialworker' ? 'accounts' : 'dashboard'}`,
-    );
+    return NextResponse.redirect(`${origin}/${role}/${redirect}`);
   }
 }
 
@@ -30,6 +34,7 @@ export const config = {
     '/admin/visitations',
     '/foster/dashboard',
     '/foster/schedule',
+    '/volunteer/schedules',
     // '/foster/childrens',
     '/admin/history',
     '/admin/monitoring',

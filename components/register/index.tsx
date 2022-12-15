@@ -19,6 +19,7 @@ const schema = yup.object().shape({
     .string()
     .email('Not a proper email')
     .required('Email is required.'),
+  username: yup.string().required('Username is required'),
   password: yup.string().required('Password is required.'),
   confirm: yup
     .string()
@@ -32,16 +33,24 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
 
+  const { reset } = useForm();
   const toast = useToast();
 
-  const onSubmit = async (payload: any) => {
+  const onSubmit = async (inputData: any) => {
     try {
-      const { data }: any = await createUser(payload);
+      const payload = {
+        ...inputData,
+        role: 'foster',
+        firstname: null,
+        lastname: null,
+      };
+      const data = await createUser(payload);
       if (data.message === 'Account Registered successfully') {
         toastUI(1, data.message, 'Account created.');
-        router.push('/');
+        reset();
+        router.push('/login');
       } else {
-        toastUI(2, data.message, 'Account Invalid.');
+        toastUI(2, data.mesage, 'Account Invalid.');
       }
     } catch (error) {
       console.log(error);

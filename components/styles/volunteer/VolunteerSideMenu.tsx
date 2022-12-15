@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Flex, Image, Icon } from '@chakra-ui/react';
-import { MdOutlineDashboard, MdSchedule } from 'react-icons/md';
+import { Text, Flex, Icon } from '@chakra-ui/react';
+import { MdSchedule } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { hideScollbar } from '@/components/Scrollbar';
-
 interface MenuProps {
   type?: string;
   closeDrawer?: any;
 }
-export default function FosterSideMenu({ type, closeDrawer }: MenuProps) {
+
+export default function VolunteerSideMenu({ type, closeDrawer }: MenuProps) {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = [
-    '/foster/dashboard',
-    '/foster/visitations',
-    // '/foster/childrens',
-  ];
+  const routerChoice = ['/volunteer/schedules'];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
-    if (router.pathname === routerChoice[1]) setSelectedMenu(2);
-    // if (router.pathname === routerChoice[2]) setSelectedMenu(3);
   }, [router]);
 
   const mobileHandler = (status: boolean) => {
     if (status && type === 'mobile') closeDrawer(true);
     return;
   };
+
   const MenuOptions = ({ icon, title, isSelected, index, route }: any) => {
     return (
       <Flex
@@ -70,7 +65,6 @@ export default function FosterSideMenu({ type, closeDrawer }: MenuProps) {
       h="90vh"
       bg="#363740"
       direction="column"
-      // overflow="hidden scroll"
       overflowY="scroll"
       overflowX="hidden"
       sx={hideScollbar}
@@ -88,26 +82,12 @@ export default function FosterSideMenu({ type, closeDrawer }: MenuProps) {
       </Flex>
       <Flex direction="column" mt="15px">
         <MenuOptions
-          title="Dashboard"
-          icon={MdOutlineDashboard}
+          title="Schedule"
+          icon={MdSchedule}
           index={1}
           isSelected={selectedMenu == 1 ? true : false}
           route={routerChoice[0]}
         />
-        <MenuOptions
-          title="Schedule Visit"
-          icon={MdSchedule}
-          index={2}
-          isSelected={selectedMenu == 2 ? true : false}
-          route={routerChoice[1]}
-        />
-        {/* <MenuOptions
-          title="Childrens"
-          icon={MdSchedule}
-          index={3}
-          isSelected={selectedMenu == 3 ? true : false}
-          route={routerChoice[2]}
-        /> */}
       </Flex>
     </Flex>
   );

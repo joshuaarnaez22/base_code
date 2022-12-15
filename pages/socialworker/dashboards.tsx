@@ -1,10 +1,10 @@
-import Dashboard from '@/components/global/Dashboard';
-import { thinnerScollbar } from '@/components/Scrollbar';
+import { thinScollbar } from '@/components/Scrollbar';
 import { allCounts } from '@/services/user.service';
 import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
 import React, { ReactElement } from 'react';
+import Dashboard from '@/components/global/Dashboard';
 
 const dashboard: NextPageWithLayout = ({ response }: any) => {
   return (
@@ -13,7 +13,7 @@ const dashboard: NextPageWithLayout = ({ response }: any) => {
       h="90vh"
       overflowY="auto"
       mx="20px"
-      sx={thinnerScollbar}
+      sx={thinScollbar}
       p="20px"
     >
       <Dashboard response={response} />
@@ -30,7 +30,7 @@ export async function getStaticProps() {
 }
 
 dashboard.getLayout = function getLayout(page: ReactElement) {
-  return <Layout type="admin">{page}</Layout>;
+  return <Layout type="socialworker">{page}</Layout>;
 };
 
 export default dashboard;

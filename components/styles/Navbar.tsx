@@ -24,6 +24,8 @@ import { AiOutlineLogout } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import UserMenuAdmin from '../global/UserMenuAdmin';
 import UserSocialWorkerMenu from '../global/UserSocialWorkerMenu';
+import UserFoster from '../global/UserFoster';
+import UserVolunteer from '../global/UserVolunteer';
 
 const Navbar = ({ type }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,6 +53,7 @@ const Navbar = ({ type }: any) => {
     const response = await getAllUnread();
     setTotalUnread(response.total);
   };
+  console.log(user);
 
   const handleNavigate = () => {
     router.push(
@@ -69,7 +72,12 @@ const Navbar = ({ type }: any) => {
       {type === 'socialworker' && (
         <UserSocialWorkerMenu {...{ isOpenMenu, onCloseMenu, btnRefMenu }} />
       )}
-
+      {type === 'foster' && (
+        <UserFoster {...{ isOpenMenu, onCloseMenu, btnRefMenu }} />
+      )}
+      {type === 'volunteer' && (
+        <UserVolunteer {...{ isOpenMenu, onCloseMenu, btnRefMenu }} />
+      )}
       <Flex
         h="10vh"
         bg="main"
@@ -102,27 +110,31 @@ const Navbar = ({ type }: any) => {
           </Box>
 
           <Flex align="center" gap="30px">
-            <Flex
-              pos="relative"
-              transition="all 0.5s ease"
-              _hover={{
-                cursor: 'pointer',
-                transform: 'scale(1.1)',
-                transition: 'all 0.5s ease',
-              }}
-              onClick={handleNavigate}
-            >
-              <Icon as={AiFillBell} w="20px" h="20px" zIndex="2" />
-              <Text
-                color="red"
-                pos="absolute"
-                top="-14px"
-                right="-5px"
-                fontWeight="bold"
+            {(type === 'admin' || type === 'socialworker') && (
+              <Flex
+                pos="relative"
+                transition="all 0.5s ease"
+                _hover={{
+                  cursor: 'pointer',
+                  transform: 'scale(1.1)',
+                  transition: 'all 0.5s ease',
+                }}
+                onClick={handleNavigate}
               >
-                {totalUnread}
-              </Text>
-            </Flex>
+                <Icon as={AiFillBell} w="20px" h="20px" zIndex="2" />
+                <Text
+                  color="blue"
+                  pos="absolute"
+                  top="-14px"
+                  opacity=".5"
+                  right="-5px"
+                  fontWeight="bold"
+                >
+                  {totalUnread}
+                </Text>
+              </Flex>
+            )}
+
             <Box w="1px" bg="gray" h="30px" opacity=".5" />
             <Text
               fontFamily="robo"
@@ -140,7 +152,12 @@ const Navbar = ({ type }: any) => {
                 transition="all .5s ease-in-out"
                 outline="transparent"
               >
-                <Avatar fontFamily="robo" name={user} src="" mr="20px" />
+                <Avatar
+                  fontFamily="robo"
+                  name={user ? user : 'A'}
+                  src=""
+                  mr="20px"
+                />
               </MenuButton>
               <MenuList minW="100px">
                 <MenuItem onClick={onOpen}>
@@ -149,12 +166,14 @@ const Navbar = ({ type }: any) => {
                     Profile
                   </Flex>
                 </MenuItem>
-                <MenuItem onClick={onOpen}>
-                  <Flex align="center" gap="3">
-                    <Icon as={FaGlobe} color="red" />
-                    Update Website
-                  </Flex>
-                </MenuItem>
+                {(type === 'admin' || type === 'socialworker') && (
+                  <MenuItem onClick={onOpen}>
+                    <Flex align="center" gap="3">
+                      <Icon as={FaGlobe} color="red" />
+                      Update Website
+                    </Flex>
+                  </MenuItem>
+                )}
                 <MenuItem
                   onClick={() => {
                     cookie.remove('token');

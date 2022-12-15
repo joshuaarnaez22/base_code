@@ -34,6 +34,28 @@ const RegisterFields = () => {
         <Stack>
           <Input
             variant="basic"
+            placeholder="Username"
+            w="300px"
+            autoComplete="off"
+            _placeholder={{
+              color: 'white',
+              opacity: '.5',
+              fontFamily: 'robo',
+              fontSize: 'SubHeader.lg',
+            }}
+            {...register('username')}
+          />
+          <Collapse in={errors.username ? true : false} animateOpacity>
+            {errors.username && (
+              <Text fontSize="SubHeader.md" color="red">
+                {errors.username.message as string}
+              </Text>
+            )}
+          </Collapse>
+        </Stack>
+        <Stack>
+          <Input
+            variant="basic"
             placeholder="Email"
             w="300px"
             autoComplete="off"

@@ -29,8 +29,8 @@ import {
   getAllUnreadInquiry,
   readAllinquryMessages,
 } from './endpoint';
-import { ILogin } from './types';
-export const createUser = async (payload: ILogin) => {
+
+export const createUser = async (payload: any) => {
   const { data } = await instance.post(addUser, payload);
   return data;
 };
@@ -42,8 +42,6 @@ export const allUser = async () => {
 
 export const userUpdate = async (payload: any) => {
   const { data } = await instance.put(updateUser, payload);
-  console.log('==========', data);
-
   return data;
 };
 

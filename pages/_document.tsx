@@ -6,7 +6,7 @@ export default function Document() {
     <Html>
       <Head>
         <link rel="icon" href="/fav-icon.png" sizes="16x16" />
-        <link rel="manifest" href="/site.webmanifest" />
+        {/* <link rel="manifest" href="/favicons/manifest.json" /> */}
       </Head>
       <body>
         <Main />

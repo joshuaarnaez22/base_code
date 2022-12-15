@@ -5,6 +5,7 @@ import AdminSideMenu from '@/components/styles/admin/AdminSideMenu';
 import FosterSideMenu from '@/components/styles/foster/FosterSideMenu';
 import SocialWorkerSideMenu from '@/components/styles/socialworker/SocialWorkerSideMenu';
 import { thinScollbar } from '@/components/Scrollbar';
+import VolunteerSideMenu from '@/components/styles/volunteer/VolunteerSideMenu';
 
 export default function Layout({ type, children }: any) {
   return (
@@ -23,6 +24,7 @@ export default function Layout({ type, children }: any) {
             {type === 'admin' && <AdminSideMenu />}
             {type === 'foster' && <FosterSideMenu />}
             {type === 'socialworker' && <SocialWorkerSideMenu />}
+            {type === 'volunteer' && <VolunteerSideMenu />}
           </Box>
 
           <Flex h="90vh" w="100%" overflow="scroll hidden" sx={thinScollbar}>
