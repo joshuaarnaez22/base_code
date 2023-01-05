@@ -22,6 +22,9 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CalendarModal from './CalendarModal';
 import { Select } from 'chakra-react-select';
+import { RiHealthBookLine } from 'react-icons/ri';
+import { MdLibraryAdd } from 'react-icons/md';
+
 import {
   addMonitoringOrphans,
   getAllActiveChild,
@@ -40,9 +43,27 @@ interface Props {
 const schema = yup.object().shape({
   date: yup.string().required('Date is required.'),
   education: yup.string().required('Education is required.'),
-  daily_health: yup.string().required('Education is required.'),
+  daily_health: yup
+    .array()
+    .required('Health is required.')
+    .min(1, 'Please pick at least 1 Health')
+    .of(
+      yup.object().shape({
+        label: yup.string().required(),
+        value: yup.string().required(),
+      }),
+    ),
   action: yup.string().required('Action is required.'),
-  chores: yup.string().required('Chores is required.'),
+  chores: yup
+    .array()
+    .required('Chores is required.')
+    .min(1, 'Please pick at least 1 Chores')
+    .of(
+      yup.object().shape({
+        label: yup.string().required(),
+        value: yup.string().required(),
+      }),
+    ),
   meal: yup.string().required('Meal is required.'),
   orphan_id: yup
     .array()
@@ -83,8 +104,10 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         delete orp._id;
         delete orp.orphans;
       });
-
+      console.log(payload);
       const res = await addMonitoringOrphans(payload);
+      console.log(res);
+
       toastUI(1, res.message, 'Successfully added');
       reset();
       onClose();
@@ -120,6 +143,66 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     });
     setActiveOrphans(res.data);
   };
+
+  const mealOptions = [
+    { value: 'Breakfast', label: 'Breakfast' },
+    { value: 'Lunch', label: 'Lunch' },
+    { value: 'Merienda', label: 'Merienda' },
+    { value: 'Dinner', label: 'Dinner' },
+  ];
+
+  const choresOptions = [
+    { value: 'Sweep', label: 'Sweep' },
+    { value: 'Wash Dishes', label: 'Wash Dishes' },
+    { value: 'Setting Table', label: 'Setting Table' },
+    { value: 'Laundry', label: 'Laundry' },
+    { value: 'Folding Clothes', label: 'Folding Clothes' },
+  ];
+
+  const healthOptions = [
+    { value: 'Alergy', label: 'Alergy' },
+    { value: 'Cold & Flu', label: 'Cold & Flu' },
+    { value: 'Diarrhea', label: 'Diarrhea' },
+    { value: 'Headache', label: 'Headache' },
+    { value: 'Stomachaches', label: 'Stomachaches' },
+  ];
+
+  const gradesOptions = [
+    { value: 'grade1', label: 'Grade 1' },
+    { value: 'grade2', label: 'Grade 2' },
+    { value: 'grade3', label: 'Grade 3' },
+    { value: 'grade4', label: 'Grade 4' },
+    { value: 'grade5', label: 'Grade 5' },
+    { value: 'grade6', label: 'Grade 6' },
+    { value: 'grade7', label: 'Grade 7' },
+    { value: 'grade8', label: 'Grade 8' },
+    { value: 'grade9', label: 'Grade 9' },
+    { value: 'grade10', label: 'Grade 10' },
+    { value: 'grade11', label: 'Grade 11' },
+    { value: 'grade12', label: 'Grade 12' },
+  ];
+
+  const mealChange = (e: any) => {
+    setValue('meal', e.value, { shouldValidate: true, shouldDirty: true });
+  };
+
+  const choresChange = (e: any) => {
+    setValue('chores', e, { shouldValidate: true, shouldDirty: true });
+  };
+
+  const healthChange = (e: any) => {
+    setValue('daily_health', e, { shouldValidate: true, shouldDirty: true });
+  };
+
+  const gradesChange = (e: any) => {
+    setValue('education', e.value, { shouldValidate: true, shouldDirty: true });
+  };
+  const addDailyHealth = () => {
+    console.log('Health');
+  };
+  const addChores = () => {
+    console.log('chores');
+  };
   return (
     <>
       <Modal
@@ -133,7 +216,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
           maxH="90vh"
           overflowY="auto"
           sx={thinnerScollbar}
-          maxW="50%"
+          maxW="80%"
         >
           <ModalHeader>
             {type === 'add' && 'Add Monitoring'}
@@ -154,6 +237,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                       isMulti
                       colorScheme="blue"
                       options={activeOrphans}
+                      // defaultValue={mealOptions[0]}
                     />
                     <Collapse in={errors.orphan_id ? true : false}>
                       {errors.orphan_id && (
@@ -167,10 +251,12 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                 <Flex gap="3">
                   <FormControl isInvalid={errors.meal ? true : false}>
                     <FormLabel>Meal</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Meal"
+                    <Select
                       {...register('meal')}
+                      name="meal"
+                      onChange={mealChange}
+                      colorScheme="blue"
+                      options={mealOptions}
                     />
                     <Collapse in={errors.meal ? true : false}>
                       {errors.meal && (
@@ -188,10 +274,13 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                   />
                   <FormControl isInvalid={errors.chores ? true : false}>
                     <FormLabel>Chores</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Chores"
+                    <Select
                       {...register('chores')}
+                      isMulti
+                      name="chores"
+                      onChange={choresChange}
+                      colorScheme="blue"
+                      options={choresOptions}
                     />
                     <Collapse in={errors.chores ? true : false}>
                       {errors.chores && (
@@ -203,10 +292,12 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                   </FormControl>
                   <FormControl isInvalid={errors.education ? true : false}>
                     <FormLabel>Education</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Education"
+                    <Select
                       {...register('education')}
+                      name="education"
+                      onChange={gradesChange}
+                      colorScheme="blue"
+                      options={gradesOptions}
                     />
                     <Collapse in={errors.education ? true : false}>
                       {errors.education && (
@@ -220,10 +311,14 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                 <Flex gap="3">
                   <FormControl isInvalid={errors.daily_health ? true : false}>
                     <FormLabel>Daily Health</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Daily Health"
+
+                    <Select
                       {...register('daily_health')}
+                      isMulti
+                      name="daily_health"
+                      onChange={healthChange}
+                      colorScheme="blue"
+                      options={healthOptions}
                     />
                     <Collapse in={errors.daily_health ? true : false}>
                       {errors.daily_health && (
@@ -255,9 +350,23 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
 
           <ModalFooter>
             {type !== 'view' && (
-              <>
+              <Flex gap="4">
                 <Button colorScheme="gray" mr={3} onClick={onClose}>
                   Cancel
+                </Button>
+                <Button
+                  colorScheme="blue"
+                  onClick={addChores}
+                  leftIcon={<MdLibraryAdd />}
+                >
+                  Add Chores
+                </Button>
+                <Button
+                  colorScheme="blue"
+                  onClick={addDailyHealth}
+                  leftIcon={<RiHealthBookLine />}
+                >
+                  Daily health
                 </Button>
                 <Button
                   colorScheme="blue"
@@ -267,7 +376,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                   {type === 'update' && 'Update Monitoring'}
                   {type === 'add' && 'Create Monitoring'}
                 </Button>
-              </>
+              </Flex>
             )}
           </ModalFooter>
         </ModalContent>

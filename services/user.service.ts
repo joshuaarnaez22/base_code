@@ -28,6 +28,8 @@ import {
   deleteInquiry,
   getAllUnreadInquiry,
   readAllinquryMessages,
+  scheduleAll,
+  allVolunteer,
 } from './endpoint';
 
 export const createUser = async (payload: any) => {
@@ -164,5 +166,15 @@ export const getAllUnread = async () => {
 
 export const readAll = async () => {
   const { data } = await instance.put(readAllinquryMessages);
+  return data;
+};
+
+export const allSchedule = async () => {
+  const { data } = await instance.get(scheduleAll);
+  return data;
+};
+
+export const all_volunteer = async () => {
+  const { data } = await instance.get(allVolunteer);
   return data;
 };

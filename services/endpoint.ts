@@ -49,3 +49,12 @@ export const updateReadStatusInquiry = `${LOCALDEV}/inquiry/updateReadStatusInqu
 export const deleteInquiry = `${LOCALDEV}/inquiry/deleteInquiry`;
 export const getAllUnreadInquiry = `${LOCALDEV}/inquiry/getAllUnreadInquiry`;
 export const readAllinquryMessages = `${LOCALDEV}/inquiry/readAllinquryMessages`;
+
+//Volunteer
+export const allVolunteer = `${LOCALDEV}/volunteers/getAllVolunteer`;
+
+//schedule
+export const scheduleAdd = `${LOCALDEV}/volunteers/addSchedule`;
+export const scheduleDelete = `${LOCALDEV}/volunteers/updateSchedule`;
+export const scheduleUpdate = `${LOCALDEV}/volunteers/deleteSchedule`;
+export const scheduleAll = `${LOCALDEV}/volunteers/getAllSchedule`;

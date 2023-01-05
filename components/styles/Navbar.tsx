@@ -26,9 +26,14 @@ import UserMenuAdmin from '../global/UserMenuAdmin';
 import UserSocialWorkerMenu from '../global/UserSocialWorkerMenu';
 import UserFoster from '../global/UserFoster';
 import UserVolunteer from '../global/UserVolunteer';
-
+import WebsiteDrawer from '../global/WebsiteDrawer';
 const Navbar = ({ type }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenWebsiteMenu,
+    onOpen: onOpenWebsiteMenu,
+    onClose: onCloseWebsiteMenu,
+  } = useDisclosure();
   const {
     isOpen: isOpenMenu,
     onOpen: onOpenMenu,
@@ -37,6 +42,7 @@ const Navbar = ({ type }: any) => {
 
   const btnRef = React.useRef();
   const btnRefMenu = React.useRef();
+  const btnRefWebsite = React.useRef();
 
   const router = useRouter();
   const [user, setUser] = useState('test');
@@ -53,7 +59,6 @@ const Navbar = ({ type }: any) => {
     const response = await getAllUnread();
     setTotalUnread(response.total);
   };
-  console.log(user);
 
   const handleNavigate = () => {
     router.push(
@@ -65,6 +70,9 @@ const Navbar = ({ type }: any) => {
   return (
     <>
       <ProfileDrawer {...{ isOpen, onClose, btnRef }} />
+      <WebsiteDrawer
+        {...{ isOpenWebsiteMenu, btnRefWebsite, onCloseWebsiteMenu }}
+      />
 
       {type === 'admin' && (
         <UserMenuAdmin {...{ isOpenMenu, onCloseMenu, btnRefMenu }} />
@@ -167,7 +175,7 @@ const Navbar = ({ type }: any) => {
                   </Flex>
                 </MenuItem>
                 {(type === 'admin' || type === 'socialworker') && (
-                  <MenuItem onClick={onOpen}>
+                  <MenuItem onClick={onOpenWebsiteMenu}>
                     <Flex align="center" gap="3">
                       <Icon as={FaGlobe} color="red" />
                       Update Website

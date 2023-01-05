@@ -13,8 +13,6 @@ export async function getServerSideProps() {
   };
 }
 const monitoring = (monitoring: any) => {
-  console.log(monitoring);
-
   return (
     <Box
       w="100%"

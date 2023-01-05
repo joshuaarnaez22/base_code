@@ -1,9 +1,16 @@
 import { thinScollbar } from '@/components/Scrollbar';
+import Schedules from '@/components/admin/schedules';
+import { allSchedule } from '@/services/user.service';
 import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import React, { ReactElement } from 'react';
-
-const schedules = () => {
+export async function getServerSideProps() {
+  const { data } = await allSchedule();
+  return {
+    props: { data }, // will be passed to the page component as props
+  };
+}
+const schedules = ({ data }: any) => {
   return (
     <Box
       w="100%"
@@ -13,7 +20,7 @@ const schedules = () => {
       sx={thinScollbar}
       p="20px"
     >
-      Schedules
+      <Schedules schedules={data} />
     </Box>
   );
 };

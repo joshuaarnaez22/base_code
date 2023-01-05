@@ -188,6 +188,7 @@ const InqueryTable = ({ allInquery, search }: any) => {
                         ></MenuButton>
                         <MenuList minWidth="180px">
                           <MenuItem onClick={() => viewMessage(currentItem)}>
+                            <Icon as={GrFormView} boxSize={4} />
                             View
                           </MenuItem>
                           <MenuItem

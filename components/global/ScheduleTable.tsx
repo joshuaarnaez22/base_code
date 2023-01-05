@@ -24,15 +24,15 @@ import {
 import React, { useEffect, useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import Pagination from '@/components/global/Pagination';
-import AddUser from './AddUser';
 import Delete from '@/components/global/Delete';
 import { removeUser } from '@/services/user.service';
 import { useRouter } from 'next/router';
 import { FcDeleteDatabase } from 'react-icons/fc';
 import { GrUpdate, GrFormView } from 'react-icons/gr';
+import AddSchedule from './AddSchedule';
 
-const TableAccounts = ({ users, search, userType }: any) => {
-  console.log(users);
+const ScheduleTable = ({ schedules, search, userType }: any) => {
+  console.log(schedules);
 
   const toast = useToast();
   const router = useRouter();
@@ -44,38 +44,40 @@ const TableAccounts = ({ users, search, userType }: any) => {
     onClose: onCloseDelete,
   } = useDisclosure();
 
-  const [userDeleteId, setUserDeleteId] = useState<string>('');
+  const [deleteSched, setDeleteSched] = useState<string>('');
   const [selectedUpdate, setSelectedUpdate] = useState();
-  const [type, setType] = useState('');
+  const [type, setType] = useState('add');
   //delete dialog
   const confirmDelete = async (confirm: boolean) => {
+    console.log(confirm);
+
     if (confirm) {
-      const response = await removeUser({ id: userDeleteId });
-      if (response.success) toastUI(1, response.message, 'Orphan Deleted');
-      else toastUI(2, response.message, 'Someting went wrong');
-      router.replace(router.asPath);
+      // const response = await removeUser({ id: userDeleteId });
+      // if (response.success) toastUI(1, response.message, 'Orphan Deleted');
+      // else toastUI(2, response.message, 'Someting went wrong');
+      // router.replace(router.asPath);
     }
   };
 
   //delete
   const deleteAccount = (id: string) => {
-    setUserDeleteId(id);
+    setDeleteSched(id);
     onOpenDelete();
   };
 
   //Pagination
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
-  const currentItems = users.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(users.length / 10);
+  const currentItems = schedules.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(schedules.length / 10);
   const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * 10) % users.length;
+    const newOffset = (event.selected * 10) % schedules.length;
     setItemOffset(newOffset);
   };
 
   useEffect(() => {
     setItemOffset(0);
-  }, [users]);
+  }, [schedules]);
 
   //update
   const handleUpdate = (data: any) => {
@@ -105,11 +107,11 @@ const TableAccounts = ({ users, search, userType }: any) => {
 
   return (
     <>
-      <AddUser {...{ isOpen, onClose, selectedUpdate, type }} />
+      <AddSchedule {...{ isOpen, onClose, selectedUpdate, type }} />
       <Delete
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
-        name="Delete User"
+        name="Delete Schedule"
         {...{
           cancelRef,
           confirmDelete,
@@ -123,7 +125,7 @@ const TableAccounts = ({ users, search, userType }: any) => {
         mb="20px"
       >
         <Table variant="striped">
-          {!users.length && <TableCaption>No Accounts</TableCaption>}
+          {!schedules.length && <TableCaption>No Accounts</TableCaption>}
           <Thead
             fontWeight="bold"
             fontFamily="montserrat"
@@ -133,11 +135,10 @@ const TableAccounts = ({ users, search, userType }: any) => {
             letterSpacing="0.2"
           >
             <Tr>
-              <Th w="35%" fontWeight="bolder">
-                Profile
-              </Th>
+              <Th fontWeight="bolder">Name</Th>
               <Th fontWeight="bolder">Email </Th>
               <Th fontWeight="bolder">Date Added</Th>
+              <Th fontWeight="bolder">Last Login</Th>
               <Th w="5%"></Th>
             </Tr>
           </Thead>
@@ -152,31 +153,16 @@ const TableAccounts = ({ users, search, userType }: any) => {
                   letterSpacing="0.2"
                 >
                   <Td>
-                    <Flex>
-                      <Avatar src="" name={currentItem.email} />
+                    <Flex align="center">
+                      <Avatar src="" name={currentItem.volunteers} />
                       <Box ml="3">
-                        <Text fontWeight="bold">
-                          {currentItem.username}
-                          <Badge
-                            ml="1"
-                            colorScheme={
-                              currentItem.status === 'active' ? 'green' : 'red'
-                            }
-                            fontSize="10px"
-                          >
-                            {currentItem.status === 'active'
-                              ? 'active'
-                              : 'inactive'}
-                          </Badge>
-                        </Text>
-                        <Text fontSize="sm" fontWeight="bold">
-                          {currentItem.role}
-                        </Text>
+                        <Text fontWeight="bold">{currentItem.volunteers}</Text>
                       </Box>
                     </Flex>
                   </Td>
                   <Td fontWeight="bold">{currentItem.email}</Td>
-                  <Td fontWeight="bold">{currentItem.date_added}</Td>
+                  <Td fontWeight="bold">Nov 22, 2022</Td>
+                  <Td fontWeight="bold">Nov 22, 2022</Td>
                   <Td>
                     <Menu>
                       <MenuButton
@@ -232,10 +218,10 @@ const TableAccounts = ({ users, search, userType }: any) => {
           </Tbody>
         </Table>
         <Box mt="4" />
-        {!!users.length && !search && (
+        {!!schedules.length && !search && (
           <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
         )}
-        {!!users.length && search && (
+        {!!schedules.length && search && (
           <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
         )}
       </TableContainer>
@@ -243,4 +229,4 @@ const TableAccounts = ({ users, search, userType }: any) => {
   );
 };
 
-export default TableAccounts;
+export default ScheduleTable;
