@@ -13,7 +13,6 @@ export function middleware(request) {
     url.startsWith(`${origin}/foster`) && role !== 'foster',
     url.startsWith(`${origin}/socialworker`) && role !== 'socialworker',
   ];
-  console.log(role);
   const redirect =
     role === 'socialworker'
       ? 'accounts'

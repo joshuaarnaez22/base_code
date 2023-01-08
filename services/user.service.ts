@@ -30,6 +30,8 @@ import {
   readAllinquryMessages,
   scheduleAll,
   allVolunteer,
+  shceduleById,
+  scheduleAdd,
 } from './endpoint';
 
 export const createUser = async (payload: any) => {
@@ -163,7 +165,6 @@ export const getAllUnread = async () => {
   const { data } = await instance.get(getAllUnreadInquiry);
   return data;
 };
-
 export const readAll = async () => {
   const { data } = await instance.put(readAllinquryMessages);
   return data;
@@ -176,5 +177,15 @@ export const allSchedule = async () => {
 
 export const all_volunteer = async () => {
   const { data } = await instance.get(allVolunteer);
+  return data;
+};
+
+export const schedById = async () => {
+  const { data } = await instance.get(shceduleById);
+  return data;
+};
+
+export const addSched = async (payload: any) => {
+  const { data } = await instance.post(scheduleAdd, payload);
   return data;
 };

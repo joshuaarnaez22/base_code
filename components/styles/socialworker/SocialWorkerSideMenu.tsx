@@ -8,6 +8,9 @@ import {
 import { useRouter } from 'next/router';
 import { IoIosPeople } from 'react-icons/io';
 import { hideScollbar } from '@/components/Scrollbar';
+import { RiFileHistoryLine } from 'react-icons/ri';
+import { BsQuestionSquareFill } from 'react-icons/bs';
+
 interface MenuProps {
   type?: string;
   closeDrawer?: any;
@@ -16,10 +19,12 @@ export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
   const routerChoice = [
+    '/socialworker/dashboards',
     '/socialworker/accounts',
     '/socialworker/childrens',
     '/socialworker/visitations',
-    '/socialworker/dashboards',
+    '/socialworker/monitoring',
+    '/socialworker/inquiries',
   ];
 
   useEffect(() => {
@@ -27,6 +32,8 @@ export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
     if (router.pathname === routerChoice[1]) setSelectedMenu(2);
     if (router.pathname === routerChoice[2]) setSelectedMenu(3);
     if (router.pathname === routerChoice[3]) setSelectedMenu(4);
+    if (router.pathname === routerChoice[4]) setSelectedMenu(5);
+    if (router.pathname === routerChoice[5]) setSelectedMenu(6);
   }, [router]);
 
   const mobileHandler = (status: boolean) => {
@@ -96,30 +103,44 @@ export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
         <MenuOptions
           title="Dashboard"
           icon={MdOutlineDashboard}
-          index={4}
-          isSelected={selectedMenu == 4 ? true : false}
-          route={routerChoice[3]}
-        />
-        <MenuOptions
-          title="Accounts"
-          icon={MdManageAccounts}
           index={1}
           isSelected={selectedMenu == 1 ? true : false}
           route={routerChoice[0]}
         />
         <MenuOptions
-          title="Childrens"
-          icon={IoIosPeople}
+          title="Accounts"
+          icon={MdManageAccounts}
           index={2}
           isSelected={selectedMenu == 2 ? true : false}
           route={routerChoice[1]}
         />
         <MenuOptions
-          title="Visitations"
-          icon={MdSchedule}
+          title="Childrens"
+          icon={IoIosPeople}
           index={3}
           isSelected={selectedMenu == 3 ? true : false}
           route={routerChoice[2]}
+        />
+        <MenuOptions
+          title="Visitations"
+          icon={MdSchedule}
+          index={4}
+          isSelected={selectedMenu == 4 ? true : false}
+          route={routerChoice[3]}
+        />
+        <MenuOptions
+          title="Monitoring"
+          icon={RiFileHistoryLine}
+          index={5}
+          isSelected={selectedMenu == 5 ? true : false}
+          route={routerChoice[4]}
+        />
+        <MenuOptions
+          title="Inquiries"
+          icon={BsQuestionSquareFill}
+          index={6}
+          isSelected={selectedMenu == 6 ? true : false}
+          route={routerChoice[5]}
         />
       </Flex>
     </Flex>

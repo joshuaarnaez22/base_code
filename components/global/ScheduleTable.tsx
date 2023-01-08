@@ -86,13 +86,6 @@ const ScheduleTable = ({ schedules, search, userType }: any) => {
     onOpen();
   };
 
-  //view
-  const handleView = (data: any) => {
-    setType('view');
-    setSelectedUpdate(data);
-    onOpen();
-  };
-
   const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
@@ -136,9 +129,8 @@ const ScheduleTable = ({ schedules, search, userType }: any) => {
           >
             <Tr>
               <Th fontWeight="bolder">Name</Th>
-              <Th fontWeight="bolder">Email </Th>
-              <Th fontWeight="bolder">Date Added</Th>
-              <Th fontWeight="bolder">Last Login</Th>
+              <Th fontWeight="bolder">Shcedule </Th>
+              <Th fontWeight="bolder">Schedule Date</Th>
               <Th w="5%"></Th>
             </Tr>
           </Thead>
@@ -160,9 +152,9 @@ const ScheduleTable = ({ schedules, search, userType }: any) => {
                       </Box>
                     </Flex>
                   </Td>
-                  <Td fontWeight="bold">{currentItem.email}</Td>
-                  <Td fontWeight="bold">Nov 22, 2022</Td>
-                  <Td fontWeight="bold">Nov 22, 2022</Td>
+                  <Td fontWeight="bold">{currentItem.schedule}</Td>
+                  <Td fontWeight="bold">{currentItem.schedule_date}</Td>
+
                   <Td>
                     <Menu>
                       <MenuButton
@@ -200,15 +192,6 @@ const ScheduleTable = ({ schedules, search, userType }: any) => {
                             </Flex>
                           </MenuItem>
                         )}
-                        <MenuItem
-                          minH="40px"
-                          onClick={() => handleView(currentItem)}
-                        >
-                          <Flex align="center" gap="3">
-                            <Icon as={GrFormView} boxSize={4} />
-                            View Profile
-                          </Flex>
-                        </MenuItem>
                       </MenuList>
                     </Menu>
                   </Td>

@@ -23,6 +23,15 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import jwt_decode from 'jwt-decode';
+import cookie from 'js-cookie';
+
+interface UserProps {
+  username: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
 
 const schema = yup.object().shape(
   {
@@ -68,6 +77,13 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
 
   useEffect(() => {
     reset();
+    const { lastname, username, firstname, email }: UserProps = jwt_decode(
+      cookie.get('token') as string,
+    );
+    setValue('lastname', lastname);
+    setValue('username', username);
+    setValue('firstname', firstname);
+    setValue('email', email);
   }, [isOpen]);
 
   return (

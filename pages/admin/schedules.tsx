@@ -6,11 +6,14 @@ import Layout from 'layouts/Layout';
 import React, { ReactElement } from 'react';
 export async function getServerSideProps() {
   const { data } = await allSchedule();
+
   return {
     props: { data }, // will be passed to the page component as props
   };
 }
 const schedules = ({ data }: any) => {
+  console.log(data);
+
   return (
     <Box
       w="100%"

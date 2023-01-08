@@ -25,12 +25,13 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { thinnerScollbar } from '@/components/Scrollbar';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { createUser, userUpdate } from '@/services/user.service';
+import { addSched, createUser, userUpdate } from '@/services/user.service';
 import { useRouter } from 'next/router';
 import { Select } from 'chakra-react-select';
 import { Capitalize } from '@/services/helpers';
 import CalendarModal from './CalendarModal';
 import { all_volunteer } from '@/services/user.service';
+
 interface Props {
   isOpen: any;
   onClose: any;
@@ -72,6 +73,8 @@ const AddSchedule = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         value: selectedUpdate.id,
       });
       reset({
+        volunteer: selectedUpdate.id,
+        schedTime: selectedUpdate.schedule,
         date: new Date(selectedUpdate.schedule_date),
       });
     }
@@ -83,9 +86,11 @@ const AddSchedule = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
 
   const getAllVolunteer = async () => {
     const { user } = await all_volunteer();
+    console.log(user);
+
     const newItems = user.map((item: any) => ({
       label: item.email,
-      value: item._id,
+      value: item.id,
     }));
 
     setAllVolunteer(newItems);
@@ -123,6 +128,19 @@ const AddSchedule = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const onSubmit = async (data: any) => {
     console.log(data);
 
+    try {
+      const res = await addSched({
+        volunteer_id: data.volunteer,
+        schedule_date: data.date,
+        schedule: data.schedTime,
+      });
+      toastUI(1, res.message, 'Successfully added');
+      reset();
+      onClose();
+      router.replace(router.asPath);
+    } catch (error) {
+      console.log(error);
+    }
     // try {
     //   if (type === 'add') return await addUser(data);
     //   if (type === 'update') return await updateUser(data);
@@ -156,6 +174,7 @@ const AddSchedule = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     setValue('volunteer', e.value, { shouldValidate: true, shouldDirty: true });
     setVolunteer({ label: e.label, value: e.value });
   };
+
   return (
     <Modal
       isOpen={isOpen}

@@ -51,10 +51,11 @@ export const getAllUnreadInquiry = `${LOCALDEV}/inquiry/getAllUnreadInquiry`;
 export const readAllinquryMessages = `${LOCALDEV}/inquiry/readAllinquryMessages`;
 
 //Volunteer
-export const allVolunteer = `${LOCALDEV}/volunteers/getAllVolunteer`;
+export const allVolunteer = `${LOCALDEV}/users/getAllVolunteer`;
 
 //schedule
-export const scheduleAdd = `${LOCALDEV}/volunteers/addSchedule`;
-export const scheduleDelete = `${LOCALDEV}/volunteers/updateSchedule`;
-export const scheduleUpdate = `${LOCALDEV}/volunteers/deleteSchedule`;
-export const scheduleAll = `${LOCALDEV}/volunteers/getAllSchedule`;
+export const scheduleAdd = `${LOCALDEV}/schedule/addSchedule`;
+export const scheduleDelete = `${LOCALDEV}/schedule/updateSchedule`;
+export const scheduleUpdate = `${LOCALDEV}/schedule/deleteSchedule`;
+export const scheduleAll = `${LOCALDEV}/schedule/getAllSchedule`;
+export const shceduleById = `${LOCALDEV}/schedule/getAllScheduleByID`;

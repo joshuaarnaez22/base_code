@@ -1,7 +1,17 @@
 import { thinScollbar } from '@/components/Scrollbar';
+import { schedById } from '@/services/user.service';
 import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import React, { ReactElement } from 'react';
+
+export async function getServerSideProps() {
+  const response = await schedById();
+  console.log(response);
+
+  return {
+    props: { response }, // will be passed to the page component as props
+  };
+}
 
 const schedules = () => {
   return (
