@@ -76,7 +76,7 @@ const FirstSection = () => {
                   transition: 'all .5s ease-in-out',
                 }}
               >
-                ABOUT US
+                SERVICES
               </Text>
               <Text
                 {...HeaderMenuProps}
@@ -86,7 +86,7 @@ const FirstSection = () => {
                   transition: 'all .5s ease-in-out',
                 }}
               >
-                SERVICES
+                SPONSORS
               </Text>
               <Text
                 {...HeaderMenuProps}
@@ -112,16 +112,23 @@ const FirstSection = () => {
               </Button>
             </Flex>
           </Flex>
-        </Stack>
-        <Flex w="100vw" align="center" h="200px" justify="center" zIndex="2">
-          <Text
-            fontSize="52px"
-            fontWeight="bolder"
-            textShadow="5px 5px #558abb"
+          <Flex
+            w="100vw"
+            align="center"
+            h="200px"
+            justify="center"
+            zIndex="2"
+            pos="absolute"
           >
-            WELCOME TO HOLY
-          </Text>
-        </Flex>
+            <Text
+              fontSize="52px"
+              fontWeight="bolder"
+              textShadow="5px 5px #558abb"
+            >
+              WELCOME TO HOLY
+            </Text>
+          </Flex>
+        </Stack>
       </Flex>
     </>
   );

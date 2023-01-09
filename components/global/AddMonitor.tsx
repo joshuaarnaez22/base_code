@@ -104,7 +104,6 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         delete orp._id;
         delete orp.orphans;
       });
-      console.log(payload);
       const res = await addMonitoringOrphans(payload);
 
       toastUI(1, res.message, 'Successfully added');

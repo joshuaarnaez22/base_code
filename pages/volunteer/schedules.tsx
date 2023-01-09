@@ -3,11 +3,13 @@ import { schedById } from '@/services/user.service';
 import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import React, { ReactElement } from 'react';
+import jwt_decode from 'jwt-decode';
 
-export async function getServerSideProps() {
-  const response = await schedById();
-  console.log(response);
-
+export async function getServerSideProps(context: any) {
+  const { token } = context.req.cookies;
+  const { userId }: { userId: string } = jwt_decode(token);
+  const response = await schedById({ volunteer_id: userId });
+  console.log('sched', response);
   return {
     props: { response }, // will be passed to the page component as props
   };

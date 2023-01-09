@@ -17,7 +17,7 @@ import FirstSection from './FirstSection';
 import SecondSection from './SecondSection';
 import ThirdSection from './ThirdSection';
 import { inquiryAdd } from '@/services/user.service';
-
+import SponsorSection from './SponsorSection';
 // const BgProps = {
 //   height: '100vh',
 //   width: '100%',
@@ -75,17 +75,19 @@ const Website = ({ resources }: any) => {
         <FirstSection />
         <SecondSection />
         <ThirdSection resources={resources} />
+        <SponsorSection />
+        <ThirdSection resources={resources} />
 
         <Flex>
           <Flex
             w="100vw"
             justify="center"
             align="center"
-            h={{ base: '150vh', lg: '100vh' }}
+            h="600px"
             direction={{ base: 'column', lg: 'row' }}
             gap={{ base: '10', lg: '0' }}
           >
-            <Flex w="100%">
+            <Flex w="100%" maxH="800px">
               <Flex
                 py="10"
                 display="column"
@@ -163,7 +165,7 @@ const Website = ({ resources }: any) => {
                 </Box>
               </Flex>
             </Flex>
-            <Flex w="100%" h="inherit">
+            <Flex w="100%" h="700px">
               <iframe
                 src="https://maps.google.com/maps?q=JW37+PW8,%20San%20Francisco%20St.%20San%20Sebastian%20Village,%20Brgy.%20Sum-Ag,%20Bacolod,%206100%20Negros%20Occidental&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
                 width="100%"
@@ -175,7 +177,7 @@ const Website = ({ resources }: any) => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex w="100%" h="10vh" bg="gray">
+        <Flex w="100%" h="10vh" bg="#22242A" mt="20">
           footer
         </Flex>
       </Box>

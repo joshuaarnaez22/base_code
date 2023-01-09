@@ -180,8 +180,8 @@ export const all_volunteer = async () => {
   return data;
 };
 
-export const schedById = async () => {
-  const { data } = await instance.get(shceduleById);
+export const schedById = async (payload: any) => {
+  const { data } = await instance.post(shceduleById, payload);
   return data;
 };
 

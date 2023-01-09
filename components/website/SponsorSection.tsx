@@ -1,7 +1,7 @@
 import { Flex, Text, Button } from '@chakra-ui/react';
 import React from 'react';
 
-const SecondSection = () => {
+const SponsorSection = () => {
   return (
     <>
       <Flex
@@ -41,11 +41,11 @@ const SecondSection = () => {
           Request
         </Button> */}
         <Text fontFamily="robo" fontWeight="extranormal" fontSize="30px">
-          Our Services
+          Our Sponsors
         </Text>
       </Flex>
     </>
   );
 };
 
-export default SecondSection;
+export default SponsorSection;

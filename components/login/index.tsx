@@ -31,7 +31,6 @@ const Login = () => {
   const onSubmit = async (payload: any) => {
     try {
       const { data } = await loginAuth(payload);
-      console.log(data);
       const { token, role, success, message } = data;
       if (success) {
         cookie.set('token', token);
@@ -48,8 +47,7 @@ const Login = () => {
       console.log(error);
     }
 
-    const { userId } = getUserLoginId();
-    console.log(userId);
+    // const { userId } = getUserLoginId();
   };
 
   const toastUI = (type: number, description: string, title: string) => {

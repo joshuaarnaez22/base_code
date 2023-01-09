@@ -3,6 +3,8 @@ import Pagination from '@/components/global/Pagination';
 import { deleteMonitoring } from '@/services/endpoint';
 import { Capitalize } from '@/services/helpers';
 import { deleteMonitor } from '@/services/user.service';
+import { FcDeleteDatabase } from 'react-icons/fc';
+import { GrUpdate } from 'react-icons/gr';
 import {
   Avatar,
   Box,
@@ -24,10 +26,12 @@ import {
   TableContainer,
   useDisclosure,
   useToast,
+  Icon,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
+import AddMonitor from '@/components/global/AddMonitor';
 
 const MonitorTable = ({ allMonitor, search }: any) => {
   const {
@@ -35,6 +39,7 @@ const MonitorTable = ({ allMonitor, search }: any) => {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
   const [userDeleteId, setUserDeleteId] = useState<string>('');
   const router = useRouter();
@@ -66,6 +71,15 @@ const MonitorTable = ({ allMonitor, search }: any) => {
       router.replace(router.asPath);
     }
   };
+
+  const handleUpdate = (data: any) => {
+    console.log(data);
+
+    // setType('update');
+    // setSelectedUpdate(data);
+    // onOpen();
+  };
+
   const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
@@ -79,6 +93,7 @@ const MonitorTable = ({ allMonitor, search }: any) => {
   };
   return (
     <>
+      <AddMonitor {...{ isOpen, onClose }} type="update" />
       <Delete
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -174,7 +189,16 @@ const MonitorTable = ({ allMonitor, search }: any) => {
                         <MenuItem
                           onClick={() => deleteMonitoring(currentItem.id)}
                         >
-                          Delete
+                          <Flex align="center" gap="3">
+                            <Icon as={FcDeleteDatabase} />
+                            Delete
+                          </Flex>
+                        </MenuItem>
+                        <MenuItem onClick={() => handleUpdate(currentItem)}>
+                          <Flex align="center" gap="3">
+                            <Icon as={GrUpdate} />
+                            Update
+                          </Flex>
                         </MenuItem>
                       </MenuList>
                     </Menu>
