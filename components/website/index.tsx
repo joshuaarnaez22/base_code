@@ -11,6 +11,8 @@ import {
   InputGroup,
   InputLeftAddon,
   useToast,
+  Icon,
+  HStack,
 } from '@chakra-ui/react';
 import { hideScollbar } from '@/components/Scrollbar';
 import FirstSection from './FirstSection';
@@ -18,6 +20,9 @@ import SecondSection from './SecondSection';
 import ThirdSection from './ThirdSection';
 import { inquiryAdd } from '@/services/user.service';
 import SponsorSection from './SponsorSection';
+import { FiFacebook, FiTwitter, FiInstagram } from 'react-icons/fi';
+import { AiOutlineYoutube } from 'react-icons/ai';
+
 // const BgProps = {
 //   height: '100vh',
 //   width: '100%',
@@ -178,7 +183,46 @@ const Website = ({ resources }: any) => {
           </Flex>
         </Flex>
         <Flex w="100%" h="10vh" bg="#22242A" mt="20">
-          footer
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            w="inherit"
+            px="30px"
+          >
+            <Text color="white" fontSize="16px">
+              © 2023 All Rights Reserved
+            </Text>
+            <HStack gap="3" mr="10">
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon as={FiFacebook} color="gray.300" w={5} h={5} />
+              </a>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon as={FiTwitter} color="gray.300" w={5} h={5} />
+              </a>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon as={AiOutlineYoutube} color="gray.300" w={5} h={5} />
+              </a>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon as={FiInstagram} color="gray.300" w={5} h={5} />
+              </a>
+            </HStack>
+          </Flex>
         </Flex>
       </Box>
     </>
