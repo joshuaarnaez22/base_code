@@ -18,8 +18,8 @@ import moment from 'moment';
 
 const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
   const [orphans, setOrphans] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [show, setShow] = useState(false);
   const [range, setRange] = useState();
 
