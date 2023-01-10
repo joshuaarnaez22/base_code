@@ -44,6 +44,8 @@ const MonitorTable = ({ allMonitor, search }: any) => {
   const [userDeleteId, setUserDeleteId] = useState<string>('');
   const router = useRouter();
   const toast = useToast();
+  const [selectedUpdate, setSelectedUpdate] = useState();
+  const [type, setType] = useState('');
 
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + 10;
@@ -73,11 +75,9 @@ const MonitorTable = ({ allMonitor, search }: any) => {
   };
 
   const handleUpdate = (data: any) => {
-    console.log(data);
-
-    // setType('update');
-    // setSelectedUpdate(data);
-    // onOpen();
+    setType('update');
+    setSelectedUpdate(data);
+    onOpen();
   };
 
   const toastUI = (type: number, description: string, title: string) => {
@@ -93,7 +93,7 @@ const MonitorTable = ({ allMonitor, search }: any) => {
   };
   return (
     <>
-      <AddMonitor {...{ isOpen, onClose }} type="update" />
+      <AddMonitor {...{ isOpen, onClose, selectedUpdate }} type="update" />
       <Delete
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -124,7 +124,7 @@ const MonitorTable = ({ allMonitor, search }: any) => {
               <Th fontWeight="bolder">Added By</Th>
               <Th fontWeight="bolder">Orphan</Th>
               <Th fontWeight="bolder">Meal</Th>
-              <Th fontWeight="bolder">Daily Health</Th>
+              {/* <Th fontWeight="bolder">Daily Health</Th> */}
               <Th fontWeight="bolder">Date Added </Th>
               <Th w="5%"></Th>
             </Tr>
@@ -166,7 +166,7 @@ const MonitorTable = ({ allMonitor, search }: any) => {
                   <Td fontWeight="bold">{currentItem.orphanName}</Td>
 
                   <Td fontWeight="bold">{currentItem.meal}</Td>
-                  <Td fontWeight="bold">{currentItem.daily_health}</Td>
+                  {/* <Td fontWeight="bold">{currentItem.daily_health}</Td> */}
                   <Td fontWeight="bold">{currentItem.date_added}</Td>
 
                   <Td>
@@ -194,12 +194,12 @@ const MonitorTable = ({ allMonitor, search }: any) => {
                             Delete
                           </Flex>
                         </MenuItem>
-                        <MenuItem onClick={() => handleUpdate(currentItem)}>
+                        {/* <MenuItem onClick={() => handleUpdate(currentItem)}>
                           <Flex align="center" gap="3">
                             <Icon as={GrUpdate} />
                             Update
                           </Flex>
-                        </MenuItem>
+                        </MenuItem> */}
                       </MenuList>
                     </Menu>
                   </Td>

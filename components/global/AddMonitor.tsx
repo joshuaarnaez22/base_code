@@ -80,6 +80,10 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const router = useRouter();
   const toast = useToast();
   const [activeOrphans, setActiveOrphans] = useState([]);
+  const [chores, setChores] = useState();
+  const [health, setHealth] = useState();
+  const [orphans, setOrphans] = useState();
+
   const {
     register,
     handleSubmit,
@@ -96,6 +100,12 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       const { userId }: { userId: string } = jwt_decode(
         cookie.get('token') as any,
       );
+      // data.orphan_id.map((d: any) => {
+      //   delete d.id;
+      //   delete d.orphans;
+      //   delete d._id;
+      // });
+
       const payload = { ...data, addedby: userId };
       payload.orphan_id.map((orp: any) => {
         orp.name = orp.label;
@@ -114,6 +124,51 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (selectedUpdate) {
+      const choresData = selectedUpdate.chores.map((data: any) => ({
+        value: data.value,
+        label: data.label,
+      }));
+      setChores(choresData);
+      setValue('chores', choresData, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+
+      const healthData = selectedUpdate.daily_health.map((data: any) => ({
+        value: data.value,
+        label: data.label,
+      }));
+
+      setHealth(healthData);
+      setValue('daily_health', healthData, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      reset({
+        //   firstname: selectedUpdate.firstname,
+        //   lastname: selectedUpdate.lastname,
+        //   age: selectedUpdate.age,
+        //   gender: selectedUpdate.gender,
+        //   dob: moment(new Date(selectedUpdate.dob)).utc().format('YYYY-MM-DD'),
+        //   height: selectedUpdate.height,
+        //   weight: selectedUpdate.weight,
+        //   waist: selectedUpdate.waist,
+        //   date_admission: moment(new Date(selectedUpdate.date_admission))
+        //     .utc()
+        //     .format('YYYY-MM-DD'),
+        //   birth_status: selectedUpdate.birth_status,
+        //   category: selectedUpdate.category,
+        //   date_surrendered: moment(new Date(selectedUpdate.date_surrendered))
+        //     .utc()
+        //     .format('YYYY-MM-DD'),
+        //   present_whereabouts: selectedUpdate.present_whereabouts,
+        //   moral: selectedUpdate.moral,
+      });
+    }
+  }, [selectedUpdate]);
 
   const toastUI = (type: number, description: string, title: string) => {
     toast({
@@ -186,10 +241,12 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
 
   const choresChange = (e: any) => {
     setValue('chores', e, { shouldValidate: true, shouldDirty: true });
+    setChores(e);
   };
 
   const healthChange = (e: any) => {
     setValue('daily_health', e, { shouldValidate: true, shouldDirty: true });
+    setHealth(e);
   };
 
   const gradesChange = (e: any) => {
@@ -275,6 +332,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                     <Select
                       {...register('chores')}
                       isMulti
+                      value={chores}
                       name="chores"
                       onChange={choresChange}
                       colorScheme="blue"
@@ -313,6 +371,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                     <Select
                       {...register('daily_health')}
                       isMulti
+                      value={health}
                       name="daily_health"
                       onChange={healthChange}
                       colorScheme="blue"
@@ -352,7 +411,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                 <Button colorScheme="gray" mr={3} onClick={onClose}>
                   Cancel
                 </Button>
-                <Button
+                {/* <Button
                   colorScheme="blue"
                   onClick={addChores}
                   leftIcon={<MdLibraryAdd />}
@@ -365,7 +424,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                   leftIcon={<RiHealthBookLine />}
                 >
                   Daily health
-                </Button>
+                </Button> */}
                 <Button
                   colorScheme="blue"
                   onClick={handleSubmit(onSubmit)}

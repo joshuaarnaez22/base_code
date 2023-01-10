@@ -11,13 +11,14 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
-import { UserHeaders } from '@/services/helpers';
+import { inquiriesHeader } from '@/services/helpers';
 import { FaFileCsv } from 'react-icons/fa';
 import CsvDownloader from 'react-csv-downloader';
 import InqueryTable from '@/components/global/InqueryTable';
 import ReadAllModal from '@/components/global/ReadAllModal';
 import { readAll } from '@/services/user.service';
 import { useRouter } from 'next/router';
+import { pdfDownloader } from '@/services/pdfDownload';
 
 const Inquiries = ({ inquery }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,6 +62,30 @@ const Inquiries = ({ inquery }: any) => {
     });
   };
 
+  const download = () => {
+    const outputData = [...filteredData];
+    const mappedData: any = [];
+
+    outputData.forEach(
+      ({ name, email, phone, message, date_added, reads }: any) => {
+        const data = {
+          name,
+          email,
+          phone,
+          message,
+          date_added,
+          reads,
+        };
+        mappedData.push({ ...data });
+      },
+    );
+    const header = [
+      ['Name', 'Email', 'Phone Number', 'Message', 'Date Added', 'Status'],
+    ];
+    const body = mappedData.map(Object.values);
+    pdfDownloader(header, body);
+    window.location.reload();
+  };
   return (
     <>
       <ReadAllModal
@@ -105,12 +130,20 @@ const Inquiries = ({ inquery }: any) => {
         <Button aria-label="Mark all as read" onClick={onOpen}>
           Mark all as read
         </Button>
-        <CsvDownloader datas={inqueries} filename="csv" columns={UserHeaders}>
+        <CsvDownloader
+          datas={inqueries}
+          filename="csv"
+          columns={inquiriesHeader}
+        >
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>
         </CsvDownloader>
-        <Button bg="transparent" leftIcon={<MdPictureAsPdf />}>
+        <Button
+          bg="transparent"
+          leftIcon={<MdPictureAsPdf />}
+          onClick={download}
+        >
           Download Pdf
         </Button>
       </Flex>

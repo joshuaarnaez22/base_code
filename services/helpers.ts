@@ -79,6 +79,76 @@ export const visitHeader = [
     displayName: ' Date Added',
   },
 ];
+
+export const monitoringHeader = [
+  {
+    id: 'orphanName',
+    displayName: 'Orphan Name',
+  },
+  {
+    id: 'date_added',
+    displayName: 'Date Added',
+  },
+  {
+    id: 'addedByName',
+    displayName: ' Added By',
+  },
+  {
+    id: 'meal',
+    displayName: ' Meal',
+  },
+  {
+    id: 'education',
+    displayName: ' Education',
+  },
+  {
+    id: 'action',
+    displayName: ' Action',
+  },
+];
+
+export const inquiriesHeader = [
+  {
+    id: 'name',
+    displayName: ' Name',
+  },
+  {
+    id: 'email',
+    displayName: ' Email',
+  },
+  {
+    id: 'phone',
+    displayName: ' Phone Number',
+  },
+  {
+    id: 'message',
+    displayName: ' Message',
+  },
+  {
+    id: 'date_added',
+    displayName: ' Date Added',
+  },
+  {
+    id: 'reads',
+    displayName: ' Status',
+  },
+];
+
+export const scheduleHeader = [
+  {
+    id: 'volunteers',
+    displayName: ' Volunteer Name',
+  },
+  {
+    id: 'schedule_date',
+    displayName: ' Schedule Date',
+  },
+  {
+    id: 'schedule',
+    displayName: ' Schedue Time',
+  },
+];
+
 export const Capitalize = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };

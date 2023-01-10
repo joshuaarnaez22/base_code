@@ -13,7 +13,7 @@ import {
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
 import CsvDownloader from 'react-csv-downloader';
 import { FaFileCsv } from 'react-icons/fa';
-import { UserHeaders } from '@/services/helpers';
+import { scheduleHeader } from '@/services/helpers';
 import { pdfDownloader } from '@/services/pdfDownload';
 import ScheduleTable from '@/components/global/ScheduleTable';
 import AddSchedule from '@/components/global/AddSchedule';
@@ -39,16 +39,15 @@ const Schedules = ({ schedules }: any) => {
   const download = () => {
     const outputData = [...allSched];
     const mappedData: any = [];
-    outputData.forEach(({ email, username, role, status }) => {
+    outputData.forEach(({ volunteers, schedule_date, schedule }) => {
       const data = {
-        email,
-        username,
-        role,
-        status,
+        volunteers,
+        schedule_date,
+        schedule,
       };
       mappedData.push({ ...data });
     });
-    const header = [['Email', 'Username', 'Role', 'status']];
+    const header = [['Volunteer Name', 'Schedule Date', 'Schedue Time']];
     const body = mappedData.map(Object.values);
     pdfDownloader(header, body);
     window.location.reload();
@@ -82,7 +81,7 @@ const Schedules = ({ schedules }: any) => {
         <Button onClick={onOpen} aria-label="Add">
           Add Schedule
         </Button>
-        <CsvDownloader datas={allSched} filename="csv" columns={UserHeaders}>
+        <CsvDownloader datas={allSched} filename="csv" columns={scheduleHeader}>
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>

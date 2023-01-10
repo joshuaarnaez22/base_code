@@ -10,14 +10,23 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { MdSearch, MdPictureAsPdf } from 'react-icons/md';
-import { UserHeaders } from '@/services/helpers';
+import { monitoringHeader } from '@/services/helpers';
 import { FaFileCsv } from 'react-icons/fa';
+import { TbFileReport } from 'react-icons/tb';
 import CsvDownloader from 'react-csv-downloader';
 import MonitorTable from './MonitorTable';
 import AddMonitor from '@/components/global/AddMonitor';
+import { pdfDownloader } from '@/services/pdfDownload';
+import ReportModal from '@/components/global/ReportModal';
 
 const Monitoring = (data: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenReport,
+    onOpen: onOpenReport,
+    onClose: onCloseReport,
+  } = useDisclosure();
+
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('date');
   const [monitor, setMonitor] = useState(data);
@@ -43,9 +52,41 @@ const Monitoring = (data: any) => {
     setSelectSearch(event.target.value);
   };
 
+  const download = () => {
+    const outputData = [...monitor.data.monitoring];
+    const mappedData: any = [];
+
+    outputData.forEach(
+      ({
+        orphanName,
+        date_added,
+        addedByName,
+        meal,
+        education,
+        action,
+      }: any) => {
+        const data = {
+          orphanName,
+          date_added,
+          addedByName,
+          meal,
+          education,
+          action,
+        };
+        mappedData.push({ ...data });
+      },
+    );
+    const header = [
+      ['Orphan Name', 'Date Added', 'Added By', 'Meal', 'Education', 'Action'],
+    ];
+    const body = mappedData.map(Object.values);
+    pdfDownloader(header, body);
+    window.location.reload();
+  };
   return (
     <>
       <AddMonitor {...{ isOpen, onClose }} type="add" />
+      <ReportModal {...{ isOpenReport, onCloseReport }} />
       <Flex justify="space-between">
         <Flex>
           <Select variant="normal" w="130px" onChange={selectionChanged}>
@@ -71,12 +112,27 @@ const Monitoring = (data: any) => {
         <Button onClick={onOpen} aria-label="Add">
           Add Monitoring
         </Button>
-        <CsvDownloader datas={monitor} filename="csv" columns={UserHeaders}>
+        {/* <Button
+          bg="transparent"
+          leftIcon={<TbFileReport />}
+          onClick={onOpenReport}
+        >
+          Generate Report
+        </Button> */}
+        <CsvDownloader
+          datas={monitor.data.monitoring}
+          filename="csv"
+          columns={monitoringHeader}
+        >
           <Button bg="transparent" leftIcon={<FaFileCsv />}>
             Download Csv
           </Button>
         </CsvDownloader>
-        <Button bg="transparent" leftIcon={<MdPictureAsPdf />}>
+        <Button
+          bg="transparent"
+          leftIcon={<MdPictureAsPdf />}
+          onClick={download}
+        >
           Download Pdf
         </Button>
       </Flex>
