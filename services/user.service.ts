@@ -32,6 +32,7 @@ import {
   allVolunteer,
   shceduleById,
   scheduleAdd,
+  getAllMonitoringById,
 } from './endpoint';
 
 export const createUser = async (payload: any) => {
@@ -187,5 +188,10 @@ export const schedById = async (payload: any) => {
 
 export const addSched = async (payload: any) => {
   const { data } = await instance.post(scheduleAdd, payload);
+  return data;
+};
+
+export const monitoringById = async (payload: any) => {
+  const { data } = await instance.post(getAllMonitoringById, payload);
   return data;
 };

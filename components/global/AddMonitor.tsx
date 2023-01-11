@@ -32,6 +32,7 @@ import {
 import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import cookie from 'js-cookie';
+import moment from 'moment';
 
 interface Props {
   isOpen: any;
@@ -40,49 +41,84 @@ interface Props {
   type?: string;
 }
 
-const schema = yup.object().shape({
-  date: yup.string().required('Date is required.'),
-  education: yup.string().required('Education is required.'),
-  daily_health: yup
-    .array()
-    .required('Health is required.')
-    .min(1, 'Please pick at least 1 Health')
-    .of(
-      yup.object().shape({
-        label: yup.string().required(),
-        value: yup.string().required(),
-      }),
-    ),
-  action: yup.string().required('Action is required.'),
-  chores: yup
-    .array()
-    .required('Chores is required.')
-    .min(1, 'Please pick at least 1 Chores')
-    .of(
-      yup.object().shape({
-        label: yup.string().required(),
-        value: yup.string().required(),
-      }),
-    ),
-  meal: yup.string().required('Meal is required.'),
-  orphan_id: yup
-    .array()
-    .required('Orphan is required.')
-    .min(1, 'Please pick at least 1 Orphan')
-    .of(
-      yup.object().shape({
-        label: yup.string().required(),
-        value: yup.string().required(),
-      }),
-    ),
-});
 const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
+  let schema;
+
+  if (type === 'update' || type === 'view') {
+    schema = yup.object().shape({
+      date: yup.string().required('Date is required.'),
+      education: yup.string().required('Education is required.'),
+      daily_health: yup
+        .array()
+        .required('Health is required.')
+        .min(1, 'Please pick at least 1 Health')
+        .of(
+          yup.object().shape({
+            label: yup.string().required(),
+            value: yup.string().required(),
+          }),
+        ),
+      action: yup.string().required('Action is required.'),
+      chores: yup
+        .array()
+        .required('Chores is required.')
+        .min(1, 'Please pick at least 1 Chores')
+        .of(
+          yup.object().shape({
+            label: yup.string().required(),
+            value: yup.string().required(),
+          }),
+        ),
+      meal: yup.string().required('Meal is required.'),
+      orphan_id: yup.string().required('Orphan is required.'),
+    });
+  } else {
+    schema = yup.object().shape({
+      date: yup.string().required('Date is required.'),
+      education: yup.string().required('Education is required.'),
+      daily_health: yup
+        .array()
+        .required('Health is required.')
+        .min(1, 'Please pick at least 1 Health')
+        .of(
+          yup.object().shape({
+            label: yup.string().required(),
+            value: yup.string().required(),
+          }),
+        ),
+      action: yup.string().required('Action is required.'),
+      chores: yup
+        .array()
+        .required('Chores is required.')
+        .min(1, 'Please pick at least 1 Chores')
+        .of(
+          yup.object().shape({
+            label: yup.string().required(),
+            value: yup.string().required(),
+          }),
+        ),
+      meal: yup.string().required('Meal is required.'),
+      orphan_id: yup
+        .array()
+        .required('Orphan is required.')
+        .min(1, 'Please pick at least 1 Orphan')
+        .of(
+          yup.object().shape({
+            label: yup.string().required(),
+            value: yup.string().required(),
+          }),
+        ),
+    });
+  }
+
   const router = useRouter();
   const toast = useToast();
   const [activeOrphans, setActiveOrphans] = useState([]);
-  const [chores, setChores] = useState();
-  const [health, setHealth] = useState();
-  const [orphans, setOrphans] = useState();
+  const [chores, setChores] = useState<any>();
+  const [health, setHealth] = useState<any>();
+  const [orphansName, setOrphansName] = useState({ label: '', value: '' });
+  const [meal, setMeal] = useState<any>(null);
+  const [education, setEducation] = useState<any>(null);
 
   const {
     register,
@@ -100,12 +136,6 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       const { userId }: { userId: string } = jwt_decode(
         cookie.get('token') as any,
       );
-      // data.orphan_id.map((d: any) => {
-      //   delete d.id;
-      //   delete d.orphans;
-      //   delete d._id;
-      // });
-
       const payload = { ...data, addedby: userId };
       payload.orphan_id.map((orp: any) => {
         orp.name = orp.label;
@@ -118,6 +148,10 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
 
       toastUI(1, res.message, 'Successfully added');
       reset();
+      setChores(null);
+      setHealth(null);
+      setEducation(null);
+      setMeal(null);
       onClose();
       router.replace(router.asPath);
     } catch (error) {
@@ -135,6 +169,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       setValue('chores', choresData, {
         shouldValidate: true,
         shouldDirty: true,
+        shouldTouch: true,
       });
 
       const healthData = selectedUpdate.daily_health.map((data: any) => ({
@@ -147,26 +182,45 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         shouldValidate: true,
         shouldDirty: true,
       });
-      reset({
-        //   firstname: selectedUpdate.firstname,
-        //   lastname: selectedUpdate.lastname,
-        //   age: selectedUpdate.age,
-        //   gender: selectedUpdate.gender,
-        //   dob: moment(new Date(selectedUpdate.dob)).utc().format('YYYY-MM-DD'),
-        //   height: selectedUpdate.height,
-        //   weight: selectedUpdate.weight,
-        //   waist: selectedUpdate.waist,
-        //   date_admission: moment(new Date(selectedUpdate.date_admission))
-        //     .utc()
-        //     .format('YYYY-MM-DD'),
-        //   birth_status: selectedUpdate.birth_status,
-        //   category: selectedUpdate.category,
-        //   date_surrendered: moment(new Date(selectedUpdate.date_surrendered))
-        //     .utc()
-        //     .format('YYYY-MM-DD'),
-        //   present_whereabouts: selectedUpdate.present_whereabouts,
-        //   moral: selectedUpdate.moral,
+
+      setOrphansName({
+        label: selectedUpdate.orphanName,
+        value: selectedUpdate.id,
       });
+      setValue('orphan_id', selectedUpdate.orphan_id, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+
+      setEducation({
+        label: selectedUpdate.education,
+        value: selectedUpdate.education,
+      });
+      setValue('education', selectedUpdate.education, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+
+      setMeal({
+        label: selectedUpdate.meal,
+        value: selectedUpdate.meal,
+      });
+      setValue('meal', selectedUpdate.meal, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue('action', selectedUpdate.action, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setValue(
+        'date',
+        moment(new Date(selectedUpdate.date)).utc().format('YYYY-MM-DD'),
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        },
+      );
     }
   }, [selectedUpdate]);
 
@@ -181,9 +235,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       duration: 5000,
     });
   };
-  const change = (e: any) => {
-    setValue('orphan_id', e, { shouldValidate: true, shouldDirty: true });
-  };
+
   useEffect(() => {
     getAllActiveOrphans();
   }, []);
@@ -235,8 +287,25 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     { value: 'grade12', label: 'Grade 12' },
   ];
 
+  const change = (e: any) => {
+    if (type === 'update' || type == 'view') {
+      setValue('orphan_id', e.value, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      setOrphansName({
+        label: e.label,
+        value: e.value,
+      });
+    } else {
+      setValue('orphan_id', e, { shouldValidate: true, shouldDirty: true });
+      setOrphansName(e);
+    }
+  };
+
   const mealChange = (e: any) => {
     setValue('meal', e.value, { shouldValidate: true, shouldDirty: true });
+    setMeal(e);
   };
 
   const choresChange = (e: any) => {
@@ -251,6 +320,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
 
   const gradesChange = (e: any) => {
     setValue('education', e.value, { shouldValidate: true, shouldDirty: true });
+    setEducation(e);
   };
   const addDailyHealth = () => {
     console.log('Health');
@@ -285,15 +355,26 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                 <Flex>
                   <FormControl isInvalid={!!errors.orphan_id} id="orphan_id">
                     <FormLabel>Orphans</FormLabel>
-                    <Select
-                      {...register('orphan_id')}
-                      name="orphan_id"
-                      onChange={change}
-                      isMulti
-                      colorScheme="blue"
-                      options={activeOrphans}
-                      // defaultValue={mealOptions[0]}
-                    />
+                    {type === 'update' || type === 'view' ? (
+                      <Select
+                        {...register('orphan_id')}
+                        name="orphan_id"
+                        onChange={change}
+                        colorScheme="blue"
+                        options={activeOrphans}
+                        value={orphansName}
+                      />
+                    ) : (
+                      <Select
+                        {...register('orphan_id')}
+                        name="orphan_id"
+                        onChange={change}
+                        isMulti
+                        colorScheme="blue"
+                        options={activeOrphans}
+                      />
+                    )}
+
                     <Collapse in={errors.orphan_id ? true : false}>
                       {errors.orphan_id && (
                         <FormHelperText fontSize="SubHeader.md" color="red">
@@ -312,6 +393,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                       onChange={mealChange}
                       colorScheme="blue"
                       options={mealOptions}
+                      value={meal}
                     />
                     <Collapse in={errors.meal ? true : false}>
                       {errors.meal && (
@@ -354,6 +436,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                       onChange={gradesChange}
                       colorScheme="blue"
                       options={gradesOptions}
+                      value={education}
                     />
                     <Collapse in={errors.education ? true : false}>
                       {errors.education && (

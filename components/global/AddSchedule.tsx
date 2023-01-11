@@ -96,35 +96,6 @@ const AddSchedule = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     setAllVolunteer(newItems);
   };
 
-  // const updateUser = async (userData: any) => {
-  //   const payload = {
-  //     ...userData,
-  //     id: selectedUpdate.id,
-  //     changePassword: userData.password ? true : false,
-  //     newPassword: userData.password,
-  //     type: 'admin',
-  //   };
-  //   delete payload.confirm;
-  //   delete payload.password;
-  //   await userUpdate(payload);
-  //   toastUI(1, 'User successfully updated', 'Success');
-  //   reset();
-  //   router.replace('/admin/accounts');
-  //   onClose();
-  // };
-
-  // const addUser = async (data: any) => {
-  //   const { success, message } = await createUser(data);
-  //   if (!success && message === 'User name or Email already exists ') {
-  //     toastUI(2, message, 'Already exists');
-  //   }
-  //   if (success && message === 'Account Registered successfully') {
-  //     toastUI(1, message, 'Account created.');
-  //     reset();
-  //     router.replace('/admin/accounts');
-  //     onClose();
-  //   }
-  // };
   const onSubmit = async (data: any) => {
     console.log(data);
 

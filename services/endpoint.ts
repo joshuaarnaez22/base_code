@@ -41,6 +41,7 @@ export const getAllVisitationForLoggedUser = `${LOCALDEV}/visitation/getAllVisit
 export const addMonitoring = `${LOCALDEV}/monitoring/addMonitoring`;
 export const getAllMonitoring = `${LOCALDEV}/monitoring/getAllMonitoring`;
 export const deleteMonitoring = `${LOCALDEV}/monitoring/deleteMonitoring`;
+export const getAllMonitoringById = `${LOCALDEV}/monitoring/getMonitoringRangeByID`;
 
 //inquiry
 export const addinquiry = `${LOCALDEV}/inquiry/addinquiry`;

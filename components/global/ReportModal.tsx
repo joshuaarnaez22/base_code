@@ -1,4 +1,4 @@
-import { getAllActiveChild } from '@/services/user.service';
+import { getAllActiveChild, monitoringById } from '@/services/user.service';
 import {
   Modal,
   ModalBody,
@@ -10,18 +10,37 @@ import {
   Input,
   Box,
   Flex,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Text,
+  TableContainer,
+  Spinner,
+  Center,
+  Stack,
+  Collapse,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Select } from 'chakra-react-select';
 import Calendar from 'react-calendar';
 import moment from 'moment';
+import { pdfDownloader } from '@/services/pdfDownload';
 
 const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
   const [orphans, setOrphans] = useState();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [show, setShow] = useState(false);
-  const [range, setRange] = useState();
+  const [range, setRange] = useState('');
+  const [orphanID, setOrphanID] = useState('');
+  const [report, setReport] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [resultText, setResultText] = useState('');
+  const { isOpen, onToggle } = useDisclosure();
 
   useEffect(() => {
     getAllOrphans();
@@ -39,20 +58,56 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
   const onChange = (range: any) => {
     setStartDate(range[0]);
     setEndDate(range[1]);
-    const sDate = moment(startDate).format('YYYY-MM-DD');
-    const eDate = moment(endDate).format('YYYY-MM-DD');
-
-    console.log(sDate);
-    console.log(eDate);
-
-    setShow(!show);
+    const sDate = moment(range[0]).format('MMM Do YY');
+    const eDate = moment(range[1]).format('MMM Do YY');
+    const val = `${sDate} - ${eDate}`;
+    setRange(val as string);
+    onToggle();
   };
 
   const orphanChange = (e: any) => {
-    console.log(e);
+    setOrphanID(e.value);
   };
-  const handleClick = () => {
-    setShow(!show);
+
+  const handleSubmit = async () => {
+    try {
+      if (!orphanID || !range) return alert('Fill up all inputs');
+      setLoading(true);
+      const payload = {
+        orphanID,
+        endDate,
+        startDate,
+      };
+      const response = await monitoringById(payload);
+      if (!response.data.length) setResultText('No results found.');
+      setLoading(false);
+      setReport(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const download = () => {
+    const outputData = [...report];
+    const mappedData: any = [];
+    console.log(outputData);
+
+    outputData.forEach(({ orphan_id, date_added, education, meal, action }) => {
+      const data = {
+        orphan_id,
+        date_added,
+        education,
+        meal,
+        action,
+      };
+      mappedData.push({ ...data });
+    });
+    const header = [
+      ['Orphan Name', 'Date Added', 'Education,', 'Meal', 'Action'],
+    ];
+    const body = mappedData.map(Object.values);
+    pdfDownloader(header, body);
+    window.location.reload();
   };
   return (
     <Modal isOpen={isOpenReport} onClose={onCloseReport} isCentered>
@@ -60,37 +115,91 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
       <ModalContent maxW="70%">
         <ModalHeader>Generate Report</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <Flex>
-            <Box w="50%">
+        <ModalBody w="inherit">
+          <Flex justify="center" gap="10">
+            <Box w="40%">
+              <Text fontWeight="bold">Orphan: </Text>
               <Select
                 name="orphan_id"
                 onChange={orphanChange}
-                isMulti
                 colorScheme="blue"
                 options={orphans}
                 // defaultValue={mealOptions[0]}
               />
             </Box>
 
-            <Box w="50%">
+            <Stack pos="relative" w="30%">
+              <Text fontWeight="bold">Date Range: </Text>
+
               <Input
                 placeholder="Date Range"
                 shadow="sm"
                 readOnly
-                onClick={handleClick}
+                onClick={onToggle}
+                value={range}
               />
-              {show && (
-                <Calendar
-                  selectRange={true}
-                  onChange={onChange}
-                  value={[startDate, endDate]}
-                />
-              )}
-            </Box>
+              <Box>
+                <Collapse in={isOpen} animateOpacity>
+                  <Calendar
+                    selectRange={true}
+                    onChange={onChange}
+                    value={[startDate, endDate]}
+                  />
+                </Collapse>
+              </Box>
+            </Stack>
+            <Button onClick={handleSubmit} mt="7">
+              Submit
+            </Button>
           </Flex>
+          {loading ? (
+            <Center>
+              <Spinner size="xl" mt="10" />
+            </Center>
+          ) : (
+            <>
+              {report.length > 0 ? (
+                <TableContainer mt="10">
+                  <Table variant="striped" colorScheme="teal">
+                    <Thead>
+                      <Tr>
+                        <Th>Orphan Name</Th>
+                        <Th>Date Added</Th>
+                        <Th>Education</Th>
+                        <Th>Meal</Th>
+                        <Th>Action</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {report.map((rep: any, index: number) => {
+                        return (
+                          <Tr key={index}>
+                            <Td>Name</Td>
+                            <Td>{rep.date_added}</Td>
+                            <Td>{rep.education}</Td>
+                            <Td>{rep.meal}</Td>
+                            <Td>{rep.action}</Td>
+                          </Tr>
+                        );
+                      })}
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Text textAlign="center" mt="10">
+                  {resultText}
+                </Text>
+              )}
+            </>
+          )}
         </ModalBody>
-        <ModalFooter></ModalFooter>
+        <ModalFooter>
+          {report.length > 0 && (
+            <Button onClick={download} mt="5">
+              Download Pdf
+            </Button>
+          )}
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

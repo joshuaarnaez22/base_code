@@ -112,13 +112,13 @@ const Monitoring = (data: any) => {
         <Button onClick={onOpen} aria-label="Add">
           Add Monitoring
         </Button>
-        {/* <Button
+        <Button
           bg="transparent"
           leftIcon={<TbFileReport />}
           onClick={onOpenReport}
         >
           Generate Report
-        </Button> */}
+        </Button>
         <CsvDownloader
           datas={monitor.data.monitoring}
           filename="csv"

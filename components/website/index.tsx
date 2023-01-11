@@ -23,20 +23,6 @@ import SponsorSection from './SponsorSection';
 import { FiFacebook, FiTwitter, FiInstagram } from 'react-icons/fi';
 import { AiOutlineYoutube } from 'react-icons/ai';
 
-// const BgProps = {
-//   height: '100vh',
-//   width: '100%',
-//   pos: 'absolute',
-//   zIndex: '0',
-// } as any;
-
-// const HeaderMenuProps = {
-//   fontFamily: 'robo',
-//   fontSize: 'SubHeader.lg',
-//   fontWeight: 'normal',
-//   cursor: 'pointer',
-// };
-
 const Website = ({ resources }: any) => {
   const toast = useToast();
   const [loader, setLoader] = useState(false);
