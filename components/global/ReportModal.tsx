@@ -128,9 +128,8 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
               />
             </Box>
 
-            <Stack pos="relative" w="30%">
+            <Box w="30%">
               <Text fontWeight="bold">Date Range: </Text>
-
               <Input
                 placeholder="Date Range"
                 shadow="sm"
@@ -147,8 +146,8 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
                   />
                 </Collapse>
               </Box>
-            </Stack>
-            <Button onClick={handleSubmit} mt="7">
+            </Box>
+            <Button onClick={handleSubmit} mt="5">
               Submit
             </Button>
           </Flex>
