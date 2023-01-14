@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { IoIosPeople } from 'react-icons/io';
 import { hideScollbar } from '@/components/Scrollbar';
 import { RiFileHistoryLine } from 'react-icons/ri';
-import { BsQuestionSquareFill } from 'react-icons/bs';
+import { BsQuestionSquareFill, BsClockFill } from 'react-icons/bs';
 
 interface MenuProps {
   type?: string;
@@ -25,6 +25,7 @@ export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
     '/socialworker/visitations',
     '/socialworker/monitoring',
     '/socialworker/inquiries',
+    '/socialworker/schedules',
   ];
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
     if (router.pathname === routerChoice[3]) setSelectedMenu(4);
     if (router.pathname === routerChoice[4]) setSelectedMenu(5);
     if (router.pathname === routerChoice[5]) setSelectedMenu(6);
+    if (router.pathname === routerChoice[6]) setSelectedMenu(7);
   }, [router]);
 
   const mobileHandler = (status: boolean) => {
@@ -141,6 +143,13 @@ export default function SocialWorkerSideMenu({ type, closeDrawer }: MenuProps) {
           index={6}
           isSelected={selectedMenu == 6 ? true : false}
           route={routerChoice[5]}
+        />
+        <MenuOptions
+          title="Schedules"
+          icon={BsClockFill}
+          index={7}
+          isSelected={selectedMenu == 7 ? true : false}
+          route={routerChoice[6]}
         />
       </Flex>
     </Flex>

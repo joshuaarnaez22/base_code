@@ -30,6 +30,8 @@ import { Select } from 'chakra-react-select';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 import { pdfDownloader } from '@/services/pdfDownload';
+import { Capitalize } from '@/services/helpers';
+import { loginAuth } from '@/services/auth';
 
 const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
   const [orphans, setOrphans] = useState();
@@ -61,7 +63,7 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
     const sDate = moment(range[0]).format('MMM Do YY');
     const eDate = moment(range[1]).format('MMM Do YY');
     const val = `${sDate} - ${eDate}`;
-    setRange(val as string);
+    setRange(val);
     onToggle();
   };
 
@@ -79,6 +81,7 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
         startDate,
       };
       const response = await monitoringById(payload);
+      console.log(response);
       if (!response.data.length) setResultText('No results found.');
       setLoading(false);
       setReport(response.data);
@@ -90,24 +93,43 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
   const download = () => {
     const outputData = [...report];
     const mappedData: any = [];
-    console.log(outputData);
 
-    outputData.forEach(({ orphan_id, date_added, education, meal, action }) => {
-      const data = {
-        orphan_id,
+    outputData.forEach(
+      ({
+        orphanName,
         date_added,
         education,
         meal,
         action,
-      };
-      mappedData.push({ ...data });
-    });
+        daily_health,
+      }: any) => {
+        const data = {
+          orphanName,
+          date_added,
+          education,
+          meal,
+          action,
+          daily_health: daily_health.map((obj: any) => {
+            return obj.label;
+          }),
+        };
+
+        mappedData.push({ ...data });
+      },
+    );
     const header = [
-      ['Orphan Name', 'Date Added', 'Education,', 'Meal', 'Action'],
+      [
+        'Orphan Name',
+        'Date Added',
+        'Education,',
+        'Meal',
+        'Action',
+        'Daily Health',
+      ],
     ];
     const body = mappedData.map(Object.values);
     pdfDownloader(header, body);
-    window.location.reload();
+    // window.location.reload();
   };
   return (
     <Modal isOpen={isOpenReport} onClose={onCloseReport} isCentered>
@@ -170,10 +192,10 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {report.map((rep: any, index: number) => {
+                      {report.map((rep: any) => {
                         return (
-                          <Tr key={index}>
-                            <Td>Name</Td>
+                          <Tr key={rep._id}>
+                            <Td>{Capitalize(rep.orphanName)}</Td>
                             <Td>{rep.date_added}</Td>
                             <Td>{rep.education}</Td>
                             <Td>{rep.meal}</Td>

@@ -22,6 +22,7 @@ import { inquiryAdd } from '@/services/user.service';
 import SponsorSection from './SponsorSection';
 import { FiFacebook, FiTwitter, FiInstagram } from 'react-icons/fi';
 import { AiOutlineYoutube } from 'react-icons/ai';
+import AboutUs from './AboutUs';
 
 const Website = ({ resources }: any) => {
   const toast = useToast();
@@ -66,9 +67,9 @@ const Website = ({ resources }: any) => {
         <FirstSection />
         <SecondSection />
         <ThirdSection resources={resources} />
-        <SponsorSection />
-        <ThirdSection resources={resources} />
-
+        {/* <SponsorSection />
+        <ThirdSection resources={resources} /> */}
+        <AboutUs />
         <Flex>
           <Flex
             w="100vw"
@@ -156,7 +157,7 @@ const Website = ({ resources }: any) => {
                 </Box>
               </Flex>
             </Flex>
-            <Flex w="100%" h="700px">
+            <Flex w="100%" h="700px" id="contact">
               <iframe
                 src="https://maps.google.com/maps?q=JW37+PW8,%20San%20Francisco%20St.%20San%20Sebastian%20Village,%20Brgy.%20Sum-Ag,%20Bacolod,%206100%20Negros%20Occidental&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
                 width="100%"

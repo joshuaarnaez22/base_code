@@ -33,6 +33,7 @@ import {
   shceduleById,
   scheduleAdd,
   getAllMonitoringById,
+  monitoringUpdate,
 } from './endpoint';
 
 export const createUser = async (payload: any) => {
@@ -193,5 +194,10 @@ export const addSched = async (payload: any) => {
 
 export const monitoringById = async (payload: any) => {
   const { data } = await instance.post(getAllMonitoringById, payload);
+  return data;
+};
+
+export const updateMonitoring = async (payload: any) => {
+  const { data } = await instance.put(monitoringUpdate, payload);
   return data;
 };

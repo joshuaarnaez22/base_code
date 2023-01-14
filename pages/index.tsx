@@ -29,6 +29,15 @@ export const getStaticProps = async () => {
         ' The most important reason for monitoring each childs development is to find out if a childs development is on track. It is important to act early if there are signs of potential development delay because early treatment is so important for improving a childs skills and abilities.',
     },
   ];
+
+  // const sponsor = [
+  //   {
+  //     img: 'mapcursor.png',
+  //     title: 'Monitoring - "How we care"',
+  //     description:
+  //       ' The most important reason for monitoring each childs development is to find out if a childs development is on track. It is important to act early if there are signs of potential development delay because early treatment is so important for improving a childs skills and abilities.',
+  //   },
+  // ]
   return {
     props: {
       services,

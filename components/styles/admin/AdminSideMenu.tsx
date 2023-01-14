@@ -146,7 +146,6 @@ export default function AdminSideMenu({ type, closeDrawer }: MenuProps) {
         />
         <MenuOptions
           title="Schedules"
-          s
           icon={BsClockFill}
           index={7}
           isSelected={selectedMenu == 7 ? true : false}

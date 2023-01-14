@@ -4,7 +4,7 @@ import { deleteMonitoring } from '@/services/endpoint';
 import { Capitalize } from '@/services/helpers';
 import { deleteMonitor } from '@/services/user.service';
 import { FcDeleteDatabase } from 'react-icons/fc';
-import { GrUpdate } from 'react-icons/gr';
+import { GrUpdate, GrFormView } from 'react-icons/gr';
 import {
   Avatar,
   Box,
@@ -80,6 +80,12 @@ const MonitorTable = ({ allMonitor, search }: any) => {
     onOpen();
   };
 
+  const handleView = (data: any) => {
+    setType('view');
+    setSelectedUpdate(data);
+    onOpen();
+  };
+
   const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
@@ -93,7 +99,7 @@ const MonitorTable = ({ allMonitor, search }: any) => {
   };
   return (
     <>
-      <AddMonitor {...{ isOpen, onClose, selectedUpdate }} type="update" />
+      <AddMonitor {...{ isOpen, onClose, selectedUpdate }} type={type} />
       <Delete
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -194,12 +200,18 @@ const MonitorTable = ({ allMonitor, search }: any) => {
                             Delete
                           </Flex>
                         </MenuItem>
-                        {/* <MenuItem onClick={() => handleUpdate(currentItem)}>
+                        <MenuItem onClick={() => handleUpdate(currentItem)}>
                           <Flex align="center" gap="3">
                             <Icon as={GrUpdate} />
                             Update
                           </Flex>
-                        </MenuItem> */}
+                        </MenuItem>
+                        <MenuItem onClick={() => handleView(currentItem)}>
+                          <Flex align="center" gap="3">
+                            <Icon as={GrFormView} boxSize={4} />
+                            View
+                          </Flex>
+                        </MenuItem>
                       </MenuList>
                     </Menu>
                   </Td>

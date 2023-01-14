@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Flex, Icon } from '@chakra-ui/react';
 import { MdSchedule } from 'react-icons/md';
 import { useRouter } from 'next/router';
+import { RiFileHistoryLine } from 'react-icons/ri';
 import { hideScollbar } from '@/components/Scrollbar';
 interface MenuProps {
   type?: string;
@@ -11,10 +12,11 @@ interface MenuProps {
 export default function VolunteerSideMenu({ type, closeDrawer }: MenuProps) {
   const [selectedMenu, setSelectedMenu] = useState(1);
   const router = useRouter();
-  const routerChoice = ['/volunteer/schedules'];
+  const routerChoice = ['/volunteer/schedules', '/volunteer/monitoring'];
 
   useEffect(() => {
     if (router.pathname === routerChoice[0]) setSelectedMenu(1);
+    if (router.pathname === routerChoice[1]) setSelectedMenu(2);
   }, [router]);
 
   const mobileHandler = (status: boolean) => {
@@ -87,6 +89,13 @@ export default function VolunteerSideMenu({ type, closeDrawer }: MenuProps) {
           index={1}
           isSelected={selectedMenu == 1 ? true : false}
           route={routerChoice[0]}
+        />
+        <MenuOptions
+          title="Monitoring"
+          icon={RiFileHistoryLine}
+          index={2}
+          isSelected={selectedMenu == 2 ? true : false}
+          route={routerChoice[1]}
         />
       </Flex>
     </Flex>

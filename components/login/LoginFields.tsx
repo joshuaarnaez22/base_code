@@ -26,9 +26,9 @@ const LoginFields = () => {
   return (
     <>
       <Flex gap="5" direction="column" align="center" justify="center">
-        <Image src="logo300.png" alt="logo" />
+        <Image src="logo300.png" alt="logo" w="180px" h="180px" />
         <Text fontSize="Header.xs" fontWeight="normal" fontFamily="robo">
-          Sign in to Holy Infant.
+          Sign in to Holy Infant Nursery.
         </Text>
         <Stack>
           <Input

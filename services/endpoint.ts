@@ -1,5 +1,5 @@
-const LOCALDEV = 'https://back-end-ochre-five.vercel.app';
-// const LOCALDEV = 'http://localhost:3000';
+// const LOCALDEV = 'https://back-end-ochre-five.vercel.app';
+const LOCALDEV = 'http://localhost:3000';
 
 //Authentication
 export const login = `${LOCALDEV}/authentication/login`;
@@ -42,6 +42,7 @@ export const addMonitoring = `${LOCALDEV}/monitoring/addMonitoring`;
 export const getAllMonitoring = `${LOCALDEV}/monitoring/getAllMonitoring`;
 export const deleteMonitoring = `${LOCALDEV}/monitoring/deleteMonitoring`;
 export const getAllMonitoringById = `${LOCALDEV}/monitoring/getMonitoringRangeByID`;
+export const monitoringUpdate = `${LOCALDEV}/monitoring/updateMonitoring`;
 
 //inquiry
 export const addinquiry = `${LOCALDEV}/inquiry/addinquiry`;

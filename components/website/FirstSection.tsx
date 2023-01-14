@@ -37,7 +37,8 @@ const FirstSection = () => {
   return (
     <>
       <WebsiteMenu {...{ isOpen, onClose, btnRef }} />
-      <Flex h="100vh">
+
+      <Flex h="100vh" id="company">
         <Box zIndex="1" w="100vw" h="100vh" bg="#00000033" pos="absolute" />
         <Image src="family.jpg" alt="bg" {...BgProps} />
         <Flex zIndex="2" display={{ base: 'block', lg: 'none' }}>
@@ -63,10 +64,9 @@ const FirstSection = () => {
                   transform: 'scale(1.2)',
                   transition: 'all .5s  ease-in-out',
                   cursor: 'pointer',
-                  //   borderBottom: '1px solid black',
                 }}
               >
-                <a href="#section2">COMPANY</a>
+                <a href="#company">COMPANY</a>
               </Text>
               <Text
                 {...HeaderMenuProps}
@@ -76,7 +76,7 @@ const FirstSection = () => {
                   transition: 'all .5s ease-in-out',
                 }}
               >
-                SERVICES
+                <a href="#services">SERVICES</a>
               </Text>
               <Text
                 {...HeaderMenuProps}
@@ -86,7 +86,7 @@ const FirstSection = () => {
                   transition: 'all .5s ease-in-out',
                 }}
               >
-                SPONSORS
+                <a href="#about">About Us</a>
               </Text>
               <Text
                 {...HeaderMenuProps}
@@ -96,7 +96,7 @@ const FirstSection = () => {
                   transition: 'all .5s ease-in-out',
                 }}
               >
-                CONTACT US
+                <a href="#contact">CONTACT US</a>
               </Text>
             </Flex>
             <Flex pr="50px">
@@ -125,7 +125,7 @@ const FirstSection = () => {
               fontWeight="bolder"
               textShadow="5px 5px #558abb"
             >
-              WELCOME TO HOLY
+              WELCOME TO HOLY INFANT NURSERY
             </Text>
           </Flex>
         </Stack>

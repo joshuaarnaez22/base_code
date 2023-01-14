@@ -10,21 +10,8 @@ const SecondSection = () => {
         pt="50px"
         justify="center"
         align="center"
-        id="section2"
+        id="services"
       >
-        <Text fontFamily="robo" fontSize="50px" fontWeight="extranormal">
-          Lorem ipsum dolor sit amet
-        </Text>
-        <Text
-          w="500px"
-          fontFamily="robo"
-          fontSize="Header.xs"
-          fontWeight="300"
-          align="center"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod
-          tempor
-        </Text>
         {/* <Button
           w="200px"
           h="50px"

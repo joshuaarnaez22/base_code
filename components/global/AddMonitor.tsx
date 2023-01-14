@@ -28,6 +28,7 @@ import { MdLibraryAdd } from 'react-icons/md';
 import {
   addMonitoringOrphans,
   getAllActiveChild,
+  updateMonitoring,
 } from '@/services/user.service';
 import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
@@ -132,31 +133,40 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   });
 
   const onSubmit = async (data: any) => {
-    try {
-      const { userId }: { userId: string } = jwt_decode(
-        cookie.get('token') as any,
-      );
-      const payload = { ...data, addedby: userId };
-      payload.orphan_id.map((orp: any) => {
-        orp.name = orp.label;
-        delete orp.label;
-        delete orp.value;
-        delete orp._id;
-        delete orp.orphans;
-      });
-      const res = await addMonitoringOrphans(payload);
-
-      toastUI(1, res.message, 'Successfully added');
-      reset();
-      setChores(null);
-      setHealth(null);
-      setEducation(null);
-      setMeal(null);
-      onClose();
-      router.replace(router.asPath);
-    } catch (error) {
-      console.log(error);
+    if (type === 'update') {
+      try {
+        const payload = { ...data, id: selectedUpdate.id };
+        const res = await updateMonitoring(payload);
+        toastUI(1, res.message, 'Updated successfully');
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const { userId }: { userId: string } = jwt_decode(
+          cookie.get('token') as any,
+        );
+        const payload = { ...data, addedby: userId };
+        payload.orphan_id.map((orp: any) => {
+          orp.name = orp.label;
+          delete orp.label;
+          delete orp.value;
+          delete orp._id;
+          delete orp.orphans;
+        });
+        const res = await addMonitoringOrphans(payload);
+        toastUI(1, res.message, 'Successfully added');
+      } catch (error) {
+        console.log(error);
+      }
     }
+    router.replace(router.asPath);
+    reset();
+    setChores(null);
+    setHealth(null);
+    setEducation(null);
+    setMeal(null);
+    onClose();
   };
 
   useEffect(() => {
