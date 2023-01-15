@@ -25,12 +25,16 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { thinnerScollbar } from '@/components/Scrollbar';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { addSched, createUser, userUpdate } from '@/services/user.service';
+import {
+  addSched,
+  createUser,
+  userUpdate,
+  all_volunteer,
+} from '@/services/user.service';
 import { useRouter } from 'next/router';
 import { Select } from 'chakra-react-select';
 import { Capitalize } from '@/services/helpers';
 import CalendarModal from './CalendarModal';
-import { all_volunteer } from '@/services/user.service';
 
 interface Props {
   isOpen: any;
@@ -86,8 +90,6 @@ const AddSchedule = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
 
   const getAllVolunteer = async () => {
     const { user } = await all_volunteer();
-    console.log(user);
-
     const newItems = user.map((item: any) => ({
       label: item.email,
       value: item.id,

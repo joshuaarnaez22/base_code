@@ -80,6 +80,8 @@ const ReportModal = ({ isOpenReport, onCloseReport }: any) => {
         endDate,
         startDate,
       };
+      console.log(payload);
+
       const response = await monitoringById(payload);
       console.log(response);
       if (!response.data.length) setResultText('No results found.');
