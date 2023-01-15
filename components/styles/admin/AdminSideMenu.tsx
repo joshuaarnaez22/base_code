@@ -26,6 +26,7 @@ export default function AdminSideMenu({ type, closeDrawer }: MenuProps) {
     '/admin/monitoring',
     '/admin/inquiries',
     '/admin/schedules',
+    '/admin/adopted',
   ];
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function AdminSideMenu({ type, closeDrawer }: MenuProps) {
     if (router.pathname === routerChoice[4]) setSelectedMenu(5);
     if (router.pathname === routerChoice[5]) setSelectedMenu(6);
     if (router.pathname === routerChoice[6]) setSelectedMenu(7);
+    if (router.pathname === routerChoice[7]) setSelectedMenu(8);
   }, [router]);
 
   const mobileHandler = (status: boolean) => {
@@ -122,6 +124,13 @@ export default function AdminSideMenu({ type, closeDrawer }: MenuProps) {
           index={3}
           isSelected={selectedMenu == 3 ? true : false}
           route={routerChoice[2]}
+        />
+        <MenuOptions
+          title="Adopted"
+          icon={IoIosPeople}
+          index={8}
+          isSelected={selectedMenu == 8 ? true : false}
+          route={routerChoice[7]}
         />
         <MenuOptions
           title="Visitations"

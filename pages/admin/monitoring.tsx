@@ -13,6 +13,19 @@ export async function getServerSideProps() {
   };
 }
 const monitoring = (monitoring: any) => {
+  monitoring.monitoring.map((mon: any) => {
+    mon.arrayHealth = mon.daily_health
+      .map((item: any) => item.value)
+      .toString()
+      .replace(/,/g, ' & ');
+
+    mon.arrayChores = mon.chores
+      .map((item: any) => item.value)
+      .toString()
+      .replace(/,/g, ' & ');
+  });
+  console.log(monitoring);
+
   return (
     <Box
       w="100%"

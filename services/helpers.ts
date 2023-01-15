@@ -98,6 +98,14 @@ export const monitoringHeader = [
     displayName: ' Meal',
   },
   {
+    id: 'arrayHealth',
+    displayName: ' Daily Health',
+  },
+  {
+    id: 'arrayChores',
+    displayName: ' Chores',
+  },
+  {
     id: 'education',
     displayName: ' Education',
   },

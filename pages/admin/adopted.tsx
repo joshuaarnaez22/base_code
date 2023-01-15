@@ -9,17 +9,16 @@ import Head from 'next/head';
 
 export async function getServerSideProps() {
   const { orphan } = await allOrphans();
-  const activeOrphan = orphan.filter((orp: any) => orp.status === 'active');
-
+  const adoptedOrphan = orphan.filter((orp: any) => orp.status === 'adopted');
   return {
-    props: { activeOrphan }, // will be passed to the page component as props
+    props: { adoptedOrphan }, // will be passed to the page component as props
   };
 }
-const children: NextPageWithLayout = ({ activeOrphan }: any) => {
+const adopted: NextPageWithLayout = ({ adoptedOrphan }: any) => {
   return (
     <>
       <Head>
-        <title>Childrens</title>
+        <title>Adopted Childrens</title>
       </Head>
       <Box
         w="100%"
@@ -29,14 +28,14 @@ const children: NextPageWithLayout = ({ activeOrphan }: any) => {
         sx={thinScollbar}
         p="20px"
       >
-        <Childrens orphans={activeOrphan} />
+        <Childrens orphans={adoptedOrphan} />
       </Box>
     </>
   );
 };
 
-children.getLayout = function getLayout(page: ReactElement) {
+adopted.getLayout = function getLayout(page: ReactElement) {
   return <Layout type="admin">{page}</Layout>;
 };
 
-export default children;
+export default adopted;

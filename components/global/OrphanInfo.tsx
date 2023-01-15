@@ -251,30 +251,7 @@ const OrphanInfo = () => {
             </Collapse>
           </FormControl>
         </Flex>
-        <Flex w="100%">
-          {/* <Accordion w="inherit" allowMultiple mt="5">
-            <AccordionData name="FAMILY COMPOSITION">
-              <FormControl>
-                <Input type="text" placeholder="Category" />
-              </FormControl>
-            </AccordionData>
-            <AccordionData name="SOURCE OF INFORMATION">
-              <FormControl>
-                <Textarea placeholder="..." />
-              </FormControl>
-            </AccordionData>
-            <AccordionData name="CIRCUMSTANCES OF REFERRAL">
-              <FormControl>
-                <Textarea placeholder="..." />
-              </FormControl>
-            </AccordionData>
-            <AccordionData name="BACKGROUND INFORMATION">
-              <FormControl>
-                <Textarea placeholder="..." />
-              </FormControl>
-            </AccordionData>
-          </Accordion> */}
-        </Flex>
+        <Flex w="100%"></Flex>
       </Stack>
     </>
   );

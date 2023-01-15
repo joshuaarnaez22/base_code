@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Drawer,
@@ -23,161 +23,169 @@ import {
   Th,
   Td,
   TableCaption,
+  useDisclosure,
   TableContainer,
 } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-const schema = yup.object().shape({
-  information: yup.string().required('Information is required'),
-  // services: yup.array().of(
-  //   yup.object().shape({
-  //     name: yup.string(),
-  //   }),
-  // ),
-});
+import ServiceModal from './ServiceModal';
+import AgencyModal from './AgencyModal';
 
 const WebsiteDrawer = ({
   isOpenWebsiteMenu,
   onCloseWebsiteMenu,
   btnRefWebsite,
 }: any) => {
+  const [allServices, setAllServices] = useState<any>([]);
+  const [allAgency, setAllAgency] = useState<any>([]);
+  const [about, setAbout] = useState('');
+  const [title, setTitle] = useState('');
+
   const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+    isOpen: isOpenService,
+    onOpen: onOpenService,
+    onClose: onCloseService,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenAgency,
+    onOpen: onOpenAgency,
+    onClose: onCloseAgency,
+  } = useDisclosure();
+
+  const service = () => {
+    onOpenService();
+  };
+  const addService = (params: any) => {
+    setAllServices((prev: any) => [...prev, params]);
+  };
+
+  const agency = () => {
+    onOpenAgency();
+  };
+
+  const addAgency = (params: any) => {
+    setAllAgency((prev: any) => [...prev, params]);
+  };
 
   const onSubmit = (data: any) => {
-    console.log(data);
-  };
-
-  useEffect(() => {
-    reset();
-  }, [isOpenWebsiteMenu]);
-
-  const addService = () => {
-    console.log(123);
+    data.preventDefault();
+    console.log(title);
+    console.log(about);
   };
   return (
-    <Drawer
-      isOpen={isOpenWebsiteMenu}
-      placement="right"
-      onClose={onCloseWebsiteMenu}
-      finalFocusRef={btnRefWebsite}
-    >
-      <DrawerOverlay />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DrawerContent maxW="450px">
-          <DrawerCloseButton />
-          <DrawerHeader>Update Website</DrawerHeader>
-          <DrawerBody>
-            <FormControl isInvalid={errors.information ? true : false}>
-              <FormLabel>Information</FormLabel>
-              <Input
-                type="text"
-                placeholder="Firstname"
-                {...register('information')}
-              />
-              <Collapse in={errors.information ? true : false}>
-                {errors.information && (
-                  <FormHelperText fontSize="SubHeader.md" color="red">
-                    {errors.information.message as string}
-                  </FormHelperText>
-                )}
-              </Collapse>
-            </FormControl>
-            <Stack>
-              <Text fontWeight="bold" mt={5}>
-                Services we offer
-              </Text>
-              <ServiceTable />
-            </Stack>
-            <Stack>
-              <Text fontWeight="bold" mt={5}>
-                Agencies
-              </Text>
-              <AgencyTable />
-            </Stack>
-          </DrawerBody>
+    <>
+      <ServiceModal {...{ isOpenService, onCloseService, addService }} />
+      <AgencyModal {...{ isOpenAgency, onCloseAgency, addAgency }} />
+      <Drawer
+        isOpen={isOpenWebsiteMenu}
+        placement="right"
+        onClose={onCloseWebsiteMenu}
+        finalFocusRef={btnRefWebsite}
+      >
+        <DrawerOverlay />
+        <form onSubmit={onSubmit}>
+          <DrawerContent maxW="450px">
+            <DrawerCloseButton />
+            <DrawerHeader>Update Website</DrawerHeader>
+            <DrawerBody>
+              <Stack gap="5">
+                <FormControl>
+                  <FormLabel>Title</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Title"
+                    value={title}
+                    onChange={(e: any) => setTitle(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>About Us</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="About Us"
+                    value={about}
+                    onChange={(e: any) => setAbout(e.target.value)}
+                  />
+                </FormControl>
+              </Stack>
 
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onCloseWebsiteMenu}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue" onClick={addService} mr={3}>
-              Add Service
-            </Button>
-            <Button colorScheme="blue" onClick={addService} mr={3}>
-              Add Agency
-            </Button>
-            <Button colorScheme="blue" isLoading={isSubmitting} type="submit">
-              Save
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </form>
-    </Drawer>
+              <Stack mt="10">
+                <Text fontWeight="bold" mt={5}>
+                  Services we offer
+                </Text>
+                <ServiceTable allServices={allServices} />
+              </Stack>
+              <Stack mt="10">
+                <Text fontWeight="bold" mt={5}>
+                  Agencies
+                </Text>
+                <AgencyTable allAgency={allAgency} />
+              </Stack>
+            </DrawerBody>
+
+            <DrawerFooter>
+              <Button variant="outline" mr={3} onClick={onCloseWebsiteMenu}>
+                Cancel
+              </Button>
+              <Button colorScheme="blue" onClick={service} mr={3}>
+                Add Service
+              </Button>
+              <Button colorScheme="blue" onClick={agency} mr={3}>
+                Add Agency
+              </Button>
+              <Button colorScheme="blue" type="submit">
+                Save
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </form>
+      </Drawer>
+    </>
   );
 };
 
-const ServiceTable = () => {
+const ServiceTable = ({ allServices }: any) => {
   return (
     <TableContainer>
       <Table variant="simple">
         <Thead>
           <Tr>
             <Th>Services</Th>
-            <Th>Action</Th>
+            <Th>Message</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-          </Tr>
+          {allServices.map((service: any, index: number) => {
+            return (
+              <Tr key={index}>
+                <Td>{service.title}</Td>
+                <Td>{service.value}</Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>
   );
 };
 
-const AgencyTable = () => {
+const AgencyTable = ({ allAgency }: any) => {
   return (
     <TableContainer>
       <Table variant="simple">
         <Thead>
           <Tr>
             <Th>Agency</Th>
-            <Th>Action</Th>
+            <Th>Message</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-          </Tr>
+          {allAgency.map((agency: any, index: number) => {
+            return (
+              <Tr key={index}>
+                <Td>{agency.title}</Td>
+                <Td>{agency.value}</Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>
