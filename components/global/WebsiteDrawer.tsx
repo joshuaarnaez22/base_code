@@ -11,23 +11,20 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Collapse,
-  FormHelperText,
   Stack,
   Text,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   useDisclosure,
   TableContainer,
 } from '@chakra-ui/react';
 import ServiceModal from './ServiceModal';
 import AgencyModal from './AgencyModal';
+import { addWebsiteService, getlatestData } from '@/services/user.service';
 
 const WebsiteDrawer = ({
   isOpenWebsiteMenu,
@@ -36,8 +33,10 @@ const WebsiteDrawer = ({
 }: any) => {
   const [allServices, setAllServices] = useState<any>([]);
   const [allAgency, setAllAgency] = useState<any>([]);
-  const [about, setAbout] = useState('');
-  const [title, setTitle] = useState('');
+  const [information, setInformation] = useState('');
+  const [contact_number, setContact_number] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
 
   const {
     isOpen: isOpenService,
@@ -65,11 +64,40 @@ const WebsiteDrawer = ({
     setAllAgency((prev: any) => [...prev, params]);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     data.preventDefault();
-    console.log(title);
-    console.log(about);
+    console.log(allServices);
+    console.log(allAgency);
+    // try {
+    //   const payload = {
+    //     services: allServices,
+    //     trusted_agency: allAgency,
+    //     information,
+    //     contact_number,
+    //     email,
+    //     address,
+    //   };
+    //   const query = await addWebsiteService(payload);
+    //   console.log(query);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
+
+  useEffect(() => {
+    (async () => {
+      const { landingPageData }: { landingPageData: any } =
+        await getlatestData();
+      console.log(landingPageData);
+
+      setAllServices(landingPageData.services);
+      setAllAgency(landingPageData.trusted_agency);
+      setInformation(landingPageData.information);
+      setContact_number(landingPageData.contact_number);
+      setEmail(landingPageData.email);
+      setAddress(landingPageData.address);
+    })();
+  }, []);
   return (
     <>
       <ServiceModal {...{ isOpenService, onCloseService, addService }} />
@@ -88,21 +116,39 @@ const WebsiteDrawer = ({
             <DrawerBody>
               <Stack gap="5">
                 <FormControl>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Information</FormLabel>
                   <Input
                     type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e: any) => setTitle(e.target.value)}
+                    placeholder="Information"
+                    value={information}
+                    onChange={(e: any) => setInformation(e.target.value)}
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>About Us</FormLabel>
+                  <FormLabel>Contact Number</FormLabel>
                   <Input
                     type="text"
-                    placeholder="About Us"
-                    value={about}
-                    onChange={(e: any) => setAbout(e.target.value)}
+                    placeholder="Contact Number"
+                    value={contact_number}
+                    onChange={(e: any) => setContact_number(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel> Email</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="email"
+                    value={email}
+                    onChange={(e: any) => setEmail(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Address</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Address"
+                    value={address}
+                    onChange={(e: any) => setAddress(e.target.value)}
                   />
                 </FormControl>
               </Stack>

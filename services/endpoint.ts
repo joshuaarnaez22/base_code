@@ -61,3 +61,5 @@ export const scheduleDelete = `${LOCALDEV}/schedule/updateSchedule`;
 export const scheduleUpdate = `${LOCALDEV}/schedule/deleteSchedule`;
 export const scheduleAll = `${LOCALDEV}/schedule/getAllSchedule`;
 export const shceduleById = `${LOCALDEV}/schedule/getAllScheduleByID`;
+export const addUpdateWebsite = `${LOCALDEV}/schedule/addlandingpage`;
+export const updateWebsite = `${LOCALDEV}/schedule/getLatestLandingPage`;

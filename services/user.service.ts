@@ -34,6 +34,8 @@ import {
   scheduleAdd,
   getAllMonitoringById,
   monitoringUpdate,
+  addUpdateWebsite,
+  updateWebsite,
 } from './endpoint';
 
 export const createUser = async (payload: any) => {
@@ -199,5 +201,15 @@ export const monitoringById = async (payload: any) => {
 
 export const updateMonitoring = async (payload: any) => {
   const { data } = await instance.put(monitoringUpdate, payload);
+  return data;
+};
+
+export const addWebsiteService = async (payload: any) => {
+  const { data } = await instance.post(addUpdateWebsite, payload);
+  return data;
+};
+
+export const getlatestData = async () => {
+  const { data } = await instance.get(updateWebsite);
   return data;
 };

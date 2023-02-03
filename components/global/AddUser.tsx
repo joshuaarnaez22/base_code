@@ -34,13 +34,21 @@ interface Props {
   onClose: any;
   selectedUpdate?: any;
   type?: string;
+  userType?: string;
 }
-const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
+const AddUser = ({
+  isOpen,
+  onClose,
+  selectedUpdate,
+  type,
+  userType,
+}: Props) => {
   const router = useRouter();
   const [password, showPassword] = useState<boolean>(false);
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
   const toast = useToast();
   const [role, setRole] = useState({ label: '', value: '' });
+  const [roleOptions, setRoleOptions] = useState<any>();
   let schema;
   if (type === 'update') {
     schema = yup.object().shape({
@@ -95,6 +103,7 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         confirm: '',
       });
     }
+    options();
   }, [selectedUpdate]);
 
   useEffect(() => {
@@ -155,6 +164,46 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
       duration: 5000,
     });
   };
+
+  const options = () => {
+    console.log(type);
+
+    if (userType === 'admin') {
+      setRoleOptions([
+        {
+          label: 'Admin',
+          value: 'admin',
+        },
+        {
+          label: 'Foster',
+          value: 'foster',
+        },
+        {
+          label: 'Social Worker',
+          value: 'socialworker',
+        },
+        {
+          label: 'Volunteer',
+          value: 'volunteer',
+        },
+      ]);
+    } else {
+      setRoleOptions([
+        {
+          label: 'Foster',
+          value: 'foster',
+        },
+        {
+          label: 'Social Worker',
+          value: 'socialworker',
+        },
+        {
+          label: 'Volunteer',
+          value: 'volunteer',
+        },
+      ]);
+    }
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -183,24 +232,7 @@ const AddUser = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                     selectedOptionStyle="check"
                     colorScheme="blue"
                     value={role}
-                    options={[
-                      {
-                        label: 'Admin',
-                        value: 'admin',
-                      },
-                      {
-                        label: 'Foster',
-                        value: 'foster',
-                      },
-                      {
-                        label: 'Social Worker',
-                        value: 'socialworker',
-                      },
-                      {
-                        label: 'Volunteer',
-                        value: 'volunteer',
-                      },
-                    ]}
+                    options={roleOptions}
                   />
                   <Collapse in={errors.role ? true : false}>
                     {errors.role && (
