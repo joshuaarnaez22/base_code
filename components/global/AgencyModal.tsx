@@ -21,7 +21,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const schema = yup.object().shape({
-  title: yup.string().required('Title is required'),
+  name: yup.string().required('Title is required'),
   value: yup.string().required('Value is required'),
 });
 
@@ -49,18 +49,18 @@ const ServiceModal = ({ isOpenAgency, onCloseAgency, addAgency }: any) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
             <Stack>
-              <FormControl isInvalid={errors.title ? true : false}>
+              <FormControl isInvalid={errors.name ? true : false}>
                 <FormLabel>Title</FormLabel>
-                <Input type="text" placeholder="Title" {...register('title')} />
-                <Collapse in={errors.title ? true : false}>
-                  {errors.title && (
+                <Input type="text" placeholder="Title" {...register('name')} />
+                <Collapse in={errors.name ? true : false}>
+                  {errors.name && (
                     <FormHelperText fontSize="SubHeader.md" color="red">
-                      {errors.title.message as string}
+                      {errors.name.message as string}
                     </FormHelperText>
                   )}
                 </Collapse>
               </FormControl>
-              <FormControl isInvalid={errors.title ? true : false}>
+              <FormControl isInvalid={errors.name ? true : false}>
                 <FormLabel>Value</FormLabel>
                 <Textarea placeholder="Value" {...register('value')} />
                 <Collapse in={errors.value ? true : false}>

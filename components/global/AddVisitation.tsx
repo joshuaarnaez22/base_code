@@ -55,8 +55,8 @@ const AddVisitation = ({ isOpen, onClose, selectedUpdate, type }: any) => {
       const response = await addVisit(payload);
       if (response.success) toastUI(1, response.message, 'Orphan Added');
       else toastUI(2, response.message, 'Someting went wrong');
-      onClose();
       router.replace(router.asPath);
+      onClose();
     } catch (error) {
       console.log(error);
     }

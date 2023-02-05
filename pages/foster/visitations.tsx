@@ -9,15 +9,14 @@ import jwt_decode from 'jwt-decode';
 
 export async function getServerSideProps(context: any) {
   const { token } = context.req.cookies;
-  const { userID }: { userID: string } = jwt_decode(token);
-  const { data: visits } = await getAllVisitationForUser({ user_id: userID });
+  const { userId }: { userId: string } = jwt_decode(token);
+  const { data: visits } = await getAllVisitationForUser({ user_id: userId });
+
   return {
     props: { visits }, // will be passed to the page component as props
   };
 }
 const visitations: NextPageWithLayout = ({ visits }: any) => {
-  console.log(visits);
-
   return (
     <Box
       w="100%"

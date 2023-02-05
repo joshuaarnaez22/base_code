@@ -21,6 +21,7 @@ import {
   Td,
   useDisclosure,
   TableContainer,
+  useToast,
 } from '@chakra-ui/react';
 import ServiceModal from './ServiceModal';
 import AgencyModal from './AgencyModal';
@@ -37,6 +38,7 @@ const WebsiteDrawer = ({
   const [contact_number, setContact_number] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const toast = useToast();
 
   const {
     isOpen: isOpenService,
@@ -61,34 +63,45 @@ const WebsiteDrawer = ({
   };
 
   const addAgency = (params: any) => {
+    console.log(params);
     setAllAgency((prev: any) => [...prev, params]);
+  };
+
+  const toastUI = (type: number, description: string, title: string) => {
+    toast({
+      status: type == 1 ? 'success' : 'error',
+      variant: 'left-accent',
+      position: 'top-right',
+      isClosable: true,
+      title,
+      description: `${description}`,
+      duration: 5000,
+    });
   };
 
   const onSubmit = async (data: any) => {
     data.preventDefault();
-    console.log(allServices);
-    console.log(allAgency);
-    // try {
-    //   const payload = {
-    //     services: allServices,
-    //     trusted_agency: allAgency,
-    //     information,
-    //     contact_number,
-    //     email,
-    //     address,
-    //   };
-    //   const query = await addWebsiteService(payload);
-    //   console.log(query);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const payload = {
+        services: allServices,
+        trusted_agency: allAgency,
+        information,
+        contact_number,
+        email,
+        address,
+      };
+      await addWebsiteService(payload);
+      toastUI(1, 'Website successfully updated', 'Success');
+      onCloseWebsiteMenu();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     (async () => {
       const { landingPageData }: { landingPageData: any } =
         await getlatestData();
-      console.log(landingPageData);
 
       setAllServices(landingPageData.services);
       setAllAgency(landingPageData.trusted_agency);
@@ -202,7 +215,7 @@ const ServiceTable = ({ allServices }: any) => {
           {allServices.map((service: any, index: number) => {
             return (
               <Tr key={index}>
-                <Td>{service.title}</Td>
+                <Td>{service.name}</Td>
                 <Td>{service.value}</Td>
               </Tr>
             );
@@ -227,7 +240,7 @@ const AgencyTable = ({ allAgency }: any) => {
           {allAgency.map((agency: any, index: number) => {
             return (
               <Tr key={index}>
-                <Td>{agency.title}</Td>
+                <Td>{agency.name}</Td>
                 <Td>{agency.value}</Td>
               </Tr>
             );

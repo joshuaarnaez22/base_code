@@ -39,7 +39,7 @@ export const childheaders = [
     displayName: 'Date surrendered',
   },
   {
-    id: 'date_of_addmission',
+    id: 'date_of_admission',
     displayName: 'Date of Admission',
   },
 

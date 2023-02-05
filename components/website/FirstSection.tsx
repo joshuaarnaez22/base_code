@@ -86,7 +86,7 @@ const FirstSection = () => {
                   transition: 'all .5s ease-in-out',
                 }}
               >
-                <a href="#about">About Us</a>
+                <a href="#about">ABOUT US</a>
               </Text>
               <Text
                 {...HeaderMenuProps}

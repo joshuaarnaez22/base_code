@@ -19,6 +19,7 @@ import ChildrenTable from '@/components/global/ChildrenTable';
 import { useRouter } from 'next/router';
 
 const Childrens = ({ orphans }: any) => {
+  console.log(orphans);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setValue] = useState<string>('');
   const [selectSearch, setSelectSearch] = useState('firstname');
