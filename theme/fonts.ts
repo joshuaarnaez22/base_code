@@ -19,7 +19,5 @@ export const fontWeights = {
 };
 
 export const fonts = {
-  opensans: 'Open Sans',
-  lexendDeca: `"Lexend Deca", sans-serif`,
   robo: `"Roboto", sans-serif`,
 };

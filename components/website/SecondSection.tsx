@@ -10,22 +10,9 @@ const SecondSection = () => {
         pt="50px"
         justify="center"
         align="center"
-        id="section2"
-        scrollSnapAlign="start"
+        id="services"
       >
-        <Text fontFamily="robo" fontSize="50px" fontWeight="extranormal">
-          Book your place
-        </Text>
-        <Text
-          w="500px"
-          fontFamily="robo"
-          fontSize="Header.xs"
-          fontWeight="300"
-          align="center"
-        >
-          Pure Mining - this is a reliable hotel for ASIC miners. Enjoy comfort!{' '}
-        </Text>
-        <Button
+        {/* <Button
           w="200px"
           h="50px"
           borderRadius="full"
@@ -39,9 +26,9 @@ const SecondSection = () => {
           }}
         >
           Request
-        </Button>
+        </Button> */}
         <Text fontFamily="robo" fontWeight="extranormal" fontSize="30px">
-          Why Us ?
+          Our Services
         </Text>
       </Flex>
     </>

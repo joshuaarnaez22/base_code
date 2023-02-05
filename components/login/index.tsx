@@ -1,54 +1,62 @@
 import React from 'react';
 import LoginFields from './LoginFields';
+
+import { useRouter } from 'next/router';
+import { FormProvider, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Flex, Image, useToast } from '@chakra-ui/react';
+import { loginAuth } from '@/services/auth';
+import cookie from 'js-cookie';
+import { getUserLoginId } from '@/services/helpers';
+const schema = yup.object().shape({
+  username: yup.string().required('Username is required.'),
+  password: yup.string().required('Password is required.'),
+});
+
 const BgProps = {
   height: '100%',
   width: '100%',
   pos: 'absolute',
   zIndex: '0',
 } as any;
-
-import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Flex, Image, useToast } from '@chakra-ui/react';
-import { createUser } from '@/services/user.service';
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Not a proper email')
-    .required('Email is required.'),
-  password: yup.string().required('Password is required.'),
-});
-
 const Login = () => {
+  const router = useRouter();
+  const toast = useToast();
+
   const formMethods = useForm({
     resolver: yupResolver(schema),
   });
 
-  const toast = useToast();
+  const onSubmit = async (payload: any) => {
+    try {
+      const { data } = await loginAuth(payload);
+      const { token, role, success, message } = data;
+      if (success) {
+        cookie.set('token', token);
+        toastUI(1, `Welcome ${role}`, 'Login successfully.');
+        if (role === 'socialworker') return router.push(`${role}/accounts`);
+        if (role === 'volunteer') return router.push(`${role}/schedules`);
 
-  const onSubmit = async () => {
-    return new Promise((resolve, reject) => {
-      try {
-        // const response = createUser();
-        // console.log(response);
-      } catch (error) {
-        reject(error);
+        router.push(`${role}/dashboard`);
+      } else {
+        return toastUI(2, message, 'Not found.');
       }
-      // setTimeout(() => {
-      //     toastUI(1, "We've created your account for you.");
-      //     resolve(true);
-      // }, 3000);
-    });
+    } catch (error) {
+      toastUI(2, 'Something went wrong', 'Error');
+      console.log(error);
+    }
+
+    // const { userId } = getUserLoginId();
   };
 
-  const toastUI = (type: number, description: string) => {
+  const toastUI = (type: number, description: string, title: string) => {
     toast({
       status: type == 1 ? 'success' : 'error',
       variant: 'left-accent',
       position: 'top-right',
       isClosable: true,
-      title: 'Account created.',
+      title,
       description: `${description}`,
       duration: 5000,
     });
@@ -59,9 +67,10 @@ const Login = () => {
       <Flex
         height="100vh"
         position="relative"
-        pt="50px"
         align="center"
         direction="column"
+        justify="center"
+        pb="25vh"
       >
         <FormProvider {...formMethods}>
           <form onSubmit={formMethods.handleSubmit(onSubmit)}>

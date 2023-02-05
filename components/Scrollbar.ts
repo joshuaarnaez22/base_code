@@ -10,6 +10,18 @@ export const thinScollbar = {
     borderRadius: '24px',
   },
 };
+export const thinnerScollbar = {
+  '&::-webkit-scrollbar': {
+    width: '4px',
+  },
+  '&::-webkit-scrollbar-track': {
+    width: '4px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: '#a7a7a7',
+    borderRadius: '24px',
+  },
+};
 export const hideScollbar = {
   '&::-webkit-scrollbar': {
     display: 'none !important',

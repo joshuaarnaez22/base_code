@@ -6,13 +6,11 @@ import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
     TableCaption,
     TableContainer,
-    Box,
     Icon,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';

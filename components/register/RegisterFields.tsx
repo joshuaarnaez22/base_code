@@ -25,12 +25,34 @@ const RegisterFields = () => {
   return (
     <>
       <Flex gap="5" direction="column" align="center">
-        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="lexendDeca">
+        <Text fontSize="Header.lg" fontWeight="normal" fontFamily="robo">
           Register
         </Text>
-        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="lexendDeca">
+        <Text fontSize="Header.xs" fontWeight="normal" fontFamily="robo">
           Register and start managing your candidates!
         </Text>
+        <Stack>
+          <Input
+            variant="basic"
+            placeholder="Username"
+            w="300px"
+            autoComplete="off"
+            _placeholder={{
+              color: 'white',
+              opacity: '.5',
+              fontFamily: 'robo',
+              fontSize: 'SubHeader.lg',
+            }}
+            {...register('username')}
+          />
+          <Collapse in={errors.username ? true : false} animateOpacity>
+            {errors.username && (
+              <Text fontSize="SubHeader.md" color="red">
+                {errors.username.message as string}
+              </Text>
+            )}
+          </Collapse>
+        </Stack>
         <Stack>
           <Input
             variant="basic"
@@ -40,7 +62,7 @@ const RegisterFields = () => {
             _placeholder={{
               color: 'white',
               opacity: '.5',
-              fontFamily: 'lexendDeca',
+              fontFamily: 'robo',
               fontSize: 'SubHeader.lg',
             }}
             {...register('email')}
@@ -62,7 +84,7 @@ const RegisterFields = () => {
               _placeholder={{
                 color: 'white',
                 opacity: '.5',
-                fontFamily: 'lexendDeca',
+                fontFamily: 'robo',
                 fontSize: 'SubHeader.lg',
               }}
               variant="basic"
@@ -77,7 +99,7 @@ const RegisterFields = () => {
                 _hover={{
                   cursor: 'pointer',
                   transform: 'scale(1.1)',
-                  transition: 'all 1s all ease',
+                  transition: 'all 1s ease',
                 }}
               />
             </InputRightElement>
@@ -101,7 +123,7 @@ const RegisterFields = () => {
               _placeholder={{
                 color: 'white',
                 opacity: '.5',
-                fontFamily: 'lexendDeca',
+                fontFamily: 'robo',
                 fontSize: 'SubHeader.lg',
               }}
               {...register('confirm')}
@@ -115,7 +137,7 @@ const RegisterFields = () => {
                 _hover={{
                   cursor: 'pointer',
                   transform: 'scale(1.1)',
-                  transition: 'all 1s all ease',
+                  transition: 'all 1s ease',
                 }}
               />
             </InputRightElement>
@@ -132,7 +154,7 @@ const RegisterFields = () => {
         <Button
           w="300px"
           color="black300"
-          fontFamily="lexendDeca"
+          fontFamily="robo"
           fontSize="SubHeader.lg"
           bg="green500"
           type="submit"

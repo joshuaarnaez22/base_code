@@ -1,6 +1,6 @@
 export const colors = {
   black500: '#1F1F1F',
-  main: '#3182ce',
+  main: '#F7F8FC;',
   gray300: '#CBD5E0',
   gray400: '#A0AEC0',
   gray500: '#718096',

@@ -5,8 +5,9 @@ const errorResponseHandler = (error: any) => {
 };
 
 export const instance = axios.create({
-  // baseURL: process.env.DEVELOPMENT_URL,
+  // baseURL: 'https://back-end-ochre-five.vercel.app/',
   headers: {
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
   },
 });
