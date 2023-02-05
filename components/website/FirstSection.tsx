@@ -27,7 +27,7 @@ const HeaderMenuProps = {
   fontWeight: 'bold',
   cursor: 'pointer',
   fontSize: '18px',
-  color: 'black',
+  color: 'white',
 };
 const FirstSection = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const FirstSection = () => {
 
       <Flex h="100vh" id="company">
         <Box zIndex="1" w="100vw" h="100vh" bg="#00000033" pos="absolute" />
-        <Image src="family.jpg" alt="bg" {...BgProps} />
+        <Image src="bg.jpg" alt="bg" {...BgProps} />
         <Flex zIndex="2" display={{ base: 'block', lg: 'none' }}>
           <Menu>
             <MenuButton
