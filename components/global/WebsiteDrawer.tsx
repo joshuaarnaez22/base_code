@@ -22,10 +22,12 @@ import {
   useDisclosure,
   TableContainer,
   useToast,
+  Icon,
 } from '@chakra-ui/react';
 import ServiceModal from './ServiceModal';
 import AgencyModal from './AgencyModal';
 import { addWebsiteService, getlatestData } from '@/services/user.service';
+import { AiFillDelete } from 'react-icons/ai';
 
 const WebsiteDrawer = ({
   isOpenWebsiteMenu,
@@ -63,7 +65,6 @@ const WebsiteDrawer = ({
   };
 
   const addAgency = (params: any) => {
-    console.log(params);
     setAllAgency((prev: any) => [...prev, params]);
   };
 
@@ -111,6 +112,23 @@ const WebsiteDrawer = ({
       setAddress(landingPageData.address);
     })();
   }, []);
+
+  const handleDeleteService = (id: any) => {
+    setAllServices(
+      allServices.filter((service: any, index: any) => {
+        return index !== id;
+      }),
+    );
+  };
+
+  const handleDeleteAgency = (id: any) => {
+    setAllAgency(
+      allAgency.filter((service: any, index: any) => {
+        return index !== id;
+      }),
+    );
+  };
+
   return (
     <>
       <ServiceModal {...{ isOpenService, onCloseService, addService }} />
@@ -123,7 +141,7 @@ const WebsiteDrawer = ({
       >
         <DrawerOverlay />
         <form onSubmit={onSubmit}>
-          <DrawerContent maxW="450px">
+          <DrawerContent maxW="700px">
             <DrawerCloseButton />
             <DrawerHeader>Update Website</DrawerHeader>
             <DrawerBody>
@@ -170,13 +188,20 @@ const WebsiteDrawer = ({
                 <Text fontWeight="bold" mt={5}>
                   Services we offer
                 </Text>
-                <ServiceTable allServices={allServices} />
+                <ServiceTable
+                  allServices={allServices}
+                  handleDeleteService={handleDeleteService}
+                />
               </Stack>
               <Stack mt="10">
                 <Text fontWeight="bold" mt={5}>
                   Agencies
                 </Text>
-                <AgencyTable allAgency={allAgency} />
+
+                <AgencyTable
+                  allAgency={allAgency}
+                  handleDeleteAgency={handleDeleteAgency}
+                />
               </Stack>
             </DrawerBody>
 
@@ -201,7 +226,7 @@ const WebsiteDrawer = ({
   );
 };
 
-const ServiceTable = ({ allServices }: any) => {
+const ServiceTable = ({ allServices, handleDeleteService }: any) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -209,6 +234,7 @@ const ServiceTable = ({ allServices }: any) => {
           <Tr>
             <Th>Services</Th>
             <Th>Message</Th>
+            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -217,6 +243,19 @@ const ServiceTable = ({ allServices }: any) => {
               <Tr key={index}>
                 <Td>{service.name}</Td>
                 <Td>{service.value}</Td>
+                <Td>
+                  <Icon
+                    onClick={() => handleDeleteService(index)}
+                    as={AiFillDelete}
+                    color="red"
+                    _hover={{
+                      cursor: 'pointer',
+                      shadow: 'md',
+                      transition: 'all .5s ease',
+                    }}
+                    transition="all .5s ease"
+                  />
+                </Td>
               </Tr>
             );
           })}
@@ -226,7 +265,7 @@ const ServiceTable = ({ allServices }: any) => {
   );
 };
 
-const AgencyTable = ({ allAgency }: any) => {
+const AgencyTable = ({ allAgency, handleDeleteAgency }: any) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -234,6 +273,7 @@ const AgencyTable = ({ allAgency }: any) => {
           <Tr>
             <Th>Agency</Th>
             <Th>Message</Th>
+            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -242,6 +282,19 @@ const AgencyTable = ({ allAgency }: any) => {
               <Tr key={index}>
                 <Td>{agency.name}</Td>
                 <Td>{agency.value}</Td>
+                <Td>
+                  <Icon
+                    onClick={() => handleDeleteAgency(index)}
+                    as={AiFillDelete}
+                    color="red"
+                    _hover={{
+                      cursor: 'pointer',
+                      shadow: 'md',
+                      transition: 'all .5s ease',
+                    }}
+                    transition="all .5s ease"
+                  />
+                </Td>
               </Tr>
             );
           })}
