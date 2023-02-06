@@ -1,7 +1,7 @@
 import { Box, Collapse, Flex, Grid, Image, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-const Card = ({ img, title, description }: any) => {
+const Card = ({ img, name, value }: any) => {
   const [show, SetShow] = useState(false);
   return (
     <Flex
@@ -14,20 +14,30 @@ const Card = ({ img, title, description }: any) => {
       gap="20px"
       onClick={() => SetShow(!show)}
     >
-      <Image src={img} alt="" w="50px" h="50px" />
-      <Text>{title}</Text>
-      <Text>{description}</Text>
-      <Collapse in={show}>
+      <Image src="mapcursor.png" alt="" w="50px" h="50px" />
+      <Text>{name}</Text>
+      <Text>{value}</Text>
+      {/* <Collapse in={show}>
         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
         terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
         labore wes anderson cred nesciunt sapiente ea proident.
-      </Collapse>
+      </Collapse> */}
     </Flex>
   );
 };
-const ThirdSection = ({ resources }: any) => {
+const ThirdSection = ({ allServices }: any) => {
+  console.log(allServices);
   return (
     <>
+      <Text
+        fontFamily="robo"
+        fontWeight="bold"
+        fontSize="30px"
+        textAlign="center"
+        mt="100"
+      >
+        Our Services
+      </Text>
       <Flex
         justify="center"
         align="center"
@@ -36,13 +46,15 @@ const ThirdSection = ({ resources }: any) => {
         pt="50px"
         pb="100px"
       >
-        {resources.map(({ img, title, description }: any, index: number) => {
-          return (
-            <Box key={index}>
-              <Card {...{ img, title, description }} />
-            </Box>
-          );
-        })}
+        <Box>
+          {allServices.map(({ img, name, value }: any, index: number) => {
+            return (
+              <Box key={index}>
+                <Card {...{ img, name, value }} />
+              </Box>
+            );
+          })}
+        </Box>
       </Flex>
     </>
   );

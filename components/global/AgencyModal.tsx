@@ -61,8 +61,8 @@ const ServiceModal = ({ isOpenAgency, onCloseAgency, addAgency }: any) => {
                 </Collapse>
               </FormControl>
               <FormControl isInvalid={errors.name ? true : false}>
-                <FormLabel>Value</FormLabel>
-                <Textarea placeholder="Value" {...register('value')} />
+                <FormLabel>Description</FormLabel>
+                <Textarea placeholder="Description" {...register('value')} />
                 <Collapse in={errors.value ? true : false}>
                   {errors.value && (
                     <FormHelperText fontSize="SubHeader.md" color="red">

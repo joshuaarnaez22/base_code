@@ -24,7 +24,7 @@ import { FiFacebook, FiTwitter, FiInstagram } from 'react-icons/fi';
 import { AiOutlineYoutube } from 'react-icons/ai';
 import AboutUs from './AboutUs';
 
-const Website = ({ resources }: any) => {
+const Website = ({ allServices, allAgency }: any) => {
   const toast = useToast();
   const [loader, setLoader] = useState(false);
   const [form, setForm] = useState({
@@ -65,8 +65,8 @@ const Website = ({ resources }: any) => {
         w="100vw"
       >
         <FirstSection />
-        <SecondSection />
-        <ThirdSection resources={resources} />
+        {allAgency.length > 0 && <SecondSection {...{ allAgency }} />}
+        {allServices.length > 0 && <ThirdSection {...{ allServices }} />}
         {/* <SponsorSection />
         <ThirdSection resources={resources} /> */}
         <AboutUs />
