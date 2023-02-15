@@ -129,8 +129,8 @@ const AddUser = ({
 
   const addUser = async (data: any) => {
     const { success, message } = await createUser(data);
-    if (!success && message === 'User name or Email already exists ') {
-      toastUI(2, message, 'Already exists');
+    if (!success) {
+      toastUI(2, message, 'Error');
     }
     if (success && message === 'Account Registered successfully') {
       toastUI(1, message, 'Account created.');
