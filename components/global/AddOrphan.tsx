@@ -118,10 +118,11 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
   };
 
   const updateUser = async (data: any) => {
-    const { userId }: { userId: string } = getUserLoginId();
-    const payload = { ...data, id: userId };
+    const payload = { ...data, id: selectedUpdate.id };
 
     const res = await updateOrphanFunc(payload);
+    console.log(res);
+
     if (res.success) {
       toastUI(1, res.message, 'Orphan Update');
       reset();

@@ -17,6 +17,7 @@ import {
   InputGroup,
   InputRightElement,
   Icon,
+  useToast,
 } from '@chakra-ui/react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
@@ -25,12 +26,16 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import jwt_decode from 'jwt-decode';
 import cookie from 'js-cookie';
+import { userUpdate } from '@/services/user.service';
+import { useRouter } from 'next/router';
 
 interface UserProps {
   username: string;
   firstname: string;
   lastname: string;
   email: string;
+  userId: string;
+  role: string;
 }
 
 const schema = yup.object().shape(
@@ -58,8 +63,12 @@ const schema = yup.object().shape(
 );
 
 const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
+  const router = useRouter();
   const [password, showPassword] = useState<boolean>(false);
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
+  const [id, setId] = useState('');
+  const [role, setRole] = useState('');
+  const toast = useToast();
 
   const {
     register,
@@ -71,15 +80,38 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    const payload = {
+      ...data,
+      id: id,
+      changePassword: data.password ? true : false,
+      newPassword: data.password,
+      type: role,
+    };
+    await userUpdate(payload);
+    toastUI(1, 'User successfully updated', 'Success');
+    cookie.remove('token');
+    router.push('/login');
+  };
+
+  const toastUI = (type: number, description: string, title: string) => {
+    toast({
+      status: type == 1 ? 'success' : 'error',
+      variant: 'left-accent',
+      position: 'top-right',
+      isClosable: true,
+      title,
+      description: `${description}`,
+      duration: 5000,
+    });
   };
 
   useEffect(() => {
     reset();
-    const { lastname, username, firstname, email }: UserProps = jwt_decode(
-      cookie.get('token') as string,
-    );
+    const { lastname, username, firstname, email, userId, role }: UserProps =
+      jwt_decode(cookie.get('token') as string);
+    setRole(role);
+    setId(userId);
     setValue('lastname', lastname);
     setValue('username', username);
     setValue('firstname', firstname);

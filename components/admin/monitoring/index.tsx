@@ -20,6 +20,8 @@ import { pdfDownloader } from '@/services/pdfDownload';
 import ReportModal from '@/components/global/ReportModal';
 
 const Monitoring = (data: any) => {
+  console.log(data);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenReport,

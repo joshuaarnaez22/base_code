@@ -5,6 +5,8 @@ import { Capitalize } from '@/services/helpers';
 import { deleteMonitor } from '@/services/user.service';
 import { FcDeleteDatabase } from 'react-icons/fc';
 import { GrUpdate, GrFormView } from 'react-icons/gr';
+import moment from 'moment';
+
 import {
   Avatar,
   Box,
@@ -173,7 +175,11 @@ const MonitorTable = ({ allMonitor, search }: any) => {
 
                   <Td fontWeight="bold">{currentItem.meal}</Td>
                   {/* <Td fontWeight="bold">{currentItem.daily_health}</Td> */}
-                  <Td fontWeight="bold">{currentItem.date_added}</Td>
+                  <Td fontWeight="bold">
+                    {moment(new Date(currentItem.date))
+                      .utc()
+                      .format('MMMM D YYYY')}
+                  </Td>
 
                   <Td>
                     <Menu>
