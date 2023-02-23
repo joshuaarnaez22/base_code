@@ -275,6 +275,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   ];
 
   const healthOptions = [
+    { value: 'normal', label: 'Normal' },
     { value: 'Alergy', label: 'Alergy' },
     { value: 'Cold and Flu', label: 'Cold and Flu' },
     { value: 'Diarrhea', label: 'Diarrhea' },
