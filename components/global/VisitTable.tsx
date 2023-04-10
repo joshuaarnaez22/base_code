@@ -296,16 +296,17 @@ const VisitTable = ({ visits, search, userType }: any) => {
                           </MenuItem>
                         )}
 
-                        {currentItem.status === 'approved' && (
-                          <MenuItem
-                            onClick={() => orphanSelect(currentItem.id)}
-                          >
-                            <Flex align="center" gap="3">
-                              <Icon as={FaChild} color="red" />
-                              Select Orphan
-                            </Flex>
-                          </MenuItem>
-                        )}
+                        {currentItem.status === 'approved' &&
+                          userType !== 'foster' && (
+                            <MenuItem
+                              onClick={() => orphanSelect(currentItem.user_id)}
+                            >
+                              <Flex align="center" gap="3">
+                                <Icon as={FaChild} color="red" />
+                                Select Orphan
+                              </Flex>
+                            </MenuItem>
+                          )}
                       </MenuList>
                     </Menu>
                     {/* )} */}

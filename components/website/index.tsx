@@ -14,7 +14,7 @@ import {
   Icon,
   HStack,
 } from '@chakra-ui/react';
-import { hideScollbar } from '@/components/Scrollbar';
+import { homeScrollbar } from '@/components/Scrollbar';
 import FirstSection from './FirstSection';
 import SecondSection from './SecondSection';
 import ThirdSection from './ThirdSection';
@@ -56,9 +56,10 @@ const Website = ({ allServices, allAgency }: any) => {
     <>
       <Box
         h="100vh"
-        overflow="scroll"
+        overflowY="scroll"
+        overflowX="hidden"
         scrollBehavior="smooth"
-        sx={hideScollbar}
+        sx={homeScrollbar}
         pos="relative"
         m="0"
         p="0"

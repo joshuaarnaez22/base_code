@@ -13,7 +13,6 @@ export async function getServerSideProps() {
   };
 }
 const visitations: NextPageWithLayout = ({ visits }: any) => {
-  console.log(visits);
 
   return (
     <Box
