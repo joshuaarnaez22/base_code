@@ -91,8 +91,8 @@ const OrphanInfo = () => {
                 border: '2px solid #E53E3E',
               }}
             >
-              <option value="Female">Male</option>
-              <option value="Male">Female</option>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
             </Select>
             <Collapse in={errors.gender ? true : false}>
               {errors.gender && (

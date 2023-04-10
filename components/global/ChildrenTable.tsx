@@ -95,18 +95,21 @@ const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
   };
 
   const selectOrphan = async (orpanId: string, status: string) => {
+    console.log(VISITID);
+
     try {
       if (status === 'adopted') {
         toastUI(2, 'Orphan is already adopted', 'Adopted');
         return;
       }
-      await selectOrphanWithVisit({
-        id: VISITID,
-        orphan_id: orpanId,
-      });
-      toastUI(1, 'Selected Success', 'Success');
-      if (userType === 'admin') router.push('/admin/visitations');
-      else router.push('/socialworker/visitations');
+
+      // await selectOrphanWithVisit({
+      //   id: VISITID,
+      //   orphan_id: orpanId,
+      // });
+      // toastUI(1, 'Selected Success', 'Success');
+      // if (userType === 'admin') router.push('/admin/visitations');
+      // else router.push('/socialworker/visitations');
     } catch (error) {
       console.log(error);
     }
