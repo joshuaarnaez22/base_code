@@ -4,17 +4,19 @@ import { thinScollbar } from '@/components/Scrollbar';
 import { Box } from '@chakra-ui/react';
 import Layout from 'layouts/Layout';
 import { NextPageWithLayout } from 'pages/_app';
-import { allOrphans } from '@/services/orphans.service';
+import { allAdoptedOrphan } from '@/services/orphans.service';
 import Head from 'next/head';
 
 export async function getServerSideProps() {
-  const { orphan } = await allOrphans();
+  const { orphan } = await allAdoptedOrphan();
   const adoptedOrphan = orphan.filter((orp: any) => orp.status === 'adopted');
   return {
     props: { adoptedOrphan }, // will be passed to the page component as props
   };
 }
 const adopted: NextPageWithLayout = ({ adoptedOrphan }: any) => {
+  console.log(adoptedOrphan);
+
   return (
     <>
       <Head>
