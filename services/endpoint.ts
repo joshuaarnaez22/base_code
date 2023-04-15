@@ -13,6 +13,8 @@ export const deleteUser = `${LOCALDEV}/users/deleteUser`;
 //Orphans
 export const addOrphan = `${LOCALDEV}/orphans/addOrphan`;
 export const getAllOrphan = `${LOCALDEV}/orphans/getAllOrphan`;
+export const getAllAdoptedOrphans = `${LOCALDEV}/orphans/getAllFosterWithOrphan`;
+
 export const deleteOrphan = `${LOCALDEV}/orphans/deleteOrphan`;
 export const getAllActiveOrphanApi = `${LOCALDEV}/orphans/getAllActiveOrphanApi`;
 export const updateOrphan = `${LOCALDEV}/orphans/updateOrphan`;
