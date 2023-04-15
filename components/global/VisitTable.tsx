@@ -117,10 +117,10 @@ const VisitTable = ({ visits, search, userType }: any) => {
     onOpenUpdate();
   };
 
-  const orphanSelect = (id: string) => {
+  const orphanSelect = (id: string, visitId: string) => {
     if (userType === 'admin') {
       router.push(
-        { pathname: '/admin/childrens', query: { id } },
+        { pathname: '/admin/childrens', query: { id, visitId } },
         '/admin/childrens',
       );
     } else {
@@ -299,7 +299,12 @@ const VisitTable = ({ visits, search, userType }: any) => {
                         {currentItem.status === 'approved' &&
                           userType !== 'foster' && (
                             <MenuItem
-                              onClick={() => orphanSelect(currentItem.user_id)}
+                              onClick={() =>
+                                orphanSelect(
+                                  currentItem.user_id,
+                                  currentItem.id,
+                                )
+                              }
                             >
                               <Flex align="center" gap="3">
                                 <Icon as={FaChild} color="red" />

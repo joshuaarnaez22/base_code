@@ -35,7 +35,7 @@ import { removeOrphan } from '@/services/orphans.service';
 import { useRouter } from 'next/router';
 import { selectOrphanWithVisit } from '@/services/user.service';
 
-const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
+const ChildrenTable = ({ orphans, search, userId, userType, VisitId }: any) => {
   const router = useRouter();
   const toast = useToast();
 
@@ -100,10 +100,12 @@ const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
         toastUI(2, 'Orphan is already adopted', 'Adopted');
         return;
       }
-      await selectOrphanWithVisit({
-        id: VISITID,
+      const res = await selectOrphanWithVisit({
+        id: VisitId,
         orphan_id: orpanId,
       });
+      console.log(res);
+
       toastUI(1, 'Selected Success', 'Success');
       if (userType === 'admin') router.push('/admin/visitations');
       else router.push('/socialworker/visitations');
@@ -233,7 +235,7 @@ const ChildrenTable = ({ orphans, search, userId: VISITID, userType }: any) => {
                       ></MenuButton>
                       <MenuList minWidth="180px">
                         <>
-                          {VISITID ? (
+                          {VisitId ? (
                             <MenuItem
                               onClick={() =>
                                 selectOrphan(currentItem.id, currentItem.status)
