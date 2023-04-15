@@ -27,9 +27,13 @@ const Childrens = ({ orphans }: any) => {
   const [type] = useState('add');
   const router = useRouter();
   const [userId, setUserId] = useState('');
+  const [VisitId, setVisitId] = useState('');
 
   useEffect(() => {
-    if (router.query.id) setUserId(router.query.id as string);
+    if (router.query.id) {
+      setUserId(router.query.id as string);
+      setVisitId(router.query.visitId as string);
+    }
   }, [router]);
 
   useEffect(() => {
@@ -136,6 +140,7 @@ const Childrens = ({ orphans }: any) => {
         search={search}
         userId={userId}
         userType="admin"
+        VisitId={VisitId}
       />
     </>
   );
