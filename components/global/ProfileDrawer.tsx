@@ -90,11 +90,10 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
       newPassword: data.password,
       type: role,
     };
-    console.log(payload);
-    // await userUpdate(payload);
-    // toastUI(1, 'User successfully updated', 'Success');
-    // cookie.remove('token');
-    // router.push('/login');
+    await userUpdate(payload);
+    toastUI(1, 'User successfully updated', 'Success');
+    cookie.remove('token');
+    router.push('/login');
   };
 
   const toastUI = (type: number, description: string, title: string) => {
