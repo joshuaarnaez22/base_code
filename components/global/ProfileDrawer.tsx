@@ -28,6 +28,7 @@ import jwt_decode from 'jwt-decode';
 import cookie from 'js-cookie';
 import { userUpdate } from '@/services/user.service';
 import { useRouter } from 'next/router';
+import ImageUpload from './ImageUpload';
 
 interface UserProps {
   username: string;
@@ -69,7 +70,7 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
   const [id, setId] = useState('');
   const [role, setRole] = useState('');
   const toast = useToast();
-
+  const [image, setImage] = useState(null);
   const {
     register,
     handleSubmit,
@@ -83,15 +84,17 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
   const onSubmit = async (data: any) => {
     const payload = {
       ...data,
+      image: image ? image : null,
       id: id,
       changePassword: data.password ? true : false,
       newPassword: data.password,
       type: role,
     };
-    await userUpdate(payload);
-    toastUI(1, 'User successfully updated', 'Success');
-    cookie.remove('token');
-    router.push('/login');
+    console.log(payload);
+    // await userUpdate(payload);
+    // toastUI(1, 'User successfully updated', 'Success');
+    // cookie.remove('token');
+    // router.push('/login');
   };
 
   const toastUI = (type: number, description: string, title: string) => {
@@ -132,6 +135,8 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
           <DrawerHeader>Update your profile</DrawerHeader>
           <DrawerBody>
             <Stack gap="3">
+              <ImageUpload setImage={setImage} />
+
               <FormControl isInvalid={errors.firstname ? true : false}>
                 <FormLabel>Firstname</FormLabel>
                 <Input

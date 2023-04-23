@@ -13,14 +13,13 @@ import {
   useDisclosure,
   IconButton,
 } from '@chakra-ui/react';
-import { AiFillBell } from 'react-icons/ai';
+import { AiFillBell, AiOutlineLogout } from 'react-icons/ai';
 import cookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import { getAllUnread } from '@/services/user.service';
 import ProfileDrawer from '../global/ProfileDrawer';
 import { FaGlobe, FaUserCog } from 'react-icons/fa';
-import { AiOutlineLogout } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import UserMenuAdmin from '../global/UserMenuAdmin';
 import UserSocialWorkerMenu from '../global/UserSocialWorkerMenu';
