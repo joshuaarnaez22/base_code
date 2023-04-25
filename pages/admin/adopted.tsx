@@ -15,8 +15,6 @@ export async function getServerSideProps() {
   };
 }
 const adopted: NextPageWithLayout = ({ adoptedOrphan }: any) => {
-  console.log(adoptedOrphan);
-
   return (
     <>
       <Head>

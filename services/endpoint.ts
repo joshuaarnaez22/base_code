@@ -1,5 +1,5 @@
-const LOCALDEV = 'https://back-end-ochre-five.vercel.app';
-// const LOCALDEV = 'http://localhost:3000';
+// export const LOCALDEV = 'https://back-end-ochre-five.vercel.app';
+export const LOCALDEV = 'http://localhost:3000';
 
 //Authentication
 export const login = `${LOCALDEV}/authentication/login`;
@@ -65,3 +65,7 @@ export const scheduleAll = `${LOCALDEV}/schedule/getAllSchedule`;
 export const shceduleById = `${LOCALDEV}/schedule/getAllScheduleByID`;
 export const addUpdateWebsite = `${LOCALDEV}/schedule/addlandingpage`;
 export const updateWebsite = `${LOCALDEV}/schedule/getLatestLandingPage`;
+
+//image Upload
+export const upload = `${LOCALDEV}/fileupload/addAvatar`;
+export const orphanAvatar = `${LOCALDEV}/fileupload/addOrphanAvatar`;

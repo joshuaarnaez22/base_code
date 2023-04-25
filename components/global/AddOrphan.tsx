@@ -10,7 +10,7 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import Child from './Child';
 // import Family from './Family';
 import OrphanInfo from './OrphanInfo';
@@ -21,7 +21,8 @@ import { createOrphan } from '@/services/orphans.service';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { updateOrphanFunc } from '@/services/user.service';
-import { getUserLoginId } from '@/services/helpers';
+import axios from 'axios';
+import { orphanAvatar } from '@/services/endpoint';
 
 const schema = yup.object().shape({
   firstname: yup.string().required('Firstname is required.'),
@@ -60,6 +61,9 @@ interface Props {
 }
 
 function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
+  const [image, setImage] = useState<any>(null);
+  const [avatar, setAvatar] = useState<any>('');
+
   const toast = useToast();
   const router = useRouter();
   const methods = useForm({
@@ -73,6 +77,7 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
 
   useEffect(() => {
     if (selectedUpdate) {
+      setAvatar(selectedUpdate.avatar || '');
       reset({
         firstname: selectedUpdate.firstname,
         lastname: selectedUpdate.lastname,
@@ -119,17 +124,32 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
 
   const updateUser = async (data: any) => {
     const payload = { ...data, id: selectedUpdate.id };
-
-    const res = await updateOrphanFunc(payload);
-    console.log(res);
-
-    if (res.success) {
-      toastUI(1, res.message, 'Orphan Update');
-      reset();
-      onClose();
-      router.replace(router.asPath);
+    if (image) {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('id', selectedUpdate.id);
+      axios
+        .post(orphanAvatar, formData)
+        .then((response) => {
+          payload['avatar'] = response.data.data?.source;
+          return updateOrphanFunc(payload);
+        })
+        .then((res) => {
+          toastUI(1, res.message, 'Orphan Update');
+          reset();
+          onClose();
+          router.replace(router.asPath);
+        });
     } else {
-      toastUI(2, res.message, 'Error');
+      const res = await updateOrphanFunc(payload);
+      if (res.success) {
+        toastUI(1, res.message, 'Orphan Update');
+        reset();
+        onClose();
+        router.replace(router.asPath);
+      } else {
+        toastUI(2, res.message, 'Error');
+      }
     }
   };
   const toastUI = (type: number, description: string, title: string) => {
@@ -170,7 +190,7 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
           <ModalBody>
             <FormProvider {...methods}>
               <form>
-                <OrphanInfo />
+                <OrphanInfo {...{ setImage, type, avatar }} />
               </form>
             </FormProvider>
           </ModalBody>

@@ -7,15 +7,16 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
+import { LOCALDEV } from '@/services/endpoint';
 
 type ImageFile = {
   setImage: (image: any) => void;
+  profileUrl?: string;
 };
-const ImageUpload = ({ setImage }: ImageFile) => {
+const ImageUpload = ({ setImage, profileUrl }: ImageFile) => {
   const [imagePreview, setImagePreview] = useState('');
-
   const handleFileSelect = (e: any) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files[0];
     if (file) {
       setImagePreview(URL.createObjectURL(file));
       setImage(file);
@@ -27,9 +28,19 @@ const ImageUpload = ({ setImage }: ImageFile) => {
 
   return (
     <Box>
-      {imagePreview ? (
+      {imagePreview || profileUrl ? (
         <Flex alignItems="center" justifyContent="center">
-          <Image src={imagePreview} w="200px" h="200px" />
+          <Image
+            src={
+              imagePreview
+                ? imagePreview
+                : profileUrl
+                ? LOCALDEV + '/images/' + profileUrl
+                : ''
+            }
+            w="200px"
+            h="200px"
+          />
         </Flex>
       ) : (
         <Box borderWidth="1px" p={2} rounded="md">

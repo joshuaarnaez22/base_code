@@ -26,7 +26,7 @@ import UserSocialWorkerMenu from '../global/UserSocialWorkerMenu';
 import UserFoster from '../global/UserFoster';
 import UserVolunteer from '../global/UserVolunteer';
 import WebsiteDrawer from '../global/WebsiteDrawer';
-
+import { LOCALDEV } from '@/services/endpoint';
 const Navbar = ({ type }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -47,11 +47,13 @@ const Navbar = ({ type }: any) => {
   const router = useRouter();
   const [user, setUser] = useState('test');
   const [totalUnread, setTotalUnread] = useState(0);
+  const [profileUrl, setProfileUrl] = useState('');
+
   useEffect(() => {
-    const { fullname }: { fullname: string } = jwt_decode(
-      cookie.get('token') as string,
-    );
+    const { fullname, avatar }: { fullname: string; avatar: string } =
+      jwt_decode(cookie.get('token') as string);
     setUser(fullname);
+    setProfileUrl(avatar);
     getTotal();
   }, []);
 
@@ -163,7 +165,7 @@ const Navbar = ({ type }: any) => {
                 <Avatar
                   fontFamily="robo"
                   name={user ? user : 'A'}
-                  src=""
+                  src={`${LOCALDEV}/images/${profileUrl}`}
                   mr="20px"
                 />
               </MenuButton>
