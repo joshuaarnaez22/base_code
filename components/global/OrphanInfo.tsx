@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   Textarea,
@@ -20,28 +20,15 @@ import {
 
 import { useFormContext } from 'react-hook-form';
 import CalendarModal from './CalendarModal';
+import ImageUpload from './ImageUpload';
 
-const OrphanInfo = () => {
+const OrphanInfo = ({ setImage, type, avatar }: any) => {
   const {
     register,
     setValue,
     getValues,
     formState: { errors },
   } = useFormContext();
-
-  // const AccordionData = ({ name, children }: any) => {
-  //   return (
-  //     <AccordionItem>
-  //       <AccordionButton>
-  //         <Box flex="1" textAlign="left" fontWeight="bold">
-  //           {name}
-  //         </Box>
-  //         <AccordionIcon />
-  //       </AccordionButton>
-  //       <AccordionPanel pb={4}>{children}</AccordionPanel>
-  //     </AccordionItem>
-  //   );
-  // };
 
   return (
     <>
@@ -250,6 +237,11 @@ const OrphanInfo = () => {
               )}
             </Collapse>
           </FormControl>
+          {type === 'update' && (
+            <FormControl mt="30px">
+              <ImageUpload setImage={setImage} profileUrl={avatar} />
+            </FormControl>
+          )}
         </Flex>
         <Flex w="100%"></Flex>
       </Stack>

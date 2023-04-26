@@ -41,6 +41,7 @@ const SecondSection = ({ allAgency }: any) => {
         fontSize="30px"
         textAlign="center"
         mt="100"
+        id="services"
       >
         Our Agencies
       </Text>

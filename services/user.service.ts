@@ -36,6 +36,7 @@ import {
   monitoringUpdate,
   addUpdateWebsite,
   updateWebsite,
+  upload,
 } from './endpoint';
 
 export const createUser = async (payload: any) => {
@@ -211,5 +212,12 @@ export const addWebsiteService = async (payload: any) => {
 
 export const getlatestData = async () => {
   const { data } = await instance.get(updateWebsite);
+  console.log(data);
+
   return data;
+};
+
+export const imageUpload = async (formData: any) => {
+  const res = await instance.post(upload, formData);
+  console.log(res);
 };

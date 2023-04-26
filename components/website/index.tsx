@@ -188,27 +188,6 @@ const Website = ({ allServices, allAgency }: any) => {
               >
                 <Icon as={FiFacebook} color="gray.300" w={5} h={5} />
               </a>
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon as={FiTwitter} color="gray.300" w={5} h={5} />
-              </a>
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon as={AiOutlineYoutube} color="gray.300" w={5} h={5} />
-              </a>
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon as={FiInstagram} color="gray.300" w={5} h={5} />
-              </a>
             </HStack>
           </Flex>
         </Flex>

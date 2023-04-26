@@ -22,6 +22,7 @@ import {
   useToast,
   Icon,
 } from '@chakra-ui/react';
+import { LOCALDEV } from '@/services/endpoint';
 import { SlOptionsVertical } from 'react-icons/sl';
 import { FcDeleteDatabase } from 'react-icons/fc';
 import { GrUpdate, GrFormView, GrSelect } from 'react-icons/gr';
@@ -170,7 +171,10 @@ const ChildrenTable = ({ orphans, search, userId, userType, VisitId }: any) => {
                 >
                   <Td>
                     <Flex>
-                      <Avatar src="" name={currentItem.firstname} />
+                      <Avatar
+                        src={`${LOCALDEV}/images/${currentItem.avatar}`}
+                        name={currentItem.firstname}
+                      />
                       <Box ml="3">
                         <Text fontWeight="bold">
                           {`${Capitalize(currentItem.firstname)} ${Capitalize(

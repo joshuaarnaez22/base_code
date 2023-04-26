@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import {
   Button,
   Drawer,
@@ -26,8 +28,10 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import jwt_decode from 'jwt-decode';
 import cookie from 'js-cookie';
-import { userUpdate } from '@/services/user.service';
+import { userUpdate, imageUpload } from '@/services/user.service';
 import { useRouter } from 'next/router';
+import ImageUpload from './ImageUpload';
+import { upload } from '@/services/endpoint';
 
 interface UserProps {
   username: string;
@@ -36,6 +40,7 @@ interface UserProps {
   email: string;
   userId: string;
   role: string;
+  avatar: string;
 }
 
 const schema = yup.object().shape(
@@ -62,14 +67,15 @@ const schema = yup.object().shape(
   [['password', 'confirm']],
 );
 
-const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
+const ProfileDrawer = ({ isOpen, onClose, btnRef, profileUrl }: any) => {
   const router = useRouter();
   const [password, showPassword] = useState<boolean>(false);
   const [confirmPass, showConfirmPass] = useState<boolean>(false);
   const [id, setId] = useState('');
   const [role, setRole] = useState('');
   const toast = useToast();
-
+  const [image, setImage] = useState<any>(null);
+  const [filename, setFilename] = useState<any>(profileUrl);
   const {
     register,
     handleSubmit,
@@ -88,6 +94,20 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
       newPassword: data.password,
       type: role,
     };
+
+    if (image) {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('id', id);
+      axios.post(upload, formData).then((response) => {
+        payload['avatar'] = response.data.data?.source;
+        userUpdate(payload);
+      });
+      toastUI(1, 'User successfully updated', 'Success');
+      cookie.remove('token');
+      router.push('/login');
+      return;
+    }
     await userUpdate(payload);
     toastUI(1, 'User successfully updated', 'Success');
     cookie.remove('token');
@@ -108,10 +128,19 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
 
   useEffect(() => {
     reset();
-    const { lastname, username, firstname, email, userId, role }: UserProps =
-      jwt_decode(cookie.get('token') as string);
+    const t = jwt_decode(cookie.get('token') as string);
+    const {
+      lastname,
+      username,
+      firstname,
+      email,
+      userId,
+      role,
+      avatar,
+    }: UserProps = jwt_decode(cookie.get('token') as string);
     setRole(role);
     setId(userId);
+    setFilename(avatar);
     setValue('lastname', lastname);
     setValue('username', username);
     setValue('firstname', firstname);
@@ -126,12 +155,14 @@ const ProfileDrawer = ({ isOpen, onClose, btnRef }: any) => {
       finalFocusRef={btnRef}
     >
       <DrawerOverlay />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Update your profile</DrawerHeader>
           <DrawerBody>
             <Stack gap="3">
+              <ImageUpload setImage={setImage} profileUrl={filename} />
+
               <FormControl isInvalid={errors.firstname ? true : false}>
                 <FormLabel>Firstname</FormLabel>
                 <Input
