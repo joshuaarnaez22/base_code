@@ -15,6 +15,7 @@ type ImageFile = {
 };
 const ImageUpload = ({ setImage, profileUrl }: ImageFile) => {
   const [imagePreview, setImagePreview] = useState('');
+
   const handleFileSelect = (e: any) => {
     const file = e.target.files[0];
     if (file) {
@@ -25,7 +26,6 @@ const ImageUpload = ({ setImage, profileUrl }: ImageFile) => {
       setImage(null);
     }
   };
-
   return (
     <Box>
       {imagePreview || profileUrl ? (

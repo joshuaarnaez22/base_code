@@ -275,6 +275,7 @@ const VisitTable = ({ visits, search, userType }: any) => {
                             Update
                           </Flex>
                         </MenuItem>
+
                         {userType === 'admin' && (
                           <MenuItem
                             onClick={() => deleteAccount(currentItem.id)}
@@ -285,16 +286,17 @@ const VisitTable = ({ visits, search, userType }: any) => {
                             </Flex>
                           </MenuItem>
                         )}
-                        {currentItem.status === 'pending' && (
-                          <MenuItem
-                            onClick={() => handleStatus(currentItem.id)}
-                          >
-                            <Flex align="center" gap="3">
-                              <Icon as={GiConfirmed} />
-                              Confirm Visit
-                            </Flex>
-                          </MenuItem>
-                        )}
+                        {currentItem.status === 'pending' &&
+                          userType !== 'foster' && (
+                            <MenuItem
+                              onClick={() => handleStatus(currentItem.id)}
+                            >
+                              <Flex align="center" gap="3">
+                                <Icon as={GiConfirmed} />
+                                Confirm Visit
+                              </Flex>
+                            </MenuItem>
+                          )}
 
                         {currentItem.status === 'approved' &&
                           userType !== 'foster' && (

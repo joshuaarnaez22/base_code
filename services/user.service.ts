@@ -212,6 +212,8 @@ export const addWebsiteService = async (payload: any) => {
 
 export const getlatestData = async () => {
   const { data } = await instance.get(updateWebsite);
+  console.log(data);
+
   return data;
 };
 
