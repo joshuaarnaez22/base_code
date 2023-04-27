@@ -198,16 +198,17 @@ const MonitorTable = ({ allMonitor, search, userType }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        {userType !== 'volunteer' && (
-                          <MenuItem
-                            onClick={() => deleteMonitoring(currentItem.id)}
-                          >
-                            <Flex align="center" gap="3">
-                              <Icon as={FcDeleteDatabase} />
-                              Delete
-                            </Flex>
-                          </MenuItem>
-                        )}
+                        {userType !== 'volunteer' ||
+                          (userType !== 'socialworker' && (
+                            <MenuItem
+                              onClick={() => deleteMonitoring(currentItem.id)}
+                            >
+                              <Flex align="center" gap="3">
+                                <Icon as={FcDeleteDatabase} />
+                                Delete
+                              </Flex>
+                            </MenuItem>
+                          ))}
                         <MenuItem onClick={() => handleUpdate(currentItem)}>
                           <Flex align="center" gap="3">
                             <Icon as={GrUpdate} />
