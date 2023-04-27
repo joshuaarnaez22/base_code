@@ -19,7 +19,7 @@ import AddMonitor from '@/components/global/AddMonitor';
 import { pdfDownloader } from '@/services/pdfDownload';
 import ReportModal from '@/components/global/ReportModal';
 
-const Monitoring = (data: any) => {
+const Monitoring = (data: any, userType: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenReport,
@@ -139,7 +139,7 @@ const Monitoring = (data: any) => {
       <MonitorTable
         allMonitor={monitor.data.monitoring}
         search={search}
-        userType="volunteer"
+        userType={userType}
       />
     </>
   );
