@@ -35,7 +35,7 @@ const monitoring = (monitoring: any) => {
       sx={thinScollbar}
       p="20px"
     >
-      <Monitoring data={monitoring} />
+      <Monitoring data={monitoring} userType="admin" />
     </Box>
   );
 };
