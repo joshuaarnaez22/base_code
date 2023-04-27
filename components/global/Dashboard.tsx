@@ -25,7 +25,7 @@ const Card = ({ icon, title, total }: TDashboard) => {
       >
         <Box p="4">
           <Text fontWeight="bold" fontSize="20" color="white">
-            {title.toUpperCase()}
+            {title?.toUpperCase() || ''}
           </Text>
         </Box>
         <Flex flexGrow="1" align="flex-end" justify="end" p="5" gap="2">
