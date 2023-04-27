@@ -58,6 +58,8 @@ export const allCounts = async () => {
   const data = [];
   const TOTAL_SOCIAL_WORKER = await instance.get(getTotalSocialWorker);
   const TOTAL_FOSTER = await instance.get(getTotalFoster);
+  console.log(TOTAL_FOSTER);
+
   const TOTAL_ORPHAN = await instance.get(getTotalOrphan);
   const TOTAL_VOLUNTEER = await instance.get(getTotalVolunteer);
   const TOTAL_VISITATION = await instance.get(getTotalVisitation);
@@ -72,6 +74,8 @@ export const allCounts = async () => {
     TOTAL_VISITATION.data,
     TOTAL_PENDING_VISITATION.data,
   );
+  console.log(data);
+
   return data;
 };
 

@@ -136,7 +136,11 @@ const Monitoring = (data: any) => {
           Download Pdf
         </Button>
       </Flex>
-      <MonitorTable allMonitor={monitor.data.monitoring} search={search} />
+      <MonitorTable
+        allMonitor={monitor.data.monitoring}
+        search={search}
+        userType="volunteer"
+      />
     </>
   );
 };

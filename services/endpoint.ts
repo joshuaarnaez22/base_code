@@ -1,5 +1,5 @@
-export const LOCALDEV = 'https://back-end-ochre-five.vercel.app';
-// export const LOCALDEV = 'http://localhost:3000';
+// export const LOCALDEV = 'https://back-end-ochre-five.vercel.app';
+export const LOCALDEV = 'http://localhost:3000';
 
 //Authentication
 export const login = `${LOCALDEV}/authentication/login`;
@@ -21,7 +21,7 @@ export const updateOrphan = `${LOCALDEV}/orphans/updateOrphan`;
 
 //dashboard admin endpoints
 export const getTotalSocialWorker = `${LOCALDEV}/socialworker/getTotalSocialWorker`;
-export const getTotalFoster = `${LOCALDEV}/fosters/getTotalFoster`;
+export const getTotalFoster = `${LOCALDEV}/users/getTotalFoster`;
 export const getTotalOrphan = `${LOCALDEV}/orphans/getTotalOrphan`;
 export const getTotalVolunteer = `${LOCALDEV}/volunteers/getTotalVolunteer`;
 export const getTotalVisitation = `${LOCALDEV}/visitation/getTotalVisitation`;

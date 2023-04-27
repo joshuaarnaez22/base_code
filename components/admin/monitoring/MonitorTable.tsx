@@ -35,7 +35,7 @@ import React, { useEffect, useState } from 'react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import AddMonitor from '@/components/global/AddMonitor';
 
-const MonitorTable = ({ allMonitor, search }: any) => {
+const MonitorTable = ({ allMonitor, search, userType }: any) => {
   const {
     isOpen: isOpenDelete,
     onOpen: onOpenDelete,
@@ -198,14 +198,16 @@ const MonitorTable = ({ allMonitor, search }: any) => {
                         icon={<SlOptionsVertical />}
                       ></MenuButton>
                       <MenuList minWidth="180px">
-                        <MenuItem
-                          onClick={() => deleteMonitoring(currentItem.id)}
-                        >
-                          <Flex align="center" gap="3">
-                            <Icon as={FcDeleteDatabase} />
-                            Delete
-                          </Flex>
-                        </MenuItem>
+                        {userType !== 'volunteer' && (
+                          <MenuItem
+                            onClick={() => deleteMonitoring(currentItem.id)}
+                          >
+                            <Flex align="center" gap="3">
+                              <Icon as={FcDeleteDatabase} />
+                              Delete
+                            </Flex>
+                          </MenuItem>
+                        )}
                         <MenuItem onClick={() => handleUpdate(currentItem)}>
                           <Flex align="center" gap="3">
                             <Icon as={GrUpdate} />
