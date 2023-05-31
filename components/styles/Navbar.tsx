@@ -48,12 +48,21 @@ const Navbar = ({ type }: any) => {
   const [user, setUser] = useState('test');
   const [totalUnread, setTotalUnread] = useState(0);
   const [profileUrl, setProfileUrl] = useState('');
+  const [roleType, setRole] = useState('');
 
   useEffect(() => {
-    const { fullname, avatar }: { fullname: string; avatar: string } =
-      jwt_decode(cookie.get('token') as string);
+    console.log(jwt_decode(cookie.get('token') as string));
+
+    const {
+      fullname,
+      avatar,
+      role,
+    }: { fullname: string; avatar: string; role: string } = jwt_decode(
+      cookie.get('token') as string,
+    );
     setUser(fullname);
     setProfileUrl(avatar);
+    setRole(role);
     getTotal();
   }, []);
 
@@ -151,7 +160,7 @@ const Navbar = ({ type }: any) => {
               fontSize="SubHeader.lg"
               fontWeight="semibold"
             >
-              {user.toUpperCase()}
+              {user.toUpperCase()} | ({roleType.toUpperCase()})
             </Text>
             <Menu>
               <MenuButton
