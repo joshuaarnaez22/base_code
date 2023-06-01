@@ -24,7 +24,6 @@ const monitoring = (monitoring: any) => {
       .toString()
       .replace(/,/g, ' & ');
   });
-  console.log(monitoring);
 
   return (
     <Box
