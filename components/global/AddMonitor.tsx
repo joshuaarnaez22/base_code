@@ -48,7 +48,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   if (type === 'update' || type === 'view') {
     schema = yup.object().shape({
       date: yup.string().required('Date is required.'),
-      education: yup.string().required('Education is required.'),
+      // education: yup.string().required('Education is required.'),
       daily_health: yup
         .array()
         .required('Health is required.')
@@ -76,7 +76,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   } else {
     schema = yup.object().shape({
       date: yup.string().required('Date is required.'),
-      education: yup.string().required('Education is required.'),
+      // education: yup.string().required('Education is required.'),
       daily_health: yup
         .array()
         .required('Health is required.')
@@ -119,7 +119,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
   const [health, setHealth] = useState<any>();
   const [orphansName, setOrphansName] = useState({ label: '', value: '' });
   const [meal, setMeal] = useState<any>(null);
-  const [education, setEducation] = useState<any>(null);
+  // const [education, setEducation] = useState<any>(null);
 
   const {
     register,
@@ -164,7 +164,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     reset();
     setChores(null);
     setHealth(null);
-    setEducation(null);
+    // setEducation(null);
     setMeal(null);
     onClose();
   };
@@ -202,14 +202,14 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
         shouldDirty: true,
       });
 
-      setEducation({
-        label: selectedUpdate.education,
-        value: selectedUpdate.education,
-      });
-      setValue('education', selectedUpdate.education, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
+      // setEducation({
+      //   label: selectedUpdate.education,
+      //   value: selectedUpdate.education,
+      // });
+      // setValue('education', selectedUpdate.education, {
+      //   shouldValidate: true,
+      //   shouldDirty: true,
+      // });
 
       setMeal({
         label: selectedUpdate.meal,
@@ -329,10 +329,10 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
     setHealth(e);
   };
 
-  const gradesChange = (e: any) => {
-    setValue('education', e.value, { shouldValidate: true, shouldDirty: true });
-    setEducation(e);
-  };
+  // const gradesChange = (e: any) => {
+  //   setValue('education', e.value, { shouldValidate: true, shouldDirty: true });
+  //   setEducation(e);
+  // };
   const addDailyHealth = () => {
     console.log('Health');
   };
@@ -439,7 +439,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                       )}
                     </Collapse>
                   </FormControl>
-                  <FormControl isInvalid={errors.education ? true : false}>
+                  {/* <FormControl isInvalid={errors.education ? true : false}>
                     <FormLabel>Education</FormLabel>
                     <Select
                       {...register('education')}
@@ -456,7 +456,7 @@ const AddMonitor = ({ isOpen, onClose, selectedUpdate, type }: Props) => {
                         </FormHelperText>
                       )}
                     </Collapse>
-                  </FormControl>
+                  </FormControl> */}
                 </Flex>
                 <Flex gap="3">
                   <FormControl isInvalid={errors.daily_health ? true : false}>
