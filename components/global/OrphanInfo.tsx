@@ -22,7 +22,15 @@ import { useFormContext } from 'react-hook-form';
 import CalendarModal from './CalendarModal';
 import ImageUpload from './ImageUpload';
 
-const OrphanInfo = ({ setImage, type, avatar, edu, gend }: any) => {
+const OrphanInfo = ({
+  setImage,
+  type,
+  avatar,
+  edu,
+  gend,
+  setEducation,
+  setGender,
+}: any) => {
   const {
     register,
     setValue,
@@ -54,9 +62,11 @@ const OrphanInfo = ({ setImage, type, avatar, edu, gend }: any) => {
   ];
   const gradesChange = (e: any) => {
     setValue('education', e.value, { shouldValidate: true, shouldDirty: true });
+    setEducation(e);
   };
   const sexChange = (e: any) => {
     setValue('gender', e.value, { shouldValidate: true, shouldDirty: true });
+    setGender(e);
   };
 
   return (

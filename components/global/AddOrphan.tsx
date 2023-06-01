@@ -299,7 +299,17 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
               <ModalBody>
                 <FormProvider {...methods}>
                   <form>
-                    <OrphanInfo {...{ setImage, type, avatar, edu, gend }} />
+                    <OrphanInfo
+                      {...{
+                        setImage,
+                        type,
+                        avatar,
+                        edu,
+                        gend,
+                        setEducation,
+                        setGender,
+                      }}
+                    />
                   </form>
                 </FormProvider>
               </ModalBody>
