@@ -9,6 +9,8 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
+  Flex,
+  Text,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 // import Child from './Child';
@@ -176,7 +178,7 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
         <ModalContent
           maxH="90vh"
           overflowY="auto"
-          maxW="80%"
+          maxW={type === 'view' ? '40%' : '80%'}
           sx={thinnerScollbar}
         >
           <ModalHeader>
@@ -187,43 +189,125 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
             {/* {type === 'view' ?? 'View Orphan'} */}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <FormProvider {...methods}>
-              <form>
-                <OrphanInfo {...{ setImage, type, avatar }} />
-              </form>
-            </FormProvider>
-          </ModalBody>
-          {type === 'view' && (
-            <ModalFooter>
-              <Button colorScheme="blue" type="submit" onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          )}
-          {type === 'add' && (
-            <ModalFooter>
-              <Button
-                colorScheme="blue"
-                type="submit"
-                onClick={methods.handleSubmit(onSubmit)}
-                isLoading={isSubmitting}
-              >
-                Create User
-              </Button>
-            </ModalFooter>
-          )}
-          {type === 'update' && (
-            <ModalFooter>
-              <Button
-                colorScheme="blue"
-                type="submit"
-                onClick={methods.handleSubmit(onSubmit)}
-                isLoading={isSubmitting}
-              >
-                Update
-              </Button>
-            </ModalFooter>
+          {type === 'view' ? (
+            <Flex direction="column" gap="30px" m="20px">
+              <Flex gap="10">
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Firstname:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.firstname}</Text>
+                </Flex>
+
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Lastname:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.lastname}</Text>
+                </Flex>
+
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Age:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.age}</Text>
+                </Flex>
+              </Flex>
+
+              <Flex gap="10">
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Gender:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.gender}</Text>
+                </Flex>
+
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Height:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.height}</Text>
+                </Flex>
+
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Weight:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.weight}</Text>
+                </Flex>
+              </Flex>
+
+              <Flex gap="10">
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Waist:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.waist}</Text>
+                </Flex>
+
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Date of admission:{' '}
+                  </Text>
+                  <Text fontSize="16px">
+                    {moment(new Date(selectedUpdate.date_admission))
+                      .utc()
+                      .format('YYYY-MM-DD')}
+                  </Text>
+                </Flex>
+              </Flex>
+
+              <Flex gap="10">
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Birth Status:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.birth_status}</Text>
+                </Flex>
+
+                <Flex align="center" gap="10px">
+                  <Text fontSize="18px" fontWeight="bolder">
+                    Category:{' '}
+                  </Text>
+                  <Text fontSize="16px">{selectedUpdate.category}</Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          ) : (
+            <>
+              <ModalBody>
+                <FormProvider {...methods}>
+                  <form>
+                    <OrphanInfo {...{ setImage, type, avatar }} />
+                  </form>
+                </FormProvider>
+              </ModalBody>
+
+              {type === 'add' && (
+                <ModalFooter>
+                  <Button
+                    colorScheme="blue"
+                    type="submit"
+                    onClick={methods.handleSubmit(onSubmit)}
+                    isLoading={isSubmitting}
+                  >
+                    Create User
+                  </Button>
+                </ModalFooter>
+              )}
+              {type === 'update' && (
+                <ModalFooter>
+                  <Button
+                    colorScheme="blue"
+                    type="submit"
+                    onClick={methods.handleSubmit(onSubmit)}
+                    isLoading={isSubmitting}
+                  >
+                    Update
+                  </Button>
+                </ModalFooter>
+              )}
+            </>
           )}
         </ModalContent>
       </Modal>
