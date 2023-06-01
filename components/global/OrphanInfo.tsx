@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   Stack,
   Box,
   Accordion,
@@ -17,18 +16,48 @@ import {
   NumberInputStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react';
+import { Select } from 'chakra-react-select';
 
 import { useFormContext } from 'react-hook-form';
 import CalendarModal from './CalendarModal';
 import ImageUpload from './ImageUpload';
 
-const OrphanInfo = ({ setImage, type, avatar }: any) => {
+const OrphanInfo = ({ setImage, type, avatar, edu, gend }: any) => {
   const {
     register,
     setValue,
     getValues,
     formState: { errors },
   } = useFormContext();
+
+  // const [education, setEducation] = useState<any>(null);
+  // const [gender, setGender] = useState<any>(null);
+
+  const gradesOptions = [
+    { value: 'grade1', label: 'Grade 1' },
+    { value: 'grade2', label: 'Grade 2' },
+    { value: 'grade3', label: 'Grade 3' },
+    { value: 'grade4', label: 'Grade 4' },
+    { value: 'grade5', label: 'Grade 5' },
+    { value: 'grade6', label: 'Grade 6' },
+    { value: 'grade7', label: 'Grade 7' },
+    { value: 'grade8', label: 'Grade 8' },
+    { value: 'grade9', label: 'Grade 9' },
+    { value: 'grade10', label: 'Grade 10' },
+    { value: 'grade11', label: 'Grade 11' },
+    { value: 'grade12', label: 'Grade 12' },
+  ];
+
+  const gender = [
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' },
+  ];
+  const gradesChange = (e: any) => {
+    setValue('education', e.value, { shouldValidate: true, shouldDirty: true });
+  };
+  const sexChange = (e: any) => {
+    setValue('gender', e.value, { shouldValidate: true, shouldDirty: true });
+  };
 
   return (
     <>
@@ -68,19 +97,13 @@ const OrphanInfo = ({ setImage, type, avatar }: any) => {
           <FormControl maxW="200px" isInvalid={errors.gender ? true : false}>
             <FormLabel>Gender</FormLabel>
             <Select
-              placeholder="Gender"
-              variant="normal"
               {...register('gender')}
-              _focus={{
-                border: '2px solid blue',
-              }}
-              _invalid={{
-                border: '2px solid #E53E3E',
-              }}
-            >
-              <option value="Female">Female</option>
-              <option value="Male">Male</option>
-            </Select>
+              name="gender"
+              colorScheme="blue"
+              options={gender}
+              onChange={sexChange}
+              value={gend}
+            />
             <Collapse in={errors.gender ? true : false}>
               {errors.gender && (
                 <FormHelperText fontSize="SubHeader.md" color="red">
@@ -210,7 +233,7 @@ const OrphanInfo = ({ setImage, type, avatar }: any) => {
             {...{ setValue, register, getValues }}
           />
         </Flex>
-        <Flex w="60%" gap="3">
+        <Flex gap="3">
           <FormControl isInvalid={errors.present_whereabouts ? true : false}>
             <FormLabel>Present Whereabouts</FormLabel>
             <Input
@@ -237,13 +260,34 @@ const OrphanInfo = ({ setImage, type, avatar }: any) => {
               )}
             </Collapse>
           </FormControl>
+
+          <FormControl isInvalid={errors.education ? true : false}>
+            <FormLabel>Education</FormLabel>
+            <Select
+              {...register('education')}
+              name="education"
+              onChange={gradesChange}
+              colorScheme="blue"
+              options={gradesOptions}
+              value={edu}
+            />
+            <Collapse in={errors.education ? true : false}>
+              {errors.education && (
+                <FormHelperText fontSize="SubHeader.md" color="red">
+                  {errors.education.message as string}
+                </FormHelperText>
+              )}
+            </Collapse>
+          </FormControl>
+        </Flex>
+
+        <Flex w="40%">
           {type === 'update' && (
             <FormControl mt="30px">
               <ImageUpload setImage={setImage} profileUrl={avatar} />
             </FormControl>
           )}
         </Flex>
-        <Flex w="100%"></Flex>
       </Stack>
     </>
   );

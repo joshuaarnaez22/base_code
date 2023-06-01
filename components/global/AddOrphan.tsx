@@ -53,6 +53,7 @@ const schema = yup.object().shape({
   date_surrendered: yup.string().required('Date surrendered is required'),
   present_whereabouts: yup.string().required('Whereabouts is required.'),
   moral: yup.string().required('Moral is required.'),
+  education: yup.string().required('Education is required.'),
 });
 
 interface Props {
@@ -65,6 +66,8 @@ interface Props {
 function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
   const [image, setImage] = useState<any>(null);
   const [avatar, setAvatar] = useState<any>('');
+  const [edu, setEducation] = useState<any>(null);
+  const [gend, setGender] = useState<any>(null);
 
   const toast = useToast();
   const router = useRouter();
@@ -74,17 +77,35 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
 
   const {
     reset,
+    setValue,
     formState: { isSubmitting },
   } = methods;
 
   useEffect(() => {
     if (selectedUpdate) {
       setAvatar(selectedUpdate.avatar || '');
+      setEducation({
+        label: selectedUpdate.education,
+        value: selectedUpdate.education,
+      });
+      setValue('education', selectedUpdate.education, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+
+      setGender({
+        label: selectedUpdate.gender,
+        value: selectedUpdate.gender,
+      });
+      setValue('gender', selectedUpdate.gender, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       reset({
         firstname: selectedUpdate.firstname,
         lastname: selectedUpdate.lastname,
+        education: selectedUpdate.education,
         age: selectedUpdate.age,
-        gender: selectedUpdate.gender,
         dob: moment(new Date(selectedUpdate.dob)).utc().format('YYYY-MM-DD'),
         height: selectedUpdate.height,
         weight: selectedUpdate.weight,
@@ -278,7 +299,7 @@ function AddOrphan({ isOpen, onClose, selectedUpdate, type }: Props) {
               <ModalBody>
                 <FormProvider {...methods}>
                   <form>
-                    <OrphanInfo {...{ setImage, type, avatar }} />
+                    <OrphanInfo {...{ setImage, type, avatar, edu, gend }} />
                   </form>
                 </FormProvider>
               </ModalBody>
